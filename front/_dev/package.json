@@ -38,6 +38,9 @@
     "webpack-sources": "^0.1.0"
   },
   "dependencies": {
+    "js-yaml": ">=3.13.1",
+    "minimatch": ">=3.0.2",
+    "lodash": ">=4.17.12",
     "aos": "^2.3.4",
     "bootstrap-datepicker": "^1.9.0",
     "fancybox": "^3.0.1",

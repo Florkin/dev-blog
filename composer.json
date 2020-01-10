@@ -1,0 +1,6 @@
+{
+    "require": {
+        "gargron/fileupload": "~1.4.0",
+        "twig/twig": "^3.0"
+    }
+}

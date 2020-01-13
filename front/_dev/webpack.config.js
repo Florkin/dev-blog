@@ -68,17 +68,17 @@ if (process.env.NODE_ENV === 'production') {
     new webpack.optimize.UglifyJsPlugin({
       sourceMap: false,
       compress: {
-        sequences: true,
-        conditionals: true,
-        booleans: true,
-        if_return: true,
-        join_vars: true,
-        drop_console: true
+        sequences: false,
+        conditionals: false,
+        booleans: false,
+        if_return: false,
+        join_vars: false,
+        drop_console: false
       },
       output: {
-        comments: true
+        comments: false
       },
-      minimize: true
+      minimize: false
     })
   );
 }

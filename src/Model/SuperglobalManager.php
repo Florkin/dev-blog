@@ -1,6 +1,6 @@
 <?php
 
-class SuperglobalManager
+class SuperGlobalManager
 {
 
     public function __construct()

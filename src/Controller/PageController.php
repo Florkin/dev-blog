@@ -17,4 +17,12 @@ abstract class PageController
         echo $twig->render('pages/article.twig', ['ex' => $ex]);
         return true;
     }
+
+    public static function home($twig, $page)
+    {
+        echo $twig->render('pages/home.twig', ['name' => 'Fabien']);
+        return true;
+    }
+
+    
 }

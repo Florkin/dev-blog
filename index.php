@@ -1,7 +1,8 @@
 <?php
 
-require_once './src/Config.php';
 require_once './vendor/autoload.php';
+include './src/Config.php';
+include './src/Model/SuperglobalManager.php';
 
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [
@@ -13,8 +14,9 @@ $twig = new \Twig\Environment($loader, [
 $twig->addGlobal('base_url', Config::BASE_URL);
 
 // NAVIGATION
-if (isset($_GET['page'])) {
-    $page = $_GET['page'];
+$page = SuperglobalManager::get('get', 'page');
+
+if (isset($page)) {
     $twig->addGlobal('page_name', $page);
 }
 

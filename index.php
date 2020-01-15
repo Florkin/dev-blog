@@ -1,9 +1,6 @@
 <?php
 
-require_once './vendor/autoload.php';
-include './src/Config.php';
-include './src/Model/SuperGlobalManager.php';
-include './src/Controller/PageController.php';
+require './vendor/autoload.php';
 
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [

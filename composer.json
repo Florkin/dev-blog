@@ -2,5 +2,13 @@
     "require": {
         "gargron/fileupload": "~1.4.0",
         "twig/twig": "^3.0"
+    },
+
+    "autoload": {
+        "classmap": [
+            "src/Config.php",
+            "src/Controller",
+            "src/Model"
+        ]
     }
 }

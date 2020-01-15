@@ -1,4 +1,5 @@
 front/_dev/node_modules/*
+src/Config.php
 vendor/*
 composer.lock
 cache/*

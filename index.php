@@ -1,8 +1,6 @@
 <?php
 
-require_once './vendor/autoload.php';
-include './src/Config.php';
-include './src/Model/SuperglobalManager.php';
+require './vendor/autoload.php';
 
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [
@@ -14,22 +12,13 @@ $twig = new \Twig\Environment($loader, [
 $twig->addGlobal('base_url', Config::BASE_URL);
 
 // NAVIGATION
-$page = SuperglobalManager::get('get', 'page');
+$page = SuperGlobalManager::get('get', 'page');
 
 if (isset($page)) {
     $twig->addGlobal('page_name', $page);
-}
+    PageController::{$page}($twig, $page);
 
-if (isset($page)) {
-    switch ($page) {
-        case 'listing':
-            echo $twig->render('pages/listing.twig', ['title' => $page]);
-            break;
-        case 'article':
-            echo $twig->render('pages/article.twig', ['title' => $page]);
-            break;
-    }
-
-} else {
-    echo $twig->render('pages/home.twig', ['name' => 'Fabien']);
+} elseif (!isset($page)) {
+    $page = 'home';    
+    PageController::{$page}($twig, $page);
 }

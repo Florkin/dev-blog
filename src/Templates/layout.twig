@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{% include "_partials/head.twig" %}
+<head>    
+    {% include "_partials/head.twig" %}
+    {% block head %}{% endblock %}
+</head>
 
 <body data-spy="scroll" data-target=".site-navbar-target" data-offset="300" id="home-section">
 

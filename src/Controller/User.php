@@ -1,85 +1,30 @@
 <?php
 
-class User {
+class User
+{
+    public static function register()
+    {
+        $email = SuperGlobalManager::get('POST', 'email');
+        $password = SuperGlobalManager::get('POST', 'password');
+        $username = SuperGlobalManager::get('POST', 'username');
 
-    protected $id;
+        $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
 
-    protected $username;
+        try {
+            $userId = $auth->register($email, $password, $username, function ($selector, $token) {
+                echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
+            });
 
-    protected $firstname;
-
-    protected $lastname;
-
-    protected $email;
-
-    protected $password;
-
-    protected $isAdmin;
-
-    public function __construct() {
-    }
-
-    public function getId() {
-        // TODO implement here
-        return 0;
-    }
-
-    public function setId($value) {
-        // TODO implement here
-    }
-
-    public function getUsername() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setUsername($value) {
-        // TODO implement here
-    }
-
-    public function getFirstname() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setFirstname($value) {
-        // TODO implement here
-    }
-
-    public function getLastname() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setLastname($value) {
-        // TODO implement here
-    }
-
-    public function getEmail() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setEmail($value) {
-        // TODO implement here
-    }
-
-    public function getPassword() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setPassword($value) {
-        // TODO implement here
-    }
-
-    public function getIsAdmin() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setIsAdmin($value) {
-        // TODO implement here
+            echo 'We have signed up a new user with the ID ' . $userId;
+        } catch (\Delight\Auth\InvalidEmailException $e) {
+            die('Invalid email address');
+        } catch (\Delight\Auth\InvalidPasswordException $e) {
+            die('Invalid password');
+        } catch (\Delight\Auth\UserAlreadyExistsException $e) {
+            die('User already exists');
+        } catch (\Delight\Auth\TooManyRequestsException $e) {
+            die('Too many requests');
+        }
     }
 
 }

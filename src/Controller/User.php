@@ -1,12 +1,44 @@
 <?php
 
-class User
+use FormManager\Factory as F;
+
+abstract class User
 {
-    public static function register()
+    public static function registrationForm()
     {
-        $email = SuperGlobalManager::get('POST', 'email');
-        $password = SuperGlobalManager::get('POST', 'password');
-        $username = SuperGlobalManager::get('POST', 'username');
+        return array(
+
+            F::email('Votre Email', [
+                'class' => 'email form-control',
+                'name' => 'email',
+                'required' => 'required',
+            ]),
+
+            F::text('Votre Pseudo', [
+                'class' => 'username form-control',
+                'name' => 'username',
+                'required' => 'required',
+            ]),
+
+            F::password('Votre mot de passe', [
+                'class' => 'password form-control',
+                'name' => 'password',
+                'required' => 'required',
+            ]),
+
+            F::submit('Inscrivez vous!', [
+                'class' => 'btn btn-dark btn-md text-white',
+                'required' => 'required',
+            ])
+        
+        );
+    }
+
+    public static function register($formData)
+    {
+        $email = $formData['email'];
+        $password = $formData['password'];
+        $username = $formData['username'];
 
         $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
 

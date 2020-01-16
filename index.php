@@ -1,8 +1,6 @@
 <?php
 
 require './vendor/autoload.php';
-User::register();
-
 
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [

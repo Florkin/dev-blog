@@ -30,7 +30,7 @@ class SuperGlobalManager
                 return (isset($_GET[$key]) ? $_GET[$key] : null);
                 break;
             case 'post':
-                return (isset($_POST[$key]) ? $_POST[$key] : null);
+                return (isset($_POST[$key]) ? $_POST[$key] : $_POST);
                 break;
             case 'session':
                 return (isset($_SESSION[$key]) ? $_SESSION[$key] : null);

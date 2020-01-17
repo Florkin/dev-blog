@@ -43,8 +43,17 @@ abstract class User
 
     public static function loginForm()
     {
-        return array(
-            F::text('Votre Email', [
+        $rememberCheck= F::checkbox('Se souvenir de moi', [
+            'class' => 'custom-control-input',
+            'name' => 'remember',
+        ]);
+
+        $rememberCheck->label->setAttribute('class', 'custom-control-label');
+        $rememberCheck->setTemplate('{{ input }} {{ label }}');
+        $rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
+
+        $loginForm = array(
+            F::email('Votre Email', [
                 'class' => 'email form-control',
                 'name' => 'email',
                 'required' => 'required',
@@ -56,11 +65,15 @@ abstract class User
                 'required' => 'required',
             ]),
 
+            $rememberCheck,
+
             F::submit('Se connecter', [
                 'class' => 'btn btn-dark btn-md text-white',
             ]),
 
         );
+
+        return $loginForm;
     }
 
     public static function register($formData)
@@ -92,14 +105,22 @@ abstract class User
 
     public static function login($formData)
     {
-        // var_dump($formData);exit(0);
         $email = $formData['email'];
         $password = $formData['password'];
+        $remember = (empty($formData['remember']) ? 0 : 1);
 
         $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        if (isset($remember) && $remember == 1) {
+            // keep logged in for one year
+            $rememberDuration = (int) (60 * 60 * 24 * 365.25);
+        }
+        else {
+            // do not keep logged in after session ends
+            $rememberDuration = null;
+        }
 
-        try {
-            $auth->login($email, $password);
+        try {            
+            $auth->login($email, $password, $rememberDuration);
         
             echo 'User is logged in';
         }

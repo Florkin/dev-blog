@@ -7,8 +7,8 @@
 @import '~bootstrap-datepicker/dist/css/bootstrap-datepicker.css';
 @import './../font/flaticon.scss';
 @import '~aos/dist/aos.css';
-@import './site-base';
-@import './site-navbar';
-@import './site-blocks';
-
+@import './_partials/site-base';
+@import './_partials/site-navbar';
+@import './_partials/site-blocks';
+@import './_partials/forms';
 

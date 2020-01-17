@@ -9,6 +9,11 @@ $twig = new \Twig\Environment($loader, [
     'debug' => true,
 ]);
 
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+
+// LOGIN FORM
+User::displayLoginForm($twig);
+
 // GLOBAL URL VARIABLES
 $twig->addGlobal('base_url', Config::BASE_URL);
 
@@ -29,3 +34,4 @@ if (!isset($page) || null == $page) {
 
 $twig->addGlobal('page_name', $page);
 PageController::{$page}($twig, $page);
+

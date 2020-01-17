@@ -4,3 +4,4 @@ vendor/*
 composer.lock
 cache/*
 img/*
+robots.txt

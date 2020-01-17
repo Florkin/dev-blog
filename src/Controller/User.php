@@ -1,85 +1,141 @@
 <?php
 
-class User {
+use FormManager\Factory as F;
 
-    protected $id;
+abstract class User
+{
+    public static function registrationForm()
+    {
+        return array(
 
-    protected $username;
+            F::email('Votre Email', [
+                'class' => 'email form-control',
+                'name' => 'email',
+                'required' => 'required',
+            ]),
 
-    protected $firstname;
+            F::text('Votre Pseudo', [
+                'class' => 'username form-control',
+                'name' => 'username',
+                'required' => 'required',
+            ]),
 
-    protected $lastname;
+            F::password('Votre mot de passe', [
+                'class' => 'password form-control',
+                'name' => 'password',
+                'required' => 'required',
+            ]),
 
-    protected $email;
+            F::submit('Inscrivez vous!', [
+                'class' => 'btn btn-dark btn-md text-white',
+            ]),
 
-    protected $password;
-
-    protected $isAdmin;
-
-    public function __construct() {
+        );
     }
 
-    public function getId() {
-        // TODO implement here
-        return 0;
+    public static function displayLoginForm($twig)
+    {
+        $form = self::loginForm();
+        $actionLogin = Config::BASE_URL . "/?page=login&action=login";
+        $twig->addGlobal('loginForm', $form);
+        $twig->addGlobal('actionLogin', $actionLogin);
     }
 
-    public function setId($value) {
-        // TODO implement here
+    public static function loginForm()
+    {
+        $rememberCheck= F::checkbox('Se souvenir de moi', [
+            'class' => 'custom-control-input',
+            'name' => 'remember',
+        ]);
+
+        $rememberCheck->label->setAttribute('class', 'custom-control-label');
+        $rememberCheck->setTemplate('{{ input }} {{ label }}');
+        $rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
+
+        $loginForm = array(
+            F::email('Votre Email', [
+                'class' => 'email form-control',
+                'name' => 'email',
+                'required' => 'required',
+            ]),
+
+            F::password('Votre mot de passe', [
+                'class' => 'password form-control',
+                'name' => 'password',
+                'required' => 'required',
+            ]),
+
+            $rememberCheck,
+
+            F::submit('Se connecter', [
+                'class' => 'btn btn-dark btn-md text-white',
+            ]),
+
+        );
+
+        return $loginForm;
     }
 
-    public function getUsername() {
-        // TODO implement here
-        return null;
+    public static function register($formData)
+    {
+        $email = $formData['email'];
+        $password = $formData['password'];
+        $username = $formData['username'];
+
+        $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+
+        try {
+            $userId = $auth->register($email, $password, $username 
+            // function ($selector, $token) {
+            //     echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
+            // }
+        );
+
+            echo 'We have signed up a new user with the ID ' . $userId;
+        } catch (\Delight\Auth\InvalidEmailException $e) {
+            die('Invalid email address');
+        } catch (\Delight\Auth\InvalidPasswordException $e) {
+            die('Invalid password');
+        } catch (\Delight\Auth\UserAlreadyExistsException $e) {
+            die('User already exists');
+        } catch (\Delight\Auth\TooManyRequestsException $e) {
+            die('Too many requests');
+        }
     }
 
-    public function setUsername($value) {
-        // TODO implement here
-    }
+    public static function login($formData)
+    {
+        $email = $formData['email'];
+        $password = $formData['password'];
+        $remember = (empty($formData['remember']) ? 0 : 1);
 
-    public function getFirstname() {
-        // TODO implement here
-        return null;
-    }
+        $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        if (isset($remember) && $remember == 1) {
+            // keep logged in for one year
+            $rememberDuration = (int) (60 * 60 * 24 * 365.25);
+        }
+        else {
+            // do not keep logged in after session ends
+            $rememberDuration = null;
+        }
 
-    public function setFirstname($value) {
-        // TODO implement here
-    }
-
-    public function getLastname() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setLastname($value) {
-        // TODO implement here
-    }
-
-    public function getEmail() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setEmail($value) {
-        // TODO implement here
-    }
-
-    public function getPassword() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setPassword($value) {
-        // TODO implement here
-    }
-
-    public function getIsAdmin() {
-        // TODO implement here
-        return null;
-    }
-
-    public function setIsAdmin($value) {
-        // TODO implement here
+        try {            
+            $auth->login($email, $password, $rememberDuration);
+        
+            echo 'User is logged in';
+        }
+        catch (\Delight\Auth\InvalidEmailException $e) {
+            die('Wrong email address');
+        }
+        catch (\Delight\Auth\InvalidPasswordException $e) {
+            die('Wrong password');
+        }
+        catch (\Delight\Auth\EmailNotVerifiedException $e) {
+            die('Email not verified');
+        }
+        catch (\Delight\Auth\TooManyRequestsException $e) {
+            die('Too many requests');
+        }
     }
 
 }

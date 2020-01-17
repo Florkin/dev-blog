@@ -8,8 +8,13 @@ $twig = new \Twig\Environment($loader, [
     'cache' => false,
     'debug' => true,
 ]);
+$twig->addExtension(new \Twig\Extension\DebugExtension());
+
 // GLOBAL VARIABLES
 $twig->addGlobal('base_url', Config::BASE_URL);
+
+// LOGIN FORM
+User::displayLoginForm($twig);
 
 // NAVIGATION
 $page = SuperGlobalManager::get('get', 'page');

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PageController
+class PageController
 {
     public static function listing($twig, $page)
     {
@@ -33,6 +33,13 @@ abstract class PageController
 
         return true;
     }
+
+    public static function login()
+    {
+        $formData = SuperGlobalManager::get('post', null);
+        User::login($formData);
+    }
+
 
     public static function home($twig, $page)
     {

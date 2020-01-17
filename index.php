@@ -20,7 +20,7 @@ $twig->addGlobal('base_url', Config::BASE_URL);
 $pages = get_class_methods('PageController');
 $urls = array();
 foreach ($pages as $page) {
-    $pageUrl = 'http://' . Config::BASE_URL . "/?page=" . $page;
+    $pageUrl = Config::BASE_URL . "/?page=" . $page;
     $twig->addGlobal($page . "_url", $pageUrl);
     // array_push($urls, $pageUrl);
 }

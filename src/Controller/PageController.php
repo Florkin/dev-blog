@@ -1,6 +1,6 @@
 <?php
 
-abstract class PageController
+class PageController
 {
     public static function listing($twig, $page)
     {
@@ -11,7 +11,7 @@ abstract class PageController
     public static function article($twig, $page)
     {
         $ex = array(
-            'name'=>'Tristan',
+            'name' => 'Tristan',
             'age' => '30',
         );
         echo $twig->render('pages/article.twig', ['ex' => $ex]);
@@ -24,5 +24,4 @@ abstract class PageController
         return true;
     }
 
-    
 }

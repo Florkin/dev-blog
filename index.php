@@ -34,10 +34,16 @@ $twig->addGlobal('page_name', $page);
 // LOGIN FORM
 $loginForm = new Form('login');
 $loginForm = $loginForm->renderForm($twig);
-echo $twig->render('_partials/login.twig', ['loginForm' => $loginForm['form'], 'actionLogin' => $loginForm['action']]);
+// echo $twig->render('_partials/login.twig', ['loginForm' => $loginForm['form'], 'actionLogin' => $loginForm['action']]);
+$twig->addGlobal('loginForm', $loginForm['form']);
+$twig->addGlobal('actionLogin', $loginForm['action']);
+
 
 // CALL PAGE FUNCTION
 PageController::{$page}($twig, $page);
+
+
+
 
 
 

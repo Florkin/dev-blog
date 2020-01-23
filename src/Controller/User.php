@@ -1,10 +1,8 @@
 <?php
 
-use FormManager\Factory as F;
-
-abstract class User
+class User
 {
-    public static function registrationForm()
+    public function registrationForm()
     {
         return array(
 
@@ -33,7 +31,7 @@ abstract class User
         );
     }
 
-    public static function displayLoginForm($twig)
+    public function displayLoginForm($twig)
     {
         $form = self::loginForm();
         $actionLogin = Config::BASE_URL . "/?page=login&action=login";
@@ -41,7 +39,7 @@ abstract class User
         $twig->addGlobal('actionLogin', $actionLogin);
     }
 
-    public static function loginForm()
+    public function loginForm()
     {
         $rememberCheck= F::checkbox('Se souvenir de moi', [
             'class' => 'custom-control-input',
@@ -76,7 +74,7 @@ abstract class User
         return $loginForm;
     }
 
-    public static function register($formData)
+    public function register($formData)
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -103,7 +101,7 @@ abstract class User
         }
     }
 
-    public static function login($formData)
+    public function login($formData)
     {
         $email = $formData['email'];
         $password = $formData['password'];

@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block head %}
-<title>{{page_name|capitalize}}</title>
+<title>Inscription</title>
 {% endblock %}
 
 {% block content %}
@@ -20,7 +20,7 @@
         <div class="row no-gutters">
             <div class="col-lg-6 bg-primary">
                 <form class="p-5" method="post" action="{{ actionRegister }}">
-                    {% for formfield in form %}
+                    {% for formfield in registerForm %}
                     <div class="row form-group">
                         <div class="col-md-12">
                             <div>{{ formfield|raw }}</div>

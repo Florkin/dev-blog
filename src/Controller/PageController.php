@@ -21,14 +21,14 @@ class PageController
     public static function registration($twig, $page)
     {
         // If getting registration form
-        if (null !== SuperGlobalManager::get('get', 'action') && SuperGlobalManager::get('get', 'action') == "register") {
-            $formData = SuperGlobalManager::get('post', null);
-            User::register($formData);
+        if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {
+            $formData = Globals::get('post', null);
+            $user = new User();
+            $user->register($formData);
         } else {
-            $form = User::registrationForm();
-            $actionRegister = Config::BASE_URL . "/?page=registration&action=register";
-
-            echo $twig->render('pages/registration.twig', ['form' => $form, 'actionRegister' => $actionRegister]);
+            $registerForm = new Form('register');            
+            $registerForm = $registerForm->renderForm();
+            echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
         };
 
         return true;
@@ -36,8 +36,9 @@ class PageController
 
     public static function login()
     {
-        $formData = SuperGlobalManager::get('post', null);
-        User::login($formData);
+        $formData = Globals::get('post', null);
+        $user = new User();
+        $user->login($formData);
     }
 
 

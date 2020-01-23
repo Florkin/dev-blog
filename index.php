@@ -11,9 +11,6 @@ $twig = new \Twig\Environment($loader, [
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
-// LOGIN FORM
-User::displayLoginForm($twig);
-
 // GLOBAL URL VARIABLES
 $twig->addGlobal('base_url', Config::BASE_URL);
 
@@ -26,12 +23,23 @@ foreach ($pages as $page) {
 }
 
 // NAVIGATION
-$page = SuperGlobalManager::get('get', 'page');
+$page = Globals::get('get', 'page');
 
 if (!isset($page) || null == $page) {
     $page = 'home';
 }
 
 $twig->addGlobal('page_name', $page);
+
+// LOGIN FORM
+$loginForm = new Form('login');
+$loginForm = $loginForm->renderForm($twig);
+echo $twig->render('_partials/login.twig', ['loginForm' => $loginForm['form'], 'actionLogin' => $loginForm['action']]);
+
+// CALL PAGE FUNCTION
 PageController::{$page}($twig, $page);
+
+
+
+
 

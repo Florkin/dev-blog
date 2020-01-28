@@ -12,6 +12,7 @@ $twig = new \Twig\Environment($loader, [
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
 // GLOBAL URL VARIABLES
+$twig->addGlobal('isLogged', User::checkIsLogged());
 $twig->addGlobal('base_url', Config::BASE_URL);
 
 $pages = get_class_methods('PageController');
@@ -41,6 +42,7 @@ $twig->addGlobal('actionLogin', $loginForm['action']);
 
 // CALL PAGE FUNCTION
 PageController::{$page}($twig, $page);
+
 
 
 

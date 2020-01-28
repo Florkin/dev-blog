@@ -1554,12 +1554,12 @@ figure {
 		opacity: .3;
 	}
 	&:before {
-		content: "\f1b0";
+		content: "\f120";
 		left: -30px;
 		transform: rotate(-45deg);
 	}
 	&:after {
-		content: "\f1b0";
+		content: "\f120";
 		right: -30px;
 		transform: rotate(45deg);
 	}

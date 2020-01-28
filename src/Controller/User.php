@@ -2,6 +2,23 @@
 
 class User
 {
+
+    public static function checkIsLogged()
+    {
+        if (!isset($auth)){
+            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        }
+        
+        if ($auth->isLoggedIn()) {
+            $isLogged = true;
+        }
+        else {
+            $isLogged = false;
+        }
+
+        return $isLogged;
+    }
+
     public function registrationForm()
     {
         return array(

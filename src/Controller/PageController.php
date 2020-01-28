@@ -23,7 +23,7 @@ class PageController
         // If getting registration form
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {
             $formData = Globals::get('post', null);
-            $user = new User();
+            $user = new UserManager();
             $user->register($formData);
         } else {
             $registerForm = new Form('register');            
@@ -37,7 +37,7 @@ class PageController
     public static function login()
     {
         $formData = Globals::get('post', null);
-        $user = new User();
+        $user = new UserManager();
         $user->login($formData);
     }
 

@@ -3,7 +3,8 @@
         "gargron/fileupload": "~1.4.0",
         "twig/twig": "^3.0",
         "delight-im/auth": "^8.1",
-        "form-manager/form-manager": "^6.0"
+        "form-manager/form-manager": "^6.0",
+        "symfony/validator": "^4.1"
     },
 
     "autoload": {

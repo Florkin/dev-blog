@@ -8,21 +8,24 @@ abstract class PageController
         return true;
     }
 
-    public static function article($twig, $page)
+    public static function articleform($twig, $page)
     {
-        $ex = array(
-            'name' => 'Tristan',
-            'age' => '30',
-        );
-        echo $twig->render('pages/article.twig', ['ex' => $ex]);
+        // If getting article form POST
+        if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
+            var_dump($_POST);die;
+        } else {
+            $articleForm = new Form('article');
+            $articleForm = $articleForm->renderForm();
+            echo $twig->render('pages/articleform.twig', ['articleForm' => $articleForm['form'], 'actionAddArticle' => $articleForm['action']]);
+        }
         return true;
     }
 
     public static function registration($twig, $page)
     {
-        // If getting registration form
-        if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {
-            $formData = Globals::get('post', null);
+        // If getting registration form POST
+        if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {            
+            $formData = Globals::get('post', null);         
             $user = new UserManager();
             $user->register($formData);
         } else {

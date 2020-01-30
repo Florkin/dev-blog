@@ -35,7 +35,6 @@ class UserManager
         return $auth->getEmail();
     }
 
-   
     public function register($formData)
     {
         $email = $formData['email'];
@@ -48,10 +47,7 @@ class UserManager
 
         try {
             $userId = $auth->register($email, $password, $username
-                // function ($selector, $token) {
-                //     echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
-                // }
-            );
+        );
 
             echo 'We have signed up a new UserManager with the ID ' . $userId;
         } catch (\Delight\Auth\InvalidEmailException $e) {
@@ -104,12 +100,11 @@ class UserManager
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
         }
-        
+
         try {
             $auth->logOutEverywhere();
             die('Logged out');
-        }
-        catch (\Delight\Auth\NotLoggedInException $e) {
+        } catch (\Delight\Auth\NotLoggedInException $e) {
             die('Not logged in');
         }
 

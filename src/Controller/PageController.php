@@ -1,6 +1,6 @@
 <?php
 
-class PageController
+abstract class PageController
 {
     public static function listing($twig, $page)
     {
@@ -34,17 +34,23 @@ class PageController
         return true;
     }
 
-    public static function login()
+    public static function login($twig)
     {
         $formData = Globals::get('post', null);
         $user = new UserManager();
-        $user->login($formData);
+        $user->login($formData, $twig);
+    }
+
+    public static function logout($twig)
+    {
+        $user = new UserManager();
+        $user->logout();
     }
 
 
     public static function home($twig, $page)
     {
-        echo $twig->render('pages/home.twig', ['name' => 'Fabien']);
+        echo $twig->render('pages/home.twig');
         return true;
     }
 

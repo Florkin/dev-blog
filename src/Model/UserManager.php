@@ -17,85 +17,34 @@ class UserManager
         return $isLogged;
     }
 
-    public function registrationForm()
+    public static function getUsername()
     {
-        return array(
+        if (!isset($auth)) {
+            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        }
 
-            F::email('Votre Email', [
-                'class' => 'email form-control',
-                'name' => 'email',
-                'required' => 'required',
-            ]),
-
-            F::text('Votre Pseudo', [
-                'class' => 'username form-control',
-                'name' => 'username',
-                'required' => 'required',
-            ]),
-
-            F::password('Votre mot de passe', [
-                'class' => 'password form-control',
-                'name' => 'password',
-                'required' => 'required',
-            ]),
-
-            F::submit('Inscrivez vous!', [
-                'class' => 'btn btn-dark btn-md text-white',
-            ]),
-
-        );
+        return $auth->getUsername();
     }
 
-    public function displayLoginForm($twig)
+    public static function getEmail()
     {
-        $form = self::loginForm();
-        $actionLogin = Config::BASE_URL . "/?page=login&action=login";
-        $twig->addGlobal('loginForm', $form);
-        $twig->addGlobal('actionLogin', $actionLogin);
+        if (!isset($auth)) {
+            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        }
+
+        return $auth->getEmail();
     }
 
-    public function loginForm()
-    {
-        $rememberCheck = F::checkbox('Se souvenir de moi', [
-            'class' => 'custom-control-input',
-            'name' => 'remember',
-        ]);
-
-        $rememberCheck->label->setAttribute('class', 'custom-control-label');
-        $rememberCheck->setTemplate('{{ input }} {{ label }}');
-        $rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
-
-        $loginForm = array(
-            F::email('Votre Email', [
-                'class' => 'email form-control',
-                'name' => 'email',
-                'required' => 'required',
-            ]),
-
-            F::password('Votre mot de passe', [
-                'class' => 'password form-control',
-                'name' => 'password',
-                'required' => 'required',
-            ]),
-
-            $rememberCheck,
-
-            F::submit('Se connecter', [
-                'class' => 'btn btn-dark btn-md text-white',
-            ]),
-
-        );
-
-        return $loginForm;
-    }
-
+   
     public function register($formData)
     {
         $email = $formData['email'];
         $password = $formData['password'];
         $username = $formData['username'];
 
-        $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        if (!isset($auth)) {
+            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        }
 
         try {
             $userId = $auth->register($email, $password, $username
@@ -116,13 +65,16 @@ class UserManager
         }
     }
 
-    public function login($formData)
+    public function login($formData, $twig)
     {
         $email = $formData['email'];
         $password = $formData['password'];
         $remember = (empty($formData['remember']) ? 0 : 1);
 
-        $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        if (!isset($auth)) {
+            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        }
+
         if (isset($remember) && $remember == 1) {
             // keep logged in for one year
             $rememberDuration = (int) (60 * 60 * 24 * 365.25);
@@ -144,6 +96,22 @@ class UserManager
         } catch (\Delight\Auth\TooManyRequestsException $e) {
             die('Too many requests');
         }
+
     }
 
+    public function logout()
+    {
+        if (!isset($auth)) {
+            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+        }
+        
+        try {
+            $auth->logOutEverywhere();
+            die('Logged out');
+        }
+        catch (\Delight\Auth\NotLoggedInException $e) {
+            die('Not logged in');
+        }
+
+    }
 }

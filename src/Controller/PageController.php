@@ -14,7 +14,7 @@ abstract class PageController
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
             var_dump($_POST);die;
         } else {
-            $articleForm = new Form('article');
+            $articleForm = new ArticleForm;
             $articleForm = $articleForm->renderForm();
             echo $twig->render('pages/articleform.twig', ['articleForm' => $articleForm['form'], 'actionAddArticle' => $articleForm['action']]);
         }
@@ -26,10 +26,10 @@ abstract class PageController
         // If getting registration form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {            
             $formData = Globals::get('post', null);         
-            $user = new UserManager();
+            $user = new UserManager;
             $user->register($formData);
         } else {
-            $registerForm = new Form('register');            
+            $registerForm = new UserForm;            
             $registerForm = $registerForm->renderForm();
             echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
         };
@@ -40,13 +40,13 @@ abstract class PageController
     public static function login($twig)
     {
         $formData = Globals::get('post', null);
-        $user = new UserManager();
+        $user = new UserManager;
         $user->login($formData, $twig);
     }
 
     public static function logout($twig)
     {
-        $user = new UserManager();
+        $user = new UserManager;
         $user->logout();
     }
 

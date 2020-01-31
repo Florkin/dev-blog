@@ -31,7 +31,7 @@ if (!isset($page) || null == $page) {
 $twig->addGlobal('page_name', $page);
 
 // LOGIN FORM
-$loginForm = new Form('login');
+$loginForm = new LoginForm;
 $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);

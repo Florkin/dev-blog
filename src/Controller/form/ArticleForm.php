@@ -6,7 +6,7 @@ class ArticleForm
 {
     private $articleContent;
     private $articleTitle;
-    private $articleSubtitle;
+    private $articleIntro;
     private $articleImg;
 
     public function setFormFields()
@@ -25,10 +25,10 @@ class ArticleForm
             'name' => 'title',
             'required' => 'required',
         ]);
-        $this->articleSubtitle =
-        F::text('Phrase d\'accroche', [
-            'class' => 'article-subtitle form-control',
-            'name' => 'subtitle',
+        $this->articleIntro =
+        F::textarea('Introduction', [
+            'class' => 'article-intro form-control',
+            'name' => 'intro',
             'required' => 'required',
         ]);
         $this->articleImg =
@@ -48,7 +48,7 @@ class ArticleForm
             'form' => array(
                 $this->articleImg,
                 $this->articleTitle,
-                $this->articleSubtitle,
+                $this->articleIntro,
                 $this->articleContent,
                 $this->submitButton,
             ),

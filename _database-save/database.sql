@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  jeu. 16 jan. 2020 à 13:28
+-- Généré le :  mer. 05 fév. 2020 à 16:18
 -- Version du serveur :  5.7.26
--- Version de PHP :  7.1.29
+-- Version de PHP :  7.3.5
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,33 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `dev_blog`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `articles`
+--
+
+DROP TABLE IF EXISTS `articles`;
+CREATE TABLE IF NOT EXISTS `articles` (
+  `id_article` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(70) NOT NULL,
+  `intro` text NOT NULL,
+  `content` text NOT NULL,
+  `date_add` date DEFAULT NULL,
+  `date_update` date DEFAULT NULL,
+  PRIMARY KEY (`id_article`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `articles`
+--
+
+INSERT INTO `articles` (`id_article`, `title`, `intro`, `content`, `date_add`, `date_update`) VALUES
+(3, 'Titre 1', 'Intro 1 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur ', '&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Section 1.10.32 du &quot;De Finibus Bonorum et Malorum&quot; de Ciceron (45 av. J.-C.)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto &lt;strong&gt;beatae vitae dicta sunt explicabo. Nemo eni&lt;/strong&gt;m ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,&lt;/p&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&quot;&lt;/p&gt;\r\n&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Traduction de H. Rackham (1914)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; text-align: justify; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff;&quot;&gt;&quot;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyo&lt;em&gt;ne who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some grea&lt;/em&gt;t pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&quot;&lt;/p&gt;', NULL, NULL),
+(4, 'Titre 2', 'INTRO 2 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur ', '&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Section 1.10.32 du &quot;De Finibus Bonorum et Malorum&quot; de Ciceron (45 av. J.-C.)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto&amp;nbsp;&lt;strong&gt;beatae vitae dicta sunt explicabo. Nemo eni&lt;/strong&gt;m ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,&lt;/p&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&quot;&lt;/p&gt;\r\n&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Traduction de H. Rackham (1914)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; text-align: justify; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff;&quot;&gt;&quot;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyo&lt;em&gt;ne who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some grea&lt;/em&gt;t pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&quot;&lt;/p&gt;', NULL, NULL),
+(5, 'Titre 3', 'INTRO 3 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur ', '&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Section 1.10.32 du &quot;De Finibus Bonorum et Malorum&quot; de Ciceron (45 av. J.-C.)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto&amp;nbsp;&lt;strong&gt;beatae vitae dicta sunt explicabo. Nemo eni&lt;/strong&gt;m ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,&lt;/p&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&quot;&lt;/p&gt;\r\n&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Traduction de H. Rackham (1914)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; text-align: justify; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff;&quot;&gt;&quot;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyo&lt;em&gt;ne who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some grea&lt;/em&gt;t pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&quot;&lt;/p&gt;', NULL, NULL),
+(6, 'Titre 4', 'INTRO 4 Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur ', '&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Section 1.10.32 du &quot;De Finibus Bonorum et Malorum&quot; de Ciceron (45 av. J.-C.)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;&quot;Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto&amp;nbsp;&lt;strong&gt;beatae vitae dicta sunt explicabo. Nemo eni&lt;/strong&gt;m ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur,&lt;/p&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff; text-align: center;&quot;&gt;adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?&quot;&lt;/p&gt;\r\n&lt;h3 style=&quot;margin: 15px 0px; padding: 0px; font-size: 14px; font-family: &#39;Open Sans&#39;, Arial, sans-serif; background-color: #ffffff;&quot;&gt;Traduction de H. Rackham (1914)&lt;/h3&gt;\r\n&lt;p style=&quot;margin: 0px 0px 15px; padding: 0px; text-align: justify; font-family: &#39;Open Sans&#39;, Arial, sans-serif; font-size: 14px; background-color: #ffffff;&quot;&gt;&quot;But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness. No one rejects, dislikes, or avoids pleasure itself, because it is pleasure, but because those who do not know how to pursue pleasure rationally encounter consequences that are extremely painful. Nor again is there anyo&lt;em&gt;ne who loves or pursues or desires to obtain pain of itself, because it is pain, but because occasionally circumstances occur in which toil and pain can procure him some grea&lt;/em&gt;t pleasure. To take a trivial example, which of us ever undertakes laborious physical exercise, except to obtain some advantage from it? But who has any right to find fault with a man who chooses to enjoy a pleasure that has no annoying consequences, or one who avoids a pain that produces no resultant pleasure?&quot;&lt;/p&gt;', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -43,14 +70,15 @@ CREATE TABLE IF NOT EXISTS `users` (
   `force_logout` mediumint(7) UNSIGNED NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `users`
 --
 
 INSERT INTO `users` (`id`, `email`, `password`, `username`, `status`, `verified`, `resettable`, `roles_mask`, `registered`, `last_login`, `force_logout`) VALUES
-(5, 'tristan.florin@gmail.com', '$2y$10$qtuZPaxu9df0/fpKs2wWbuNfr02ksBcFhvdRgB9UKJpJofVPObUKa', 'Florkin', 0, 0, 1, 0, 1579179880, NULL, 0);
+(8, 'tristan@diabolo-web.com', '$2y$10$bMoqK.9ZyKpW2KLAByrvmOV4dPL.B7N8PXAH56aYur2LhdeO.2BzW', 'diabolo', 0, 1, 1, 0, 1580486829, 1580486851, 1),
+(7, 'tristan.florin@gmail.com', '$2y$10$Oc35YTR6l/vD/2bMV8.Rb.EssXXyoyF/iY6SI6vhttsQjukcyMHim', 'Florkin', 0, 1, 1, 0, 1579795287, 1580469403, 7);
 
 -- --------------------------------------------------------
 
@@ -72,17 +100,6 @@ CREATE TABLE IF NOT EXISTS `users_confirmations` (
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Déchargement des données de la table `users_confirmations`
---
-
-INSERT INTO `users_confirmations` (`id`, `user_id`, `email`, `selector`, `token`, `expires`) VALUES
-(1, 1, 'tristan.florin@gmail.com', '4H-6AVi8YDCSHt9j', '$2y$10$aRKle.6kE35WeKFPiJ9jY.mYD1fJfbbH.nMwOGA9ggOFH8yi107H6', 1579254629),
-(2, 2, 'tristan@diabolo-web.com', '9aEM6WWxN31H8O-L', '$2y$10$JTr.XmRjWt/gkJdCKaAkcOiXiGAWmKgDHrlz4jTbCt76EqIbhhoea', 1579255606),
-(3, 3, 'tristan.florin@gmail.com', 'jvUnNievIxqhlfAy', '$2y$10$SMVFL6WzVTirqtkXv.HibOz8zhy0eb5oFjZUadPDD5UYWhpqyY.S.', 1579256219),
-(4, 4, 'tristan.florin@gmail.com', 'idQic59j-Mzt9Nno', '$2y$10$gL45BOQRmlfCBPdZrMmNEO4MA2pI/s/JgVuDGlOBtqlBCo1QCD7OO', 1579265521),
-(5, 5, 'tristan.florin@gmail.com', '0TfJyasav2AzzYCH', '$2y$10$7EqcJAUEyUZSNqZQvuw7IOoj30buK2IkCD9DkSeyCqJCWs.voR9xy', 1579266280);
-
 -- --------------------------------------------------------
 
 --
@@ -99,7 +116,7 @@ CREATE TABLE IF NOT EXISTS `users_remembered` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `selector` (`selector`),
   KEY `user` (`user`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 

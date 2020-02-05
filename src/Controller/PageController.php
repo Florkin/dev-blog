@@ -12,7 +12,8 @@ abstract class PageController
     {
         // If getting article form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
-            var_dump($_POST);die;
+            $article = new ArticleManager();
+            $article->addArticle();
         } else {
             $articleForm = new ArticleForm;
             $articleForm = $articleForm->renderForm();

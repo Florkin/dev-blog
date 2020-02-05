@@ -21,7 +21,7 @@ class ArticleManager
 
     public function addArticle()
     {
-        if (!isset($db) || $db == NULL){
+        if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
 
@@ -46,37 +46,45 @@ class ArticleManager
 
     public function getContent($id_article)
     {
-        if (!isset($db) || $db == NULL){
+        if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
-        $sql = "SELECT * FROM articles WHERE id_article = " . $id_article;
-        $response = $db->query($sql);
-        $data = $response->fetch();
-        $response->closeCursor();
-        
-        return array(
-            'title' => $data['title'],
-            'intro' => $data['intro'],
-            'content' => $data['content']
-        );
+        if (DbManager::tableExists($db, 'articles')) {
+            $sql = "SELECT * FROM articles WHERE id_article = " . $id_article;
+            $response = $db->query($sql);
+            $data = $response->fetch();
+            $response->closeCursor();
+
+            return array(
+                'title' => $data['title'],
+                'intro' => $data['intro'],
+                'content' => $data['content'],
+            );
+        } else {
+            return false;
+        }
     }
 
     public function getArticlesList($quantity)
     {
-        if (!isset($db) || $db == NULL){
+        if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
-        $sql = "SELECT title, intro FROM articles LIMIT " . $quantity;
-        $response = $db->query($sql);
+        if (DbManager::tableExists($db, 'articles')) {
+            $sql = "SELECT title, intro FROM articles LIMIT " . $quantity;
+            $response = $db->query($sql);
 
-        $list = array();
-        
-        while ($data = $response->fetch()){
-            array_push($list, $data);
-        };
+            $list = array();
 
-        $response->closeCursor();
-        
-        return $list;
+            while ($data = $response->fetch()) {
+                array_push($list, $data);
+            };
+
+            $response->closeCursor();
+
+            return $list;
+        } else {
+            return false;
+        }
     }
 }

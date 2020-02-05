@@ -29,9 +29,10 @@ class ArticleManager
             Self::createTable($db);
         }
 
-        $title = addslashes(htmlspecialchars(Globals::get('post', 'title')));
-        $intro = addslashes(htmlspecialchars(Globals::get('post', 'intro')));
+        $title = htmlspecialchars(Globals::get('post', 'title'));
+        $intro = htmlspecialchars(Globals::get('post', 'intro'));
         $content = Globals::get('post', 'content');
+
 
         $sql = "INSERT INTO articles (title, intro, content)
         VALUES ('" . $title . "', '" . $intro . "', '" . $content . "')";

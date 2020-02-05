@@ -990,6 +990,7 @@ jQuery(document).ready(function ($) {
 $(document).ready(function () {
 
     tinymce.init({
+        encoding: 'xml',
         selector: "textarea#tinymce",
         language: 'fr',
         height: 300,

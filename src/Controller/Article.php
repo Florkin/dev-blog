@@ -6,8 +6,10 @@ class Article
     private $title;
     private $intro;
     private $content;
+    private $date_add;
+    private $date_update;
 
-    private function __construct($id_article)
+    public function __construct($id_article)
     {
         $this->id_article = $id_article;
         $article = new ArticleManager($id_article);
@@ -16,5 +18,19 @@ class Article
         $this->title = $content['title'];
         $this->intro = $content['intro'];
         $this->content = $content['content'];
+        $this->date_add = $content['date_add'];
+        $this->date_update = $content['date_update'];
+    }
+
+    public function displayArticle()
+    {
+        return array(
+            'id_article' => $this->id_article,
+            'title' => $this->title,
+            'intro' => $this->intro,
+            'content' => html_entity_decode($this->content),
+            'date_add' => $this->date_add,
+            'date_update' => $this->date_update
+        );
     }
 }

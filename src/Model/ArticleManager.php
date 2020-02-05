@@ -59,6 +59,7 @@ class ArticleManager
             $response->closeCursor();
 
             return array(
+                'id_article' => $data['id_article'],
                 'title' => $data['title'],
                 'intro' => $data['intro'],
                 'content' => $data['content'],
@@ -78,9 +79,9 @@ class ArticleManager
         if (DbManager::tableExists($db, 'articles')) {
             
             if ($quantity !== 'all'){
-                $sql = "SELECT title, intro, date_add, date_update FROM articles LIMIT " . $quantity;
+                $sql = "SELECT id_article, title, intro, date_add, date_update FROM articles LIMIT " . $quantity;
             } else {
-                $sql = "SELECT title, intro, date_add, date_update FROM articles";
+                $sql = "SELECT id_article, title, intro, date_add, date_update FROM articles";
             }
 
             $response = $db->query($sql);
@@ -92,8 +93,8 @@ class ArticleManager
             };
 
             $response->closeCursor();
-
             return $list;
+            
         } else {
             return false;
         }

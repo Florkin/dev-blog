@@ -2,6 +2,12 @@
 
 abstract class PageController
 {
+    public static function article($twig, $page){
+        $id_article = Globals::get('get', 'id_article');
+        $article = new Article($id_article);
+        echo $twig->render('pages/article.twig', ['article' => $article->displayArticle()]);
+    }
+
     public static function articleslist($twig, $page)
     {
         $articleslist = new ArticlesList('all');

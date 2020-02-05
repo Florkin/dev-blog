@@ -11,7 +11,7 @@
             <h2 class="text-black">{{ article.title }}</h2>
             <p class="mb-4">{{ article.date_update }}</p>
             <p class="mb-4">{{ article.intro|raw }}</p>
-            <p><a href="#" class="btn btn-primary">Lire plus</a></p>
+            <p><a href="{{ article_url }}&id_article={{ article.id_article }}" class="btn btn-primary">id = {{ article.id_article }}</a></p>
           </div>
         </div>
       </div>

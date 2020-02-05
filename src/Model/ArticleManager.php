@@ -5,12 +5,15 @@ class ArticleManager
 
     public function createTable($db)
     {
-        $sql = "CREATE TABLE articles(
-            id_article INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-            title VARCHAR(70) NOT NULL,
-            intro TEXT NOT NULL,
-            content TEXT NOT NULL
-        ) DEFAULT CHARSET=utf8";
+        $sql = "CREATE TABLE IF NOT EXISTS `articles` (
+            `id_article` int(11) NOT NULL AUTO_INCREMENT,
+            `title` varchar(70) NOT NULL,
+            `intro` text NOT NULL,
+            `content` text NOT NULL,
+            `date_add` date DEFAULT NULL,
+            `date_update` date DEFAULT NULL,
+            PRIMARY KEY (`id_article`)
+          ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
         if ($db->exec($sql)) {
             echo "Table created successfully.";
         } else {
@@ -33,9 +36,8 @@ class ArticleManager
         $intro = htmlspecialchars(Globals::get('post', 'intro'));
         $content = Globals::get('post', 'content');
 
-
-        $sql = "INSERT INTO articles (title, intro, content)
-        VALUES ('" . $title . "', '" . $intro . "', '" . $content . "')";
+        $sql = "INSERT INTO articles (title, intro, content, date_add, date_update)
+        VALUES ('" . $title . "', '" . $intro . "', '" . $content . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
         if ($db->exec($sql)) {
             echo "Article added successfully.";
@@ -60,6 +62,8 @@ class ArticleManager
                 'title' => $data['title'],
                 'intro' => $data['intro'],
                 'content' => $data['content'],
+                'date_add' => $data['date_add'],
+                'date_update' => $data['date_update'],
             );
         } else {
             return false;
@@ -74,9 +78,9 @@ class ArticleManager
         if (DbManager::tableExists($db, 'articles')) {
             
             if ($quantity !== 'all'){
-                $sql = "SELECT title, intro FROM articles LIMIT " . $quantity;
+                $sql = "SELECT title, intro, date_add, date_update FROM articles LIMIT " . $quantity;
             } else {
-                $sql = "SELECT title, intro FROM articles";
+                $sql = "SELECT title, intro, date_add, date_update FROM articles";
             }
 
             $response = $db->query($sql);

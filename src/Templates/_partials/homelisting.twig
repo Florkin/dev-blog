@@ -1,0 +1,21 @@
+{% for article in articles %}
+<div class="row hover-1-wrap mb-5 mb-lg-0">
+      <div class="col-12">
+        <div class="row">
+          <div class="mb-4 mb-lg-0 col-lg-6 {% if loop.index is divisible by(2) %} order-lg-2 {% endif %}" data-aos="{% if loop.index is divisible by(2) %}fade-left{% else %}fade-right{% endif %}">
+            <a href="#" class="hover-1">
+              <img src="img/dogger_img_sm_3.jpg" alt="Image" class="img-fluid">
+            </a>
+          </div>
+          <div class="col-lg-5 mr-auto text-lg-right align-self-center order-lg-1" data-aos="{% if loop.index is divisible by(2) %}fade-right{% else %}fade-left{% endif %}">
+            <h2 class="text-black">{{ article.title }}</h2>
+            <p class="mb-4">{{ article.intro|raw }}</p>
+            <p><a href="#" class="btn btn-primary">Lire plus</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+{% endfor %}
+
+
+

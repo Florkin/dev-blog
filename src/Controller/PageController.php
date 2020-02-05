@@ -53,8 +53,10 @@ abstract class PageController
 
 
     public static function home($twig, $page)
-    {
-        echo $twig->render('pages/home.twig');
+    {        
+        $articleslist = new ArticlesList(3);
+        $articles = $articleslist->getArticles();
+        echo $twig->render('pages/home.twig', ['articles' => $articles]);        
         return true;
     }
 

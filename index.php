@@ -39,3 +39,7 @@ $twig->addGlobal('actionLogin', $loginForm['action']);
 // CALL PAGE FUNCTION
 PageController::{$page}($twig, $page);
 
+
+
+
+

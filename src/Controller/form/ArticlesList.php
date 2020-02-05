@@ -15,10 +15,4 @@ class ArticlesList
         return $articlesList->getArticlesList($this->quantity);
     }
 
-    public function displayList($twig)
-    {
-        $articlesList = $this->getArticles();
-        echo $twig->render('_partials/listing.twig', ['articles' => $articlesList]);
-    }
-
 }

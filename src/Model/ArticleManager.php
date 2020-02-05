@@ -72,7 +72,13 @@ class ArticleManager
             $db = DbManager::openDB();
         }
         if (DbManager::tableExists($db, 'articles')) {
-            $sql = "SELECT title, intro FROM articles LIMIT " . $quantity;
+            
+            if ($quantity !== 'all'){
+                $sql = "SELECT title, intro FROM articles LIMIT " . $quantity;
+            } else {
+                $sql = "SELECT title, intro FROM articles";
+            }
+
             $response = $db->query($sql);
 
             $list = array();

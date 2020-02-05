@@ -2,9 +2,11 @@
 
 abstract class PageController
 {
-    public static function listing($twig, $page)
+    public static function articleslist($twig, $page)
     {
-        echo $twig->render('pages/listing.twig', ['title' => $page]);
+        $articleslist = new ArticlesList('all');
+        $articles = $articleslist->getArticles();
+        echo $twig->render('pages/articles-list.twig', ['articles' => $articles]);        
         return true;
     }
 
@@ -49,6 +51,7 @@ abstract class PageController
     {
         $user = new UserManager;
         $user->logout();
+        return true;
     }
 
 

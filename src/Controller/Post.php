@@ -1,36 +1,39 @@
 <?php
 
-class Article
+class Post
 {
-    private $id_article;
+    private $id_post;
     private $title;
     private $intro;
     private $content;
     private $date_add;
     private $date_update;
+    private $img_url;
 
-    public function __construct($id_article)
+    public function __construct($id_post)
     {
-        $this->id_article = $id_article;
-        $article = new ArticleManager($id_article);
-        $content = $article->getContent($this->id_article);
+        $this->id_post = $id_post;
+        $post = new PostManager($id_post);
+        $content = $post->getContent($this->id_post);
 
         $this->title = $content['title'];
         $this->intro = $content['intro'];
         $this->content = $content['content'];
         $this->date_add = $content['date_add'];
         $this->date_update = $content['date_update'];
+        $this->img_url = $content['img_url'];
     }
 
-    public function displayArticle()
+    public function displayPost()
     {
         return array(
-            'id_article' => $this->id_article,
+            'id_post' => $this->id_post,
             'title' => $this->title,
             'intro' => $this->intro,
             'content' => html_entity_decode($this->content),
             'date_add' => $this->date_add,
-            'date_update' => $this->date_update
+            'date_update' => $this->date_update,
+            'img_url' => $this->img_url
         );
     }
 }

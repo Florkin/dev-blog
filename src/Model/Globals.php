@@ -38,6 +38,9 @@ class Globals
             case 'cookie':
                 return (isset($_COOKIE[$key]) ? $_COOKIE[$key] : null);
                 break;
+            case 'files':
+                return (isset($_FILES[$key]) ? $_FILES[$key] : null);
+                break;
         }
     }
 

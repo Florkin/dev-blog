@@ -1,2 +1,5 @@
 # dev-blog
-Openclassrooms project - blog creation
+Openclassrooms project
+
+Blog system creation,
+No CMS, No framework.

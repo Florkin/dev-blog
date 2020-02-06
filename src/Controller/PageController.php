@@ -2,9 +2,17 @@
 
 abstract class PageController
 {
-    public static function listing($twig, $page)
+    public static function article($twig, $page){
+        $id_article = Globals::get('get', 'id_article');
+        $article = new Article($id_article);
+        echo $twig->render('pages/article.twig', ['article' => $article->displayArticle()]);
+    }
+
+    public static function articleslist($twig, $page)
     {
-        echo $twig->render('pages/listing.twig', ['title' => $page]);
+        $articleslist = new ArticlesList('all');
+        $articles = $articleslist->getArticles();
+        echo $twig->render('pages/articles-list.twig', ['articles' => $articles]);        
         return true;
     }
 
@@ -12,7 +20,8 @@ abstract class PageController
     {
         // If getting article form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
-            var_dump($_POST);die;
+            $article = new ArticleManager();
+            $article->addArticle();
         } else {
             $articleForm = new ArticleForm;
             $articleForm = $articleForm->renderForm();
@@ -48,12 +57,15 @@ abstract class PageController
     {
         $user = new UserManager;
         $user->logout();
+        return true;
     }
 
 
     public static function home($twig, $page)
-    {
-        echo $twig->render('pages/home.twig');
+    {        
+        $articleslist = new ArticlesList(3);
+        $articles = $articleslist->getArticles();
+        echo $twig->render('pages/home.twig', ['articles' => $articles]);        
         return true;
     }
 

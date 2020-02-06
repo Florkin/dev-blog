@@ -1,7 +1,7 @@
 {% extends 'layout.twig' %}
 
 {% block head %}
-    <title>{{post.title|capitalize}}</title>
+<title>{{post.title|capitalize}}</title>
 {% endblock %}
 
 {% block content %}
@@ -15,20 +15,19 @@
         </div>
         <h2 class="text-black mb-2">{{ post.title }}</h2>
         <p>{{post.date_update}}</p>
-        <p>{{post.intro}}</p>        
+        <p>{{post.intro}}</p>
+      </div>
+      <div class="col-lg-6 text-right pr-0 pl-0">
+        <img src="{{post.img_url}}" alt="post {{ post.id_post }}" class="img-fluid">
       </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-4">
-            <img src="{{post.img_url}}" alt="post {{ post.id_post }}" class="img-fluid">
-        </div>
-        <div class="post-content col-lg-8">
-            {{post.content|raw}}
-        </div>
-    </div>   
+      <div class="post-content">
+        {{post.content|raw}}
+      </div>
+    </div>
   </div>
 </section>
 
 {% endblock %}
-

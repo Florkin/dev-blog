@@ -28,7 +28,7 @@ class PostManager
     {
         $file= Globals::get('files', 'image');
         $img = Image::make($file['tmp_name']);
-        $img->fit(500, 300);
+        $img->fit(800, 600);
         if ($img->save('img/posts_headers/post_'.$id_post.'.jpg')){
             return true;
         } else {

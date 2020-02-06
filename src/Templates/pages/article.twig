@@ -21,7 +21,7 @@
 
     <div class="row">
         <div class="col-lg-4">
-            <img src="./img/dogger_img_sm_2.jpg" alt="" class="img-fluid">
+            <img src="{{ post_img_url }}" alt="post {{ article.id_article }}" class="img-fluid">
         </div>
         <div class="article-content col-lg-8">
             {{article.content|raw}}

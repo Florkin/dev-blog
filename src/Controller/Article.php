@@ -30,7 +30,8 @@ class Article
             'intro' => $this->intro,
             'content' => html_entity_decode($this->content),
             'date_add' => $this->date_add,
-            'date_update' => $this->date_update
+            'date_update' => $this->date_update,
+            'post-img-url' => './img/articles_headers/post_'.$this->id_article.'.jpg'
         );
     }
 }

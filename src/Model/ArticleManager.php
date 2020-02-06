@@ -1,5 +1,8 @@
 <?php
 
+// use Intervention\Image\ImageManager;
+use Intervention\Image\ImageManagerStatic as Image;
+
 class ArticleManager
 {
 
@@ -22,6 +25,18 @@ class ArticleManager
         }
     }
 
+    public function uploadImg($id_article)
+    {
+        $file= Globals::get('files', 'image');
+        $img = Image::make($file['tmp_name']);
+        $img->fit(500, 300);
+        if ($img->save('img/articles_headers/article_'.$id_article.'.jpg')){
+            return true;
+        } else {
+            return false;
+        };
+    }
+
     public function addArticle()
     {
         if (!isset($db) || $db == null) {
@@ -40,7 +55,13 @@ class ArticleManager
         VALUES ('" . $title . "', '" . $intro . "', '" . $content . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
         if ($db->exec($sql)) {
-            echo "Article added successfully.";
+            $id_article = $db->lastInsertId();
+            if($this->uploadImg($id_article)){
+                echo "Article added successfully.";
+            } else {
+                echo 'image upload problem';
+            }
+           
         } else {
             echo "\nPDO::errorInfo():\n";
             print_r($db->errorInfo());

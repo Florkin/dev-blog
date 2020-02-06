@@ -2,30 +2,30 @@
 
 abstract class PageController
 {
-    public static function article($twig, $page){
-        $id_article = Globals::get('get', 'id_article');
-        $article = new Article($id_article);
-        echo $twig->render('pages/article.twig', ['article' => $article->displayArticle()]);
+    public static function post($twig, $page){
+        $id_post = Globals::get('get', 'id_post');
+        $post = new Post($id_post);
+        echo $twig->render('pages/post.twig', ['post' => $post->displaypost()]);
     }
 
-    public static function articleslist($twig, $page)
+    public static function postslist($twig, $page)
     {
-        $articleslist = new ArticlesList('all');
-        $articles = $articleslist->getArticles();
-        echo $twig->render('pages/articles-list.twig', ['articles' => $articles]);        
+        $postslist = new PostsList('all');
+        $posts = $postslist->getPosts();
+        echo $twig->render('pages/posts-list.twig', ['posts' => $posts]);        
         return true;
     }
 
-    public static function articleform($twig, $page)
+    public static function postform($twig, $page)
     {
-        // If getting article form POST
+        // If getting post form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
-            $article = new ArticleManager();
-            $article->addArticle();
+            $post = new PostManager();
+            $post->addpost();
         } else {
-            $articleForm = new ArticleForm;
-            $articleForm = $articleForm->renderForm();
-            echo $twig->render('pages/articleform.twig', ['articleForm' => $articleForm['form'], 'actionAddArticle' => $articleForm['action']]);
+            $postForm = new PostForm;
+            $postForm = $postForm->renderForm();
+            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
         }
         return true;
     }
@@ -63,9 +63,9 @@ abstract class PageController
 
     public static function home($twig, $page)
     {        
-        $articleslist = new ArticlesList(3);
-        $articles = $articleslist->getArticles();
-        echo $twig->render('pages/home.twig', ['articles' => $articles]);        
+        $postslist = new PostsList(3);
+        $posts = $postslist->getPosts();
+        echo $twig->render('pages/home.twig', ['posts' => $posts]);        
         return true;
     }
 

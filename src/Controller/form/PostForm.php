@@ -2,36 +2,36 @@
 
 use FormManager\Factory as F;
 
-class ArticleForm
+class PostForm
 {
-    private $articleContent;
-    private $articleTitle;
-    private $articleIntro;
-    private $articleImg;
+    private $postContent;
+    private $postTitle;
+    private $postIntro;
+    private $postImg;
 
     public function setFormFields()
     {
 
-        $this->articleContent =
+        $this->postContent =
         F::textarea('Contenu', [
             'class' => 'tiny-mce',
             'id' => 'tinymce',
             'name' => 'content',
             'required' => 'required',
         ]);
-        $this->articleTitle =
+        $this->postTitle =
         F::text('Titre', [
-            'class' => 'article-title form-control',
+            'class' => 'post-title form-control',
             'name' => 'title',
             'required' => 'required',
         ]);
-        $this->articleIntro =
+        $this->postIntro =
         F::textarea('Introduction', [
-            'class' => 'article-intro form-control',
+            'class' => 'post-intro form-control',
             'name' => 'intro',
             'required' => 'required',
         ]);
-        $this->articleImg =
+        $this->postImg =
         F::file('Votre Image d\'en-tête', [
             'class' => 'image-field form-control',
             'name' => 'image',
@@ -42,14 +42,14 @@ class ArticleForm
         ]);
 
         // Create fields array for Twig
-        $this->actionLink = Config::BASE_URL . "/?page=articleform&action=add";
+        $this->actionLink = Config::BASE_URL . "/?page=postform&action=add";
         return array(
             'action' => $this->actionLink,
             'form' => array(
-                $this->articleImg,
-                $this->articleTitle,
-                $this->articleIntro,
-                $this->articleContent,
+                $this->postImg,
+                $this->postTitle,
+                $this->postIntro,
+                $this->postContent,
                 $this->submitButton,
             ),
         );

@@ -2,13 +2,12 @@
 
 abstract class PageController
 {
-    public static function post($twig, $page){
-        $id_post = Globals::get('get', 'id_post');
-        $post = new Post($id_post);
+    public static function post($twig, $id){
+        $post = new Post($id);
         echo $twig->render('pages/post.twig', ['post' => $post->displaypost()]);
     }
 
-    public static function postslist($twig, $page)
+    public static function postslist($twig)
     {
         $postslist = new PostsList('all');
         $posts = $postslist->getPosts();
@@ -16,7 +15,7 @@ abstract class PageController
         return true;
     }
 
-    public static function postform($twig, $page)
+    public static function postform($twig)
     {
         // If getting post form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
@@ -30,7 +29,7 @@ abstract class PageController
         return true;
     }
 
-    public static function registration($twig, $page)
+    public static function registration($twig)
     {
         // If getting registration form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {            
@@ -61,7 +60,7 @@ abstract class PageController
     }
 
 
-    public static function home($twig, $page)
+    public static function home($twig)
     {        
         $postslist = new PostsList(3);
         $posts = $postslist->getPosts();

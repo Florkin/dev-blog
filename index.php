@@ -2,6 +2,7 @@
 
 require './vendor/autoload.php';
 
+// ============================ TWIG ============================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [
     // 'cache' => ('./cache'),
@@ -11,35 +12,37 @@ $twig = new \Twig\Environment($loader, [
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
-// GLOBAL VARIABLES
+// ============================ GLOBAL VARIABLES ============================
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());
 $twig->addGlobal('username', UserManager::getUsername());
 $twig->addGlobal('userEmail', UserManager::getEmail());
 $twig->addGlobal('base_url', Config::BASE_URL);
 
-// NAVIGATION
-$pages = get_class_methods('PageController');
-foreach ($pages as $page) {
-    $pageUrl = Config::BASE_URL . "/?page=" . $page;
-    $twig->addGlobal($page . "_url", $pageUrl);
-}
-
-$page = Globals::get('get', 'page');
-if (!isset($page) || null == $page) {
-    $page = 'home';
-}
-$twig->addGlobal('page_name', $page);
-
-// LOGIN FORM
+// ============================ LOGIN FORM ============================
 $loginForm = new LoginForm;
 $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
 
-// CALL PAGE FUNCTION
-PageController::{$page}($twig, $page);
+// ============================ ROUTING ============================
+$uri = $_SERVER['REQUEST_URI'];
+$router = new AltoRouter;
 
+$router->map('GET', '/', function(){
+    PageController::home($twig);
+}, 'home');
 
+$router->map('GET', '/inscription/', function(){
+    PageController::registration($twig);
+}, 'inscription');
 
+$router->map('GET', '/articles/article-[i:id]/', function(){
+    PageController::post($twig, $id);
+}, 'article');
+
+// var_dump($router);
+
+$match = $router->match($uri);
+var_dump($match);
 
 

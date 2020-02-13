@@ -24,34 +24,34 @@ $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
 
-
 // ============================ ROUTING ============================
 $router = new AltoRouter;
 
-$router->map('GET', '/', function($twig){
-    PageController::home($twig);
-}, 'home');
+$router->map('GET', '/', null, 'home');
 
-$router->map('GET', '/inscription', function($twig){
-    PageController::registration($twig);
-}, 'inscription');
+$router->map('GET', '/inscription', null, 'registration');
 
-$router->map('GET', '/articles/[i:id]', function($id, $twig){
-    PageController::post($twig, $id);
-}, 'article');
-
-$router->map('GET', '/ajouter-un-article', function($twig){
-    PageController::postform($twig);
-}, 'ajouter-un-article');
-
-
-
+$router->map('GET', '/ajouter-un-article', null, 'postform');
 
 // ============================ ROUTING MATCHES ============================
 $match = $router->match();
-if ($match !== null){
-    array_push($match['params'], $twig);
-    call_user_func_array($match['target'], $match['params']);
+
+if ($match) {
+    try {
+        PageController::{$match['name']}($twig);
+
+        // Handle all possible errors
+    } catch (Twig_Error_Loader $e) {
+        header('Content-type: application/json');
+        echo json_encode('Error [1]: ' . $e);
+    } catch (Twig_Error_Runtime $e) {
+        header('Content-type: application/json');
+        echo json_encode('Error [2]: ' . $e);
+    } catch (Twig_Error_Syntax $e) {
+        header('Content-type: application/json');
+        echo json_encode('Error [3]: ' . $e);
+    }
+} else {
+    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+    echo var_export($match);
 }
-
-

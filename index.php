@@ -24,25 +24,34 @@ $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
 
+
 // ============================ ROUTING ============================
-$uri = $_SERVER['REQUEST_URI'];
 $router = new AltoRouter;
 
-$router->map('GET', '/', function(){
+$router->map('GET', '/', function($twig){
     PageController::home($twig);
 }, 'home');
 
-$router->map('GET', '/inscription/', function(){
+$router->map('GET', '/inscription', function($twig){
     PageController::registration($twig);
 }, 'inscription');
 
-$router->map('GET', '/articles/article-[i:id]/', function(){
+$router->map('GET', '/articles/[i:id]', function($id, $twig){
     PageController::post($twig, $id);
 }, 'article');
 
-// var_dump($router);
+$router->map('GET', '/ajouter-un-article', function($twig){
+    PageController::postform($twig);
+}, 'ajouter-un-article');
 
-$match = $router->match($uri);
-var_dump($match);
+
+
+
+// ============================ ROUTING MATCHES ============================
+$match = $router->match();
+if ($match !== null){
+    array_push($match['params'], $twig);
+    call_user_func_array($match['target'], $match['params']);
+}
 
 

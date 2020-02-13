@@ -5,7 +5,7 @@
         "form-manager/form-manager": "^6.0",
         "symfony/validator": "^4.1",
         "intervention/image": "^2.5",
-        "altorouter/altorouter": "1.2.0"
+        "altorouter/altorouter": "^2.0"
     },
 
     "autoload": {

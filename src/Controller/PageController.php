@@ -2,7 +2,7 @@
 
 abstract class PageController
 {
-    public static function post($twig, $id){
+    public static function post($id, $twig){
         $post = new Post($id);
         echo $twig->render('pages/post.twig', ['post' => $post->displaypost()]);
     }

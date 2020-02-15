@@ -45,7 +45,7 @@ class LoginForm
         $this->rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
 
         // Create fields array for Twig
-        $this->actionLink = Config::BASE_URL . "/?page=login";
+        $this->actionLink = Config::BASE_URL . "/login";
         return array(
             'action' => $this->actionLink,
             'form' => array(

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PageController
+abstract class RouteController
 {
     public static function post($id, $twig){
         $post = new Post($id);
@@ -49,10 +49,10 @@ abstract class PageController
     {
         $formData = Globals::get('post', null);
         $user = new UserManager;
-        $user->login($formData, $twig);
+        $user->login($formData);
     }
 
-    public static function logout($twig)
+    public static function logout()
     {
         $user = new UserManager;
         $user->logout();

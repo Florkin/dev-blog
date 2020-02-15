@@ -42,7 +42,7 @@ class PostForm
         ]);
 
         // Create fields array for Twig
-        $this->actionLink = Config::BASE_URL . "/?page=postform&action=add";
+        $this->actionLink = Config::BASE_URL . "/ajouter-un-article?action=add";
         return array(
             'action' => $this->actionLink,
             'form' => array(

@@ -16,7 +16,6 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());
 $twig->addGlobal('username', UserManager::getUsername());
 $twig->addGlobal('userEmail', UserManager::getEmail());
-$twig->addGlobal('base_url', Config::BASE_URL);
 
 // ============================ LOGIN FORM ============================
 $loginForm = new LoginForm;
@@ -24,34 +23,53 @@ $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
 
+// ============================ URL VARIABLES ============================
+$url = array(
+    "base_url" => Config::BASE_URL,
+    "post_form" => Config::BASE_URL . "/ajouter-un-article",
+    "posts_list" => Config::BASE_URL . "/articles",
+    "register_form" => Config::BASE_URL . "/inscription",
+    "logout" => Config::BASE_URL . "/logout",
+);
+$twig->addGlobal('url', $url);
+
 // ============================ ROUTES ============================
 $router = new AltoRouter;
 
 $router->map('GET', '/', function ($twig) {
-    return PageController::home($twig);
-}, 'home');
+    return RouteController::home($twig);
+}, 'Accueil');
 
 $router->map('GET', '/inscription', function ($twig) {
-    return PageController::registration($twig);
-}, 'registration');
+    return RouteController::registration($twig);
+}, 'inscription');
 
 $router->map('GET', '/ajouter-un-article', function ($twig) {
-    return PageController::postform($twig);
-}, 'postform');
+    return RouteController::postform($twig);
+}, 'ajouter-un-article');
 
 $router->map('GET', '/articles', function ($twig) {
-    return PageController::postslist($twig);
-}, 'postlist');
+    return RouteController::postslist($twig);
+}, 'articles');
 
 $router->map('GET', '/articles/[i:id]', function ($id, $twig) {
-    return PageController::post($id, $twig);
-}, 'post');
+    return RouteController::post($id, $twig);
+}, 'article');
+
+$router->map('GET', '/logout', function () {
+    return RouteController::logout();
+}, 'logout');
+
+$router->map('GET', '/login', function () {
+    return RouteController::login();
+}, 'login');
 
 // ============================ ROUTING MATCHES ============================
 $match = $router->match();
 
-if ($match) {
-    try {
+// call closure or throw 404 status
+if( is_array($match) && is_callable( $match['target'] ) ) {
+	try {
         array_push($match['params'], $twig);
         call_user_func_array($match['target'], $match['params']);
 
@@ -65,8 +83,11 @@ if ($match) {
     } catch (Twig_Error_Syntax $e) {
         header('Content-type: application/json');
         echo json_encode('Error [3]: ' . $e);
-    }
+    } 
 } else {
-    header($_SERVER['SERVER_PROTOCOL'] . ' 404 Not Found');
+	// no route was matched
+    header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
     echo var_export($match);
 }
+
+

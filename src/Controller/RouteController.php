@@ -1,5 +1,14 @@
 <?php
 
+namespace App\Controller;
+
+use \App\Controller\Post\PostsList;
+use \App\Controller\Form\PostForm;
+use \App\Controller\Form\UserForm;
+use \App\Model\Manager\PostManager;
+use \App\Model\Manager\UserManager;
+use \App\Model\Globals;
+
 abstract class RouteController
 {
     public static function post($id, $twig){

@@ -1,5 +1,10 @@
 <?php
 
+namespace App\Model\Manager;
+
+use \PDO;
+use \App\Config;
+
 abstract class DbManager
 {
     public static function openDB()

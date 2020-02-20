@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 abstract class Config {
 
     const DB_NAME = "dev-blog";

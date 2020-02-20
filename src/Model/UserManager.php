@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Model\Manager;
+
 class UserManager
 {
     public static function createTables($db)

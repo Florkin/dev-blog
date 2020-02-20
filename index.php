@@ -2,6 +2,11 @@
 
 require './vendor/autoload.php';
 
+use \App\Model\Manager\UserManager;
+use \App\Controller\Form\LoginForm;
+use \App\Controller\RouteController;
+use \App\Config;
+
 /* ================================================================
 ========================= TWIG =======================
 ================================================================ */

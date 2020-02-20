@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controller\Post;
+
+use \App\Model\Manager\PostManager;
+
 class PostsList
 {
     private $quantity;

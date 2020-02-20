@@ -5,6 +5,7 @@ namespace App\Controller;
 use \App\Controller\Post\PostsList;
 use \App\Controller\Form\PostForm;
 use \App\Controller\Form\UserForm;
+use \App\Controller\Post\Post;
 use \App\Model\Manager\PostManager;
 use \App\Model\Manager\UserManager;
 use \App\Model\Globals;

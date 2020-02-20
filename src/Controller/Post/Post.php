@@ -2,6 +2,8 @@
 
 namespace App\Controller\Post;
 
+use \App\Model\Manager\PostManager;
+
 class Post
 {
     private $id_post;

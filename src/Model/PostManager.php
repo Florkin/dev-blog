@@ -3,6 +3,7 @@
 namespace App\Model\Manager;
 
 use \App\Model\Globals;
+use \App\Config;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class PostManager

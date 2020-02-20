@@ -21,7 +21,7 @@ class PostsList
      *
      * @return array
      */
-    public function getPosts(): array
+    public function getPosts(): ?array
     {
         $postsList = new \App\Model\Manager\PostManager;
         return $postsList->getPostsList($this->quantity);

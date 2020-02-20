@@ -131,7 +131,7 @@ class PostManager
      * @param integer $quantity
      * @return array list of articles with content
      */
-    public function getPostsList(int $quantity): array
+    public function getPostsList(int $quantity): ?array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -156,7 +156,7 @@ class PostManager
             return $list;
 
         } else {
-            return false;
+            return null;
         }
     }
 }

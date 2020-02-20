@@ -15,10 +15,10 @@ abstract class RouteController
         return true;
     }
 
-    public static function postform($twig)
-    {
+    public static function postform($twig = null)
+    {        
         // If getting post form POST
-        if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {            
+        if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {
             $post = new PostManager();
             $post->addpost();
         } else {

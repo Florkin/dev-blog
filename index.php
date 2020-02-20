@@ -46,6 +46,10 @@ $router->map('GET', '/inscription', function ($twig) {
 
 $router->map('GET', '/ajouter-un-article', function ($twig) {
     return RouteController::postform($twig);
+}, 'formulaire-article');
+
+$router->map('POST', '/ajouter-un-article', function () {
+    return RouteController::postform();
 }, 'ajouter-un-article');
 
 $router->map('GET', '/articles', function ($twig) {

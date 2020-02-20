@@ -2,7 +2,9 @@
 
 require './vendor/autoload.php';
 
-// ============================ TWIG ============================
+/* ================================================================
+========================= TWIG =======================
+================================================================ */
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [
     // 'cache' => ('./cache'),
@@ -12,18 +14,24 @@ $twig = new \Twig\Environment($loader, [
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
-// ============================ GLOBAL VARIABLES ============================
+/* ================================================================
+========================= GLOBAL VARIABLES =======================
+================================================================ */
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());
 $twig->addGlobal('username', UserManager::getUsername());
 $twig->addGlobal('userEmail', UserManager::getEmail());
 
-// ============================ LOGIN FORM ============================
+/* ================================================================
+======================== LOGIN FORM =============================
+================================================================ */
 $loginForm = new LoginForm;
 $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
 
-// ============================ URL VARIABLES ============================
+/* ================================================================
+===================== URL VARIABLES TO TWIG GLOBALS ===============
+================================================================ */
 $url = array(
     "base_url" => Config::BASE_URL,
     "post_form" => Config::BASE_URL . "/ajouter-un-article",
@@ -33,11 +41,12 @@ $url = array(
 );
 $twig->addGlobal('url', $url);
 
-// ============================ ROUTES ============================
-
+/* ================================================================
+============================ ROUTES ==============================
+================================================================ */
 $router = new AltoRouter;
 
-// -- GET ----------------------------------
+// ====== GET =============================
 $router->map('GET', '/', function ($twig) {
     return RouteController::home($twig);
 }, 'Accueil');
@@ -62,7 +71,7 @@ $router->map('GET', '/logout', function () {
     return RouteController::logout();
 }, 'logout');
 
-// -- POST --------------------------------------------
+// ======== POST===========================================
 $router->map('POST', '/ajouter-un-article', function () {
     return RouteController::postform();
 }, 'ajouter-un-article');
@@ -75,12 +84,14 @@ $router->map('POST', '/login', function () {
     return RouteController::login();
 }, 'login');
 
-// ============================ ROUTING MATCHES ============================
+/* ================================================================
+======================== ROUTING MATCHES =========================
+================================================================ */
 $match = $router->match();
 
 // call closure or throw 404 status
-if( is_array($match) && is_callable( $match['target'] ) ) {
-	try {
+if (is_array($match) && is_callable($match['target'])) {
+    try {
         array_push($match['params'], $twig);
         call_user_func_array($match['target'], $match['params']);
 
@@ -94,11 +105,9 @@ if( is_array($match) && is_callable( $match['target'] ) ) {
     } catch (Twig_Error_Syntax $e) {
         header('Content-type: application/json');
         echo json_encode('Error [3]: ' . $e);
-    } 
+    }
 } else {
-	// no route was matched
-    header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+    // no route was matched
+    header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
     echo var_export($match);
 }
-
-

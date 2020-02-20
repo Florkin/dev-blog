@@ -130,7 +130,7 @@ class UserManager
         }
     }
 
-    public function login($formData, $twig)
+    public function login($formData)
     {
         $email = $formData['email'];
         $password = $formData['password'];

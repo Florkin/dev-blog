@@ -45,7 +45,7 @@ abstract class RouteController
         return true;
     }
 
-    public static function login($twig)
+    public static function login()
     {
         $formData = Globals::get('post', null);
         $user = new UserManager;

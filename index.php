@@ -34,23 +34,21 @@ $url = array(
 $twig->addGlobal('url', $url);
 
 // ============================ ROUTES ============================
+
 $router = new AltoRouter;
 
+// -- GET ----------------------------------
 $router->map('GET', '/', function ($twig) {
     return RouteController::home($twig);
 }, 'Accueil');
 
 $router->map('GET', '/inscription', function ($twig) {
     return RouteController::registration($twig);
-}, 'inscription');
+}, 'formulaire-inscription');
 
 $router->map('GET', '/ajouter-un-article', function ($twig) {
     return RouteController::postform($twig);
 }, 'formulaire-article');
-
-$router->map('POST', '/ajouter-un-article', function () {
-    return RouteController::postform();
-}, 'ajouter-un-article');
 
 $router->map('GET', '/articles', function ($twig) {
     return RouteController::postslist($twig);
@@ -64,7 +62,16 @@ $router->map('GET', '/logout', function () {
     return RouteController::logout();
 }, 'logout');
 
-$router->map('GET', '/login', function () {
+// -- POST --------------------------------------------
+$router->map('POST', '/ajouter-un-article', function () {
+    return RouteController::postform();
+}, 'ajouter-un-article');
+
+$router->map('POST', '/inscription', function ($twig) {
+    return RouteController::registration($twig);
+}, 'inscription');
+
+$router->map('POST', '/login', function () {
     return RouteController::login();
 }, 'login');
 

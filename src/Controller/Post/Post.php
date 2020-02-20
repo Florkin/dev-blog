@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Controller\Post;
+
 class Post
 {
     private $id_post;

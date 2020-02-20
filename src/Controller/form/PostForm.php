@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Controller\Form;
+
+use \App\Config;
 use FormManager\Factory as F;
 
 class PostForm

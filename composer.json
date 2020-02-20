@@ -10,9 +10,10 @@
 
     "autoload": {
         "classmap": [
-            "src/Config.php",
-            "src/Controller",
-            "src/Model"
+            "src"
+        ],
+        "exclude-from-classmap": [
+            "src/templates"
         ]
     }
 }

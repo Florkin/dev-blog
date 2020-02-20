@@ -1,5 +1,8 @@
 <?php
 
+namespace App\Model\Manager;
+
+use \App\Model\Globals;
 use Intervention\Image\ImageManagerStatic as Image;
 
 class PostManager
@@ -46,8 +49,8 @@ class PostManager
             Self::createTable($db);
         }
 
-        $title = htmlspecialchars(Globals::get('post', 'title'));
-        $intro = htmlspecialchars(Globals::get('post', 'intro'));
+        $title = addslashes(htmlspecialchars(Globals::get('post', 'title')));
+        $intro = addslashes(htmlspecialchars(Globals::get('post', 'intro')));
         $content = Globals::get('post', 'content');
 
         $sql = "INSERT INTO posts (title, intro, content, date_add, date_update)

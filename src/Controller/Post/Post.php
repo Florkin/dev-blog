@@ -12,7 +12,12 @@ class Post
     private $date_update;
     private $img_url;
 
-    public function __construct($id_post)
+    /**
+     * set post object
+     *
+     * @param integer $id_post
+     */
+    public function __construct(int $id_post)
     {
         $this->id_post = $id_post;
         $post = new \App\Model\Manager\PostManager($id_post);
@@ -26,7 +31,12 @@ class Post
         $this->img_url = $content['img_url'];
     }
 
-    public function displayPost()
+    /**
+     * Return array ready for twig post template
+     *
+     * @return array
+     */
+    public function displayPost() : array
     {
         return array(
             'id_post' => $this->id_post,

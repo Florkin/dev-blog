@@ -40,7 +40,7 @@ class PostManager
         };
     }
 
-    public function addPost()
+    public function addPost(array $formData)
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -50,9 +50,9 @@ class PostManager
             Self::createTable($db);
         }
 
-        $title = addslashes(htmlspecialchars(Globals::get('post', 'title')));
-        $intro = addslashes(htmlspecialchars(Globals::get('post', 'intro')));
-        $content = Globals::get('post', 'content');
+        $title = addslashes(htmlspecialchars($formData['title']));
+        $intro = addslashes(htmlspecialchars($formData['intro']));
+        $content = $formData['content'];
 
         $sql = "INSERT INTO posts (title, intro, content, date_add, date_update)
         VALUES ('" . $title . "', '" . $intro . "', '" . $content . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";

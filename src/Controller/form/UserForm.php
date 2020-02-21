@@ -2,8 +2,8 @@
 
 namespace App\Controller\Form;
 
-use \App\Config;
 use FormManager\Factory as F;
+use \App\Config;
 
 class UserForm
 {
@@ -14,9 +14,13 @@ class UserForm
     private $actionLink;
     private $rgpdCheck;
 
-    public function setFormFields()
+    /**
+     * Create form fields for user registration /modification
+     *
+     * @return array
+     */
+    public function setFormFields(): array
     {
-
         $this->usernameField =
         F::text('Votre Pseudo', [
             'class' => 'username form-control',
@@ -73,7 +77,12 @@ class UserForm
         );
     }
 
-    public function renderForm()
+    /**
+     * Render form fields for user registration /modification
+     *
+     * @return array
+     */
+    public function renderForm(): array
     {
         $form = $this->setFormFields();
         return $form;

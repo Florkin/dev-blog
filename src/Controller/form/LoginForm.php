@@ -13,8 +13,12 @@ class LoginForm
     private $submitButton;
     private $actionLink;
 
-
-    public function setFormFields()
+    /**
+     * Create fields for login form
+     *
+     * @return array
+     */
+    public function setFormFields() : array
     {
         $this->emailField =
         F::email('Votre Email', [
@@ -47,7 +51,6 @@ class LoginForm
         $this->rememberCheck->setTemplate('{{ input }} {{ label }}');
         $this->rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
 
-        // Create fields array for Twig
         $this->actionLink = Config::BASE_URL . "/login";
         return array(
             'action' => $this->actionLink,
@@ -61,7 +64,12 @@ class LoginForm
 
     }
 
-    public function renderForm()
+    /**
+     * Render login form
+     *
+     * @return array
+     */
+    public function renderForm() : array
     {
         $form = $this->setFormFields();
         return $form;

@@ -2,11 +2,10 @@
 
 require './vendor/autoload.php';
 
-use \App\Model\Manager\UserManager;
-use \App\Controller\FrontController;
-use \App\Config;
-use \App\Routes;
 use Symfony\Component\ErrorHandler\Debug;
+use \App\Config;
+use \App\Model\Manager\UserManager;
+use \App\Routes;
 
 if (Config::DEBUG) {
     Debug::enable();
@@ -22,8 +21,6 @@ $twig = new \Twig\Environment($loader, [
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
-
-
 // ========================= GLOBAL VARIABLES =======================
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());
 $twig->addGlobal('username', UserManager::getUsername());
@@ -34,8 +31,6 @@ $loginForm = new \App\Controller\Form\LoginForm;
 $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
-
-
 
 // ===================== URL VARIABLES TO TWIG GLOBALS ===============
 
@@ -50,5 +45,3 @@ $twig->addGlobal('url', $url);
 
 // ===================== ROUTING =====================
 $router = Routes::setRoutes($twig);
-
-

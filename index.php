@@ -5,6 +5,11 @@ require './vendor/autoload.php';
 use \App\Model\Manager\UserManager;
 use \App\Controller\RouteController;
 use \App\Config;
+use Symfony\Component\ErrorHandler\Debug;
+
+if (Config::DEBUG) {
+    Debug::enable();
+}
 
 /* ================================================================
 ========================= TWIG =======================

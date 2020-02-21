@@ -2,8 +2,6 @@
 
 namespace App\Controller\Post;
 
-use \App\Model\Manager\PostManager;
-
 class PostsList
 {
     private $quantity;
@@ -15,7 +13,7 @@ class PostsList
 
     public function getPosts()
     {
-        $postsList = new PostManager;
+        $postsList = new \App\Model\Manager\PostManager;
         return $postsList->getPostsList($this->quantity);
     }
 

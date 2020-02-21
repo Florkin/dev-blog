@@ -9,11 +9,6 @@
     },
 
     "autoload": {
-        "classmap": [
-            "src"
-        ],
-        "exclude-from-classmap": [
-            "src/templates"
-        ]
+        "psr-4": { "App\\": "src/"}
     }
 }

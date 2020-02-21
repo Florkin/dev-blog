@@ -2,23 +2,18 @@
 
 namespace App\Controller;
 
-use \App\Controller\Post\PostsList;
-use \App\Controller\Form\PostForm;
-use \App\Controller\Form\UserForm;
-use \App\Model\Manager\PostManager;
-use \App\Model\Manager\UserManager;
 use \App\Model\Globals;
 
 abstract class RouteController
 {
     public static function post($id, $twig){
-        $post = new Post($id);
+        $post = new \App\Controller\Post\Post($id);
         echo $twig->render('pages/post.twig', ['post' => $post->displaypost()]);
     }
 
     public static function postslist($twig)
     {
-        $postslist = new PostsList('all');
+        $postslist = new \App\Controller\Post\PostsList('all');
         $posts = $postslist->getPosts();
         echo $twig->render('pages/posts-list.twig', ['posts' => $posts]);        
         return true;
@@ -28,10 +23,10 @@ abstract class RouteController
     {        
         // If getting post form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "add") {
-            $post = new PostManager();
+            $post = new \App\Model\Manager\PostManager;
             $post->addpost();
         } else {
-            $postForm = new PostForm;
+            $postForm = new \App\Controller\Form\PostForm;
             $postForm = $postForm->renderForm();
             echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
         }
@@ -43,10 +38,10 @@ abstract class RouteController
         // If getting registration form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {            
             $formData = Globals::get('post', null);         
-            $user = new UserManager;
+            $user = new \App\Model\Manager\UserManager;
             $user->register($formData);
         } else {
-            $registerForm = new UserForm;            
+            $registerForm = new \App\Controller\Form\UserForm;            
             $registerForm = $registerForm->renderForm();
             echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
         };
@@ -57,13 +52,13 @@ abstract class RouteController
     public static function login()
     {
         $formData = Globals::get('post', null);
-        $user = new UserManager;
+        $user = new \App\Model\Manager\UserManager;
         $user->login($formData);
     }
 
     public static function logout()
     {
-        $user = new UserManager;
+        $user = new \App\Model\Manager\UserManager;
         $user->logout();
         return true;
     }
@@ -71,7 +66,7 @@ abstract class RouteController
 
     public static function home($twig)
     {        
-        $postslist = new PostsList(3);
+        $postslist = new \App\Controller\Post\PostsList(3);
         $posts = $postslist->getPosts();
         echo $twig->render('pages/home.twig', ['posts' => $posts]);        
         return true;

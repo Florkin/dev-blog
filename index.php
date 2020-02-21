@@ -3,9 +3,13 @@
 require './vendor/autoload.php';
 
 use \App\Model\Manager\UserManager;
-use \App\Controller\Form\LoginForm;
 use \App\Controller\RouteController;
 use \App\Config;
+use Symfony\Component\ErrorHandler\Debug;
+
+if (Config::DEBUG) {
+    Debug::enable();
+}
 
 /* ================================================================
 ========================= TWIG =======================
@@ -29,7 +33,7 @@ $twig->addGlobal('userEmail', UserManager::getEmail());
 /* ================================================================
 ======================== LOGIN FORM =============================
 ================================================================ */
-$loginForm = new LoginForm;
+$loginForm = new \App\Controller\Form\LoginForm;
 $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);

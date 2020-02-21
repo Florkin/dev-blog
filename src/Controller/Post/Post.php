@@ -2,8 +2,6 @@
 
 namespace App\Controller\Post;
 
-use \App\Model\Manager\PostManager;
-
 class Post
 {
     private $id_post;
@@ -17,7 +15,7 @@ class Post
     public function __construct($id_post)
     {
         $this->id_post = $id_post;
-        $post = new PostManager($id_post);
+        $post = new \App\Model\Manager\PostManager($id_post);
         $content = $post->getContent($this->id_post);
 
         $this->title = $content['title'];

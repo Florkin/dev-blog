@@ -33,7 +33,7 @@ abstract class FrontController
         return true;
     }
 
-    public static function registration($twig)
+    public static function registration($twig = null)
     {
         // If getting registration form POST
         if (null !== Globals::get('get', 'action') && null!==Globals::get('post', null) && Globals::get('get', 'action') == "register") {            

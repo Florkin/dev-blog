@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use \App\Model\Globals;
 
-abstract class RouteController
+abstract class FrontController
 {
     public static function post($id, $twig){
         $post = new \App\Controller\Post\Post($id);

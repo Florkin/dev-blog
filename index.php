@@ -3,7 +3,7 @@
 require './vendor/autoload.php';
 
 use \App\Model\Manager\UserManager;
-use \App\Controller\RouteController;
+use \App\Controller\FrontController;
 use \App\Config;
 use Symfony\Component\ErrorHandler\Debug;
 
@@ -57,40 +57,40 @@ $router = new AltoRouter;
 
 // ====== GET =============================
 $router->map('GET', '/', function ($twig) {
-    return RouteController::home($twig);
+    return FrontController::home($twig);
 }, 'Accueil');
 
 $router->map('GET', '/inscription', function ($twig) {
-    return RouteController::registration($twig);
+    return FrontController::registration($twig);
 }, 'formulaire-inscription');
 
 $router->map('GET', '/ajouter-un-article', function ($twig) {
-    return RouteController::postform($twig);
+    return FrontController::postform($twig);
 }, 'formulaire-article');
 
 $router->map('GET', '/articles', function ($twig) {
-    return RouteController::postslist($twig);
+    return FrontController::postslist($twig);
 }, 'articles');
 
 $router->map('GET', '/articles/[i:id]', function ($id, $twig) {
-    return RouteController::post($id, $twig);
+    return FrontController::post($id, $twig);
 }, 'article');
 
 $router->map('GET', '/logout', function () {
-    return RouteController::logout();
+    return FrontController::logout();
 }, 'logout');
 
 // ======== POST===========================================
 $router->map('POST', '/ajouter-un-article', function () {
-    return RouteController::postform();
+    return FrontController::postform();
 }, 'ajouter-un-article');
 
 $router->map('POST', '/inscription', function ($twig) {
-    return RouteController::registration($twig);
+    return FrontController::registration($twig);
 }, 'inscription');
 
 $router->map('POST', '/login', function () {
-    return RouteController::login();
+    return FrontController::login();
 }, 'login');
 
 /* ================================================================

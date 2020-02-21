@@ -2,8 +2,8 @@
 
 namespace App\Controller\Form;
 
-use \App\Config;
 use FormManager\Factory as F;
+use \App\Config;
 
 class PostForm
 {
@@ -12,7 +12,12 @@ class PostForm
     private $postIntro;
     private $postImg;
 
-    public function setFormFields()
+    /**
+     * Create fields for post add form
+     *
+     * @return array
+     */
+    public function setFormFields(): array
     {
 
         $this->postContent =
@@ -44,7 +49,6 @@ class PostForm
             'class' => 'btn btn-dark btn-md text-white',
         ]);
 
-        // Create fields array for Twig
         $this->actionLink = Config::BASE_URL . "/ajouter-un-article?action=add";
         return array(
             'action' => $this->actionLink,
@@ -58,7 +62,12 @@ class PostForm
         );
     }
 
-    public function renderForm()
+    /**
+     * render post form
+     *
+     * @return array
+     */
+    public function renderForm(): array
     {
         $form = $this->setFormFields();
         return $form;

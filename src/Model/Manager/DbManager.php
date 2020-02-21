@@ -7,7 +7,12 @@ use \App\Config;
 
 abstract class DbManager
 {
-    public static function openDB()
+    /**
+     * Open database according to constants set in App/Config
+     *
+     * @return object
+     */
+    public static function openDB() : object
     {
         try
         {
@@ -18,7 +23,15 @@ abstract class DbManager
         return $db;
     }
 
-    public static function tableExists($db, $table) {
+    /**
+     * Check if a table exists
+     *
+     * @param object $db
+     * @param string $table
+     * @return boolean
+     */
+    public static function tableExists(object $db, string $table) : boolean
+    {
         try {
             $result = $db->query("SELECT 1 FROM $table LIMIT 1");
         } catch (Exception $e) {

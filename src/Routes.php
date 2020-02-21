@@ -4,20 +4,34 @@ namespace App;
 
 use \App\Controller\FrontController;
 
+/**
+ * Routing class
+ */
 abstract class Routes
 {
-
-    public static function setRoutes(object $twig)
+    /**
+     * Set all routing system
+     *
+     * @param object $twig
+     * @return object
+     */
+    public static function setRoutes(object $twig) : object
     {
         $router = new \AltoRouter;
 
         Self::setGetRoutes($twig, $router);
         Self::setPostRoutes($router);
         Self::MatchesRoutes($twig, $router);
-
         return $router;
     }
 
+    /**
+     * Set GET routes 
+     *
+     * @param object $twig
+     * @param object $router
+     * @return void
+     */
     public static function setGetRoutes(object $twig, object $router)
     {
 
@@ -48,6 +62,12 @@ abstract class Routes
         return $router;
     }
 
+    /**
+     * Set POST routes
+     *
+     * @param object $router
+     * @return void
+     */
     public static function setPostRoutes(object $router)
     {
         $router->map('POST', '/ajouter-un-article', function () {
@@ -65,6 +85,13 @@ abstract class Routes
         return $router;
     }
 
+    /**
+     * Verify matches and get parameters
+     *
+     * @param object $twig
+     * @param object $router
+     * @return void
+     */
     public static function MatchesRoutes(object $twig, object $router)
     {
         $match = $router->match();

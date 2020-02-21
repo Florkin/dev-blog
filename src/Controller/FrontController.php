@@ -21,7 +21,7 @@ abstract class FrontController
     {
         $post = new \App\Controller\Post\Post($id);
         echo $twig->render('pages/post.twig', ['post' => $post->displaypost()]);
-        
+
     }
 
     /**
@@ -35,7 +35,7 @@ abstract class FrontController
         $postslist = new \App\Controller\Post\PostsList('all');
         $posts = $postslist->getPosts();
         echo $twig->render('pages/posts-list.twig', ['posts' => $posts]);
-        
+
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class FrontController
             $postForm = $postForm->renderForm();
             echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
         }
-        
+
     }
 
     /**
@@ -77,7 +77,7 @@ abstract class FrontController
             $registerForm = $registerForm->renderForm();
             echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
         };
-        
+
     }
 
     /**
@@ -90,7 +90,7 @@ abstract class FrontController
         $formData = Globals::get('post', null);
         $user = new \App\Model\Manager\UserManager;
         $user->login($formData);
-        
+
     }
 
     /**
@@ -102,7 +102,7 @@ abstract class FrontController
     {
         $user = new \App\Model\Manager\UserManager;
         $user->logout();
-        
+
     }
 
     /**
@@ -116,7 +116,7 @@ abstract class FrontController
         $postslist = new \App\Controller\Post\PostsList(3);
         $posts = $postslist->getPosts();
         echo $twig->render('pages/home.twig', ['posts' => $posts]);
-        
+
     }
 
 }

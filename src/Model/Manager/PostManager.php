@@ -9,7 +9,13 @@ use Intervention\Image\ImageManagerStatic as Image;
 class PostManager
 {
 
-    public function createTable($db)
+    /**
+     * Create posts table if not exist
+     *
+     * @param object $db
+     * @return void
+     */
+    public function createTable(object $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `posts` (
             `id_post` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,7 +34,13 @@ class PostManager
         }
     }
 
-    public function uploadImg($id_post)
+    /**
+     * Upload heading images for article
+      *
+     * @param integer $id_post
+     * @return void
+     */
+    public function uploadImg(int $id_post)
     {
         $file= Globals::get('files', 'image');
         $img = Image::make($file['tmp_name']);
@@ -40,6 +52,12 @@ class PostManager
         };
     }
 
+    /**
+     * Add post to database
+     *
+     * @param array $formData
+     * @return void
+     */
     public function addPost(array $formData)
     {
         if (!isset($db) || $db == null) {
@@ -71,7 +89,13 @@ class PostManager
         }
     }
 
-    public function getContent($id_post)
+    /**
+     * Get post content from database and img folder
+     *
+     * @param integer $id_post
+     * @return array for twig template
+     */
+    public function getContent(int $id_post) : array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -96,7 +120,13 @@ class PostManager
         }
     }
 
-    public function getPostsList($quantity)
+    /**
+     * Get last posts or all posts list depending of $quantity
+     *
+     * @param integer $quantity
+     * @return array list of articles with content
+     */
+    public function getPostsList(int $quantity) : array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();

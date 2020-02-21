@@ -2,13 +2,17 @@
 
 namespace App\Model;
 
-class Globals
+abstract class Globals
 {
-
-    public function __construct()
-    {}
-
-    public static function put($type, $key, $value)
+    /**
+     * Set global variable
+     *
+     * @param string $type
+     * @param string $key
+     * @param string $value
+     * @return void
+     */
+    public static function put(string $type, string $key, string $value)
     {
         switch ($type) {
             case 'get':
@@ -25,7 +29,14 @@ class Globals
         }
     }
 
-    public static function get($type, $key)
+    /**
+     * Get globals variables
+     *
+     * @param string $type
+     * @param string $key
+     * @return void
+     */
+    public static function get(string $type, string $key)
     {
         switch ($type) {
             case 'get':
@@ -46,7 +57,14 @@ class Globals
         }
     }
 
-    public static function forget($type, $key)
+    /**
+     * Forget global variable
+     *
+     * @param string $type
+     * @param string $key
+     * @return void
+     */
+    public static function forget(string $type, string $key)
     {
         switch ($type) {
             case 'get':

@@ -4,7 +4,13 @@ namespace App\Model\Manager;
 
 class UserManager
 {
-    public static function createTables($db)
+    /**
+     * Create users related table if don't exist
+     *
+     * @param object $db
+     * @return void
+     */
+    public static function createTables(object $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `users` (
             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -69,7 +75,12 @@ class UserManager
           $db->exec($sql);
     }
 
-    public static function checkIsLogged()
+    /**
+     * Check if user is logged
+     *
+     * @return boolean
+     */
+    public static function checkIsLogged() : boolean
     {
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
@@ -83,7 +94,12 @@ class UserManager
         return $isLogged;
     }
 
-    public static function getUsername()
+    /**
+     * Get logged user username
+     *
+     * @return string
+     */
+    public static function getUsername() : string
     {
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
@@ -92,7 +108,12 @@ class UserManager
         return $auth->getUsername();
     }
 
-    public static function getEmail()
+    /**
+     * Get logged user email
+     *
+     * @return string
+     */
+    public static function getEmail() : string
     {
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
@@ -101,7 +122,13 @@ class UserManager
         return $auth->getEmail();
     }
 
-    public function register($formData)
+    /**
+     * User register function
+     *
+     * @param array $formData
+     * @return void
+     */
+    public function register(array $formData)
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')){
@@ -132,7 +159,13 @@ class UserManager
         }
     }
 
-    public function login($formData)
+    /**
+     * User Login function
+     *
+     * @param array $formData
+     * @return void
+     */
+    public function login(array $formData)
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -166,6 +199,11 @@ class UserManager
 
     }
 
+    /**
+     * Logout function
+     *
+     * @return void
+     */
     public function logout()
     {
         if (!isset($auth)) {

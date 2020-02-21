@@ -2,6 +2,9 @@
 
 namespace App;
 
+/**
+ * Set global constants
+ */
 abstract class Config {
 
     const DB_NAME = "dev-blog";

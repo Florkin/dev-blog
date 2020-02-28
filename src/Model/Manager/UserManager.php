@@ -78,9 +78,9 @@ class UserManager
     /**
      * Check if user is logged
      *
-     * @return boolean
+     * @return bool
      */
-    public static function checkIsLogged() : boolean
+    public static function checkIsLogged() : bool
     {
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
@@ -104,7 +104,6 @@ class UserManager
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
         }
-
         return $auth->getUsername();
     }
 

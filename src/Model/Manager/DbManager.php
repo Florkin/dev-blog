@@ -28,9 +28,9 @@ abstract class DbManager
      *
      * @param object $db
      * @param string $table
-     * @return boolean
+     * @return bool
      */
-    public static function tableExists(object $db, string $table) : boolean
+    public static function tableExists(object $db, string $table) : bool
     {
         try {
             $result = $db->query("SELECT 1 FROM $table LIMIT 1");

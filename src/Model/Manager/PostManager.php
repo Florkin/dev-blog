@@ -2,9 +2,8 @@
 
 namespace App\Model\Manager;
 
-use \App\Model\Globals;
-use \App\Config;
 use Intervention\Image\ImageManagerStatic as Image;
+use \App\Config;
 
 class PostManager
 {
@@ -35,21 +34,27 @@ class PostManager
     }
 
     /**
-     * Upload heading images for article
-      *
+     * Upload post header image
+     *
      * @param integer $id_post
-     * @return void
+     * @return boolean
      */
-    public function uploadImg(int $id_post)
+    public function uploadImg(int $id_post): bool
     {
-        $file= Globals::get('files', 'image');
-        $img = Image::make($file['tmp_name']);
-        $img->fit(800, 450);
-        if ($img->save('img/posts_headers/post_'.$id_post.'.jpg')){
-            return true;
+        $file = isset($_FILES['image']) ? $_FILES['image'] : null;
+
+        if ($file !== null && isset($file)) {
+            $img = Image::make($file['tmp_name']);
+            $img->fit(800, 450);
+              
+            if ($img->save('img/posts_headers/post_' . $id_post . '.jpg')) {
+                return true;
+            } else {
+                return false;
+            };
         } else {
-            return false;
-        };
+            return true;
+        }
     }
 
     /**
@@ -77,12 +82,12 @@ class PostManager
 
         if ($db->exec($sql)) {
             $id_post = $db->lastInsertId();
-            if($this->uploadImg($id_post)){
+            if ($this->uploadImg($id_post)) {
                 echo "Post added successfully.";
             } else {
                 echo 'image upload problem';
             }
-           
+
         } else {
             echo "\nPDO::errorInfo():\n";
             print_r($db->errorInfo());
@@ -95,7 +100,7 @@ class PostManager
      * @param integer $id_post
      * @return array for twig template
      */
-    public function getContent(int $id_post) : array
+    public function getContent(int $id_post): array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -113,7 +118,7 @@ class PostManager
                 'content' => $data['content'],
                 'date_add' => $data['date_add'],
                 'date_update' => $data['date_update'],
-                'img_url' => Config::BASE_URL.'/img/posts_headers/post_'.$data['id_post'].'.jpg'
+                'img_url' => Config::BASE_URL . '/img/posts_headers/post_' . $data['id_post'] . '.jpg',
             );
         } else {
             return false;
@@ -126,14 +131,14 @@ class PostManager
      * @param integer $quantity
      * @return array list of articles with content
      */
-    public function getPostsList(int $quantity) : array
+    public function getPostsList(int $quantity): array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
         if (DbManager::tableExists($db, 'posts')) {
-            
-            if ($quantity !== 'all'){
+
+            if ($quantity !== 0) {
                 $sql = "SELECT id_post, title, intro, date_add, date_update FROM posts LIMIT " . $quantity;
             } else {
                 $sql = "SELECT id_post, title, intro, date_add, date_update FROM posts";
@@ -149,7 +154,7 @@ class PostManager
 
             $response->closeCursor();
             return $list;
-            
+
         } else {
             return false;
         }

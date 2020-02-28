@@ -16,7 +16,8 @@
         "intervention/image": "^2.5",
         "altorouter/altorouter": "^2.0",
         "symfony/var-dumper": "^5.0",
-        "symfony/error-handler": "^5.0"
+        "symfony/error-handler": "^5.0",
+        "balambasik/input": "^1.0"
     },
 
     "autoload": {

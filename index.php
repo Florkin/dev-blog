@@ -23,8 +23,10 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
 
 // ========================= GLOBAL VARIABLES =======================
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());
-$twig->addGlobal('username', UserManager::getUsername());
-$twig->addGlobal('userEmail', UserManager::getEmail());
+if (UserManager::checkIsLogged()) {
+    $twig->addGlobal('username', UserManager::getUsername());
+    $twig->addGlobal('userEmail', UserManager::getEmail());
+};
 
 // ======================== LOGIN FORM =============================
 $loginForm = new \App\Controller\Form\LoginForm;

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use \App\Model\Globals;
+use \Balambasik\Input;
 
 /**
  * FrontController for navigation
@@ -32,7 +33,7 @@ abstract class FrontController
      */
     public static function postslist(object $twig)
     {
-        $postslist = new \App\Controller\Post\PostsList('all');
+        $postslist = new \App\Controller\Post\PostsList(0);
         $posts = $postslist->getPosts();
         echo $twig->render('pages/posts-list.twig', ['posts' => $posts]);
 
@@ -47,8 +48,8 @@ abstract class FrontController
      */
     public static function postform(object $twig = null)
     {
-        if (null !== Globals::get('get', 'action') && null !== Globals::get('post', null) && Globals::get('get', 'action') == "add") {
-            $formData = Globals::get('post', null);
+        if (null !==Input::get('action') && null !== Input::post() &&Input::get('action') == "add") {
+            $formData = Input::post();
             $post = new \App\Model\Manager\PostManager;
             $post->addpost($formData);
         } else {
@@ -68,8 +69,8 @@ abstract class FrontController
      */
     public static function registration(object $twig = null)
     {
-        if (null !== Globals::get('get', 'action') && null !== Globals::get('post', null) && Globals::get('get', 'action') == "register") {
-            $formData = Globals::get('post', null);
+        if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
+            $formData = Input::post();
             $user = new \App\Model\Manager\UserManager;
             $user->register($formData);
         } else {
@@ -87,7 +88,7 @@ abstract class FrontController
      */
     public static function login()
     {
-        $formData = Globals::get('post', null);
+        $formData = Input::post();
         $user = new \App\Model\Manager\UserManager;
         $user->login($formData);
 

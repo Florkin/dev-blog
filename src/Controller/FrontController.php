@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use \App\Model\Globals;
 use \Balambasik\Input;
 
 /**
@@ -48,7 +47,7 @@ abstract class FrontController
      */
     public static function postform(object $twig = null)
     {
-        if (null !==Input::get('action') && null !== Input::post() &&Input::get('action') == "add") {
+        if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "add") {
             $formData = Input::post();
             $post = new \App\Model\Manager\PostManager;
             $post->addpost($formData);
@@ -71,6 +70,11 @@ abstract class FrontController
     {
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
             $formData = Input::post();
+
+            $validate = new \App\Controller\Form\Validation('register');
+            $isValid = $validate->validate($formData);
+            dump($isValid);die;
+
             $user = new \App\Model\Manager\UserManager;
             $user->register($formData);
         } else {

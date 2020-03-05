@@ -1,6 +1,8 @@
 <?php
 
 require './vendor/autoload.php';
+session_start();
+$_SESSION['test'] = 'test';
 
 use Symfony\Component\ErrorHandler\Debug;
 use \App\Config;

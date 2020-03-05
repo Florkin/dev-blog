@@ -15,7 +15,7 @@ abstract class Routes
      * @param object $twig
      * @return object
      */
-    public static function setRoutes(object $twig) : object
+    public static function setRoutes(object $twig) : \AltoRouter
     {
         $router = new \AltoRouter;
 

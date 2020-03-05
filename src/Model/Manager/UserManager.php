@@ -143,18 +143,16 @@ class UserManager
         }
 
         try {
-            $userId = $auth->register($email, $password, $username
-        );
-
-            echo 'We have signed up a new UserManager with the ID ' . $userId;
+            $userId = $auth->register($email, $password, $username);
+            return array('success' => true, 'message' => 'Votre compte a bien été enregistré');
         } catch (\Delight\Auth\InvalidEmailException $e) {
-            die('Invalid email address');
+            return array('success' => false, 'message' => 'Votre email n\'est pas valide');
         } catch (\Delight\Auth\InvalidPasswordException $e) {
-            die('Invalid password');
+            return array('success' => false, 'message' => 'Votre mot de passe n\'est pas valide');
         } catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            die('User already exists');
+            return array('success' => false, 'message' => 'Votre email est déjà utilisé pour un compte utilisateur');
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            die('Too many requests');
+            return array('success' => false, 'message' => 'Echec: Trop de requètes');
         }
     }
 

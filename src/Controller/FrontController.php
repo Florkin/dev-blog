@@ -48,7 +48,7 @@ abstract class FrontController
      */
     public static function postform(object $twig = null)
     {
-        if (null !==Input::get('action') && null !== Input::post() &&Input::get('action') == "add") {
+        if (null !==Input::get('action') && null !== Input::post() && Input::get('action') == "add") {
             $formData = Input::post();
             $post = new \App\Model\Manager\PostManager;
             $post->addpost($formData);
@@ -72,7 +72,12 @@ abstract class FrontController
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
             $formData = Input::post();
             $user = new \App\Model\Manager\UserManager;
-            $user->register($formData);
+            $message = new \App\Controller\Messages;
+            $result = $user->register($formData);
+            if ($result['success'] == true) {
+                $message->set('success', $result['message']);
+            }
+
         } else {
             $registerForm = new \App\Controller\Form\UserForm;
             $registerForm = $registerForm->renderForm();

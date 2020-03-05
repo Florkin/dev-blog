@@ -12,12 +12,12 @@ abstract class DbManager
      *
      * @return object
      */
-    public static function openDB() : object
+    public static function openDB() : \PDO
     {
         try
         {
             $db = new PDO('mysql:host='. Config::DB_HOST .';dbname='. Config::DB_NAME .';charset=utf8', ''. Config::DB_USER .'', ''. Config::DB_PASSWORD .'');
-        } catch (Exception $e) {
+        } catch (PDOException $e) {
             die('Erreur : ' . $e->getMessage());
         }
         return $db;

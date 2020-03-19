@@ -69,10 +69,12 @@ abstract class FrontController
      */
     public static function registration(object $twig = null)
     {
+        // case: register user
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
             $formData = Input::post();
             $user = new \App\Model\Manager\UserManager;
             $user->register($formData);
+        // case: Display user registration form
         } else {
             $registerForm = new \App\Controller\Form\UserForm;
             $registerForm = $registerForm->renderForm();

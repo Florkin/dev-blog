@@ -2,8 +2,13 @@
 
 namespace App\Model\Manager;
 
-use Intervention\Image\ImageManagerStatic as Image;
+use PDO;
 use \App\Config;
+use App\Model\Manager\DbManager;
+use App\Controller\Form\PostForm;
+use App\Controller\FrontController;
+use App\Controller\Validator\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class PostManager
 {
@@ -46,7 +51,7 @@ class PostManager
         if ($file !== null && isset($file)) {
             $img = Image::make($file['tmp_name']);
             $img->fit(800, 450);
-              
+
             if ($img->save('img/posts_headers/post_' . $id_post . '.jpg')) {
                 return true;
             } else {
@@ -63,7 +68,7 @@ class PostManager
      * @param array $formData
      * @return void
      */
-    public function addPost(array $formData)
+    public function addPost(array $formData, $twig)
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -83,14 +88,16 @@ class PostManager
         if ($db->exec($sql)) {
             $id_post = $db->lastInsertId();
             if ($this->uploadImg($id_post)) {
-                echo "Post added successfully.";
+                $postForm = FrontController::getPostForm();
+                echo $twig->render('pages/posts-list.twig', ['postForm' => $postForm['form'], 'actionAddPost' => $postForm['action'], 'messages' => ['success' => 'L\article a bien été soumis pour validation']]);
             } else {
-                echo 'image upload problem';
+                $postForm = FrontController::getPostForm();
+                echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddPost' => $postForm['action'], 'messages' => ['error' => 'Il y a eu un problème lors de l\'upload de l\'image']]);
             }
 
         } else {
-            echo "\nPDO::errorInfo():\n";
-            print_r($db->errorInfo());
+            $postForm = FrontController::getPostForm();
+            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionaddPost' => $postForm['action'], 'messages' => $db->errorInfo()]);
         }
     }
 
@@ -159,4 +166,15 @@ class PostManager
             return null;
         }
     }
+
+    public function getValidator($formData)
+    {
+        return (new Validator($formData))
+            ->required('title', 'intro', 'content')
+            ->isCleanHtml('content')
+            ->length('intro', 10, 255)
+            ->length('title', 5, 255)
+            ->length('content', 200, 50000);
+    }
+    
 }

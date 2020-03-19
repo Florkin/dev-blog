@@ -36,34 +36,79 @@ class Validator
         return $this;
     }
 
-    public function notEmpty(){
-        foreach ($keys as $key){
+    public function notEmpty()
+    {
+        foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value) || empty($value)){
+            if (is_null($value) || empty($value)) {
                 $this->errors[$key] = "Le champs $key ne peut être vide";
             }
         }
     }
 
+    public function email(string $key): self
+    {
+        $pattern = '/^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/';
+        if (!preg_match($pattern, $this->params[$key])) {
+            $this->errors[$key] = "L'email n'est pas valide";
+        };
+        return $this;
+    }
+
     public function password(string $key): self
     {
-        $pattern = '(?=.{8,})'; //8 characters minimum
+        $pattern = '/^[a-zA-Z0-9]{8,30}$/'; //8 characters minimum
         if (!preg_match($pattern, $this->params[$key])) {
-            $this->errors[$key] = "Le mot de passe doit contenir au moins 8 caractères";
+            $this->errors[$key] = "Le mot de passe doit contenir au moins 8 caractères et 30 caractères maximum";
         };
+        return $this;
+    }
 
+    public function length(string $key, ?int $min, ?int $max = null): self
+    {
+        $value = $this->getValue($key);
+        $length = mb_strlen($value);
+        if (!is_null($min) &&
+            !is_null($max) &&
+            ($length < $min || $length > $max)
+        ) {
+            $this->errors[$key] = "Le champs $key doit contenir au moins $min caractères et $max caractères maximum";
+            return $this;
+        }
+        if (!is_null($min) &&
+            ($length < $min)
+        ) {
+            $this->errors[$key] = "Le champs $key doit contenir au moins $min caractères";
+            return $this;
+        }
+        return $this;
+
+    }
+
+    public function username(string $key): self
+    {
+        $pattern = '/^[a-zA-Z0-9]{4,16}$/';
+        if (!preg_match($pattern, $this->params[$key])) {
+            $this->errors[$key] = "Le username doit contenir entre 4 et 16 caractères";
+        };
         return $this;
     }
 
     public function isCleanHtml($key)
-	{
-		$jsEvent = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange|onsubmit|ondblclick|onclick|onkeydown|onkeyup|onkeypress|onmouseenter|onmouseleave';
-        if (!preg_match('/<[ \t\n]*script/ui', $this->params[$key]) && !preg_match('/<.*('.$jsEvent.')[ \t\n]*=/ui', $this->params[$key])  && !preg_match('/.*script\:/ui', $this->params[$key])){
+    {
+        $events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';
+        $events .= '|onsubmit|ondblclick|onclick|onkeydown|onkeyup|onkeypress|onmouseenter|onmouseleave|onerror|onselect|onreset|onabort|ondragdrop|onresize|onactivate|onafterprint|onmoveend';
+        $events .= '|onafterupdate|onbeforeactivate|onbeforecopy|onbeforecut|onbeforedeactivate|onbeforeeditfocus|onbeforepaste|onbeforeprint|onbeforeunload|onbeforeupdate|onmove';
+        $events .= '|onbounce|oncellchange|oncontextmenu|oncontrolselect|oncopy|oncut|ondataavailable|ondatasetchanged|ondatasetcomplete|ondeactivate|ondrag|ondragend|ondragenter|onmousewheel';
+        $events .= '|ondragleave|ondragover|ondragstart|ondrop|onerrorupdate|onfilterchange|onfinish|onfocusin|onfocusout|onhashchange|onhelp|oninput|onlosecapture|onmessage|onmouseup|onmovestart';
+        $events .= '|onoffline|ononline|onpaste|onpropertychange|onreadystatechange|onresizeend|onresizestart|onrowenter|onrowexit|onrowsdelete|onrowsinserted|onscroll|onsearch|onselectionchange';
+        $events .= '|onselectstart|onstart|onstop';
+        if (preg_match('/<[\s]*script/ims', $this->params[$key]) || preg_match('/(' . $events . ')[\s]*=/ims', $this->params[$key]) || preg_match('/.*script\:/ims', $this->params[$key])) {
             $this->errors[$key] = "Le texte de l'article n'est pas valide, le javascript est interdit.";
         };
 
         return $this;
-	}
+    }
 
     /**
      * Récupère les erreurs
@@ -82,5 +127,10 @@ class Validator
         }
 
         return null;
+    }
+
+    public function isValid(): bool
+    {
+        return empty($this->errors);
     }
 }

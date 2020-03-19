@@ -44,6 +44,6 @@ $url = array(
     "logout" => Config::BASE_URL . "/logout",
 );
 $twig->addGlobal('url', $url);
-
 // ===================== ROUTING =====================
 $router = Routes::setRoutes($twig);
+

@@ -22,6 +22,7 @@ abstract class Routes
         Self::setGetRoutes($twig, $router);
         Self::setPostRoutes($router);
         Self::MatchesRoutes($twig, $router);
+
         return $router;
     }
 
@@ -70,16 +71,16 @@ abstract class Routes
      */
     public static function setPostRoutes(object $router)
     {
-        $router->map('POST', '/ajouter-un-article', function () {
-            return FrontController::postform();
+        $router->map('POST', '/ajouter-un-article', function ($twig) {
+            return FrontController::postform($twig);
         }, 'ajouter-un-article');
 
-        $router->map('POST', '/inscription', function () {
-            return FrontController::registration();
+        $router->map('POST', '/inscription', function ($twig) {
+            return FrontController::registration($twig);
         }, 'inscription');
 
-        $router->map('POST', '/login', function () {
-            return FrontController::login();
+        $router->map('POST', '/login', function ($twig) {
+            return FrontController::login($twig);
         }, 'login');
 
         return $router;

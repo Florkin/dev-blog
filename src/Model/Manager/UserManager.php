@@ -2,6 +2,9 @@
 
 namespace App\Model\Manager;
 
+use App\Controller\FrontController;
+use App\Controller\Validator\Validator;
+
 class UserManager
 {
     /**
@@ -127,7 +130,7 @@ class UserManager
      * @param array $formData
      * @return void
      */
-    public function register(array $formData)
+    public function register(array $formData, $twig)
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')){
@@ -143,18 +146,20 @@ class UserManager
         }
 
         try {
-            $userId = $auth->register($email, $password, $username
-        );
+            $userId = $auth->register($email, $password, $username);
+        
+        echo $twig->render('pages/home.twig', ['messages' => array('success' => 'Votre compte a bien été créé')]);
 
-            echo 'We have signed up a new UserManager with the ID ' . $userId;
         } catch (\Delight\Auth\InvalidEmailException $e) {
             die('Invalid email address');
         } catch (\Delight\Auth\InvalidPasswordException $e) {
             die('Invalid password');
         } catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            die('User already exists');
+            $registerForm = FrontController::getRegisterForm();
+            echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action'], 'messages' => ['error' => 'Cet adresse email a déjà été enregistrée sur le site']]);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            die('Too many requests');
+            $registerForm = FrontController::getRegisterForm();
+            echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action'], 'messages' => ['error' => 'Trop de requètes']]);
         }
     }
 
@@ -164,7 +169,7 @@ class UserManager
      * @param array $formData
      * @return void
      */
-    public function login(array $formData)
+    public function login(array $formData, $twig)
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -185,13 +190,13 @@ class UserManager
         try {
             $auth->login($email, $password, $rememberDuration);
 
-            echo 'User is logged in';
+            echo $twig->render('pages/home.twig', ['messages' => array('success' => 'Vous êtes maintenant connecté a votre compte')]);
         } catch (\Delight\Auth\InvalidEmailException $e) {
-            die('Wrong email address');
+            echo $twig->render('pages/registration.twig', ['messages' => array('success' => 'Cette adresse mail n\'existe pas')]);
         } catch (\Delight\Auth\InvalidPasswordException $e) {
-            die('Wrong password');
+            echo $twig->render('pages/registration.twig', ['messages' => array('success' => 'Ce mot de passe est faux')]);
         } catch (\Delight\Auth\EmailNotVerifiedException $e) {
-            die('Email not verified');
+            echo $twig->render('pages/registration.twig', ['messages' => array('success' => 'Cette adresse mail n\'est pas vérifiée')]);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
             die('Too many requests');
         }
@@ -216,5 +221,20 @@ class UserManager
             die('Not logged in');
         }
 
+    }
+
+    public function getValidator($action, $formData){
+        if ($action == 'register'){
+            return (new Validator($formData))
+            ->required('email', 'username', 'password')
+            ->email('email')
+            ->password('password')
+            ->username('username');
+        } elseif ($action == 'login'){
+            return (new Validator($formData))
+            ->required('email', 'password')
+            ->email('email')
+            ->password('password');
+        }        
     }
 }

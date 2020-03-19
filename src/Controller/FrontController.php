@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
-use \App\Model\Globals;
+use App\Controller\Form\PostForm;
+use App\Controller\Form\UserForm;
+use App\Controller\Post\Post;
+use App\Controller\Post\PostsList;
+use App\Model\Manager\PostManager;
+use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
 /**
@@ -20,7 +25,7 @@ abstract class FrontController
      */
     public static function post(int $id, object $twig)
     {
-        $post = new \App\Controller\Post\Post($id);
+        $post = new Post($id);
         echo $twig->render('pages/post.twig', ['post' => $post->displaypost()]);
 
     }
@@ -33,7 +38,7 @@ abstract class FrontController
      */
     public static function postslist(object $twig)
     {
-        $postslist = new \App\Controller\Post\PostsList(0);
+        $postslist = new PostsList(0);
         $posts = $postslist->getPosts();
         echo $twig->render('pages/posts-list.twig', ['posts' => $posts]);
 
@@ -46,18 +51,29 @@ abstract class FrontController
      * @param object $twig
      * @return void
      */
-    public static function postform(object $twig = null)
+    public static function postform(object $twig)
     {
-        if (null !==Input::get('action') && null !== Input::post() &&Input::get('action') == "add") {
-            $formData = Input::post();
-            $post = new \App\Model\Manager\PostManager;
-            $post->addpost($formData);
+        $post = new PostManager;
+        if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "add") {
+            $formData = Input::post();            
+            $validator = $post->getValidator($formData);
+            if ($validator->isValid()){
+                $post->addpost($formData, $twig);
+            } else {
+                $postForm = Self::getPostForm();
+                echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action'], 'messages' => $validator->getErrors()]);
+            }
+            
         } else {
-            $postForm = new \App\Controller\Form\PostForm;
-            $postForm = $postForm->renderForm();
-            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
+            $postForm = Self::getPostForm();
+            echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
         }
+    }
 
+    public static function getPostForm()
+    {
+        $postForm = new PostForm;
+        return $postForm->renderForm();
     }
 
     /**
@@ -67,20 +83,31 @@ abstract class FrontController
      * @param object $twig
      * @return void
      */
-    public static function registration(object $twig = null)
+    public static function registration(object $twig)
     {
         // case: register user
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
             $formData = Input::post();
-            $user = new \App\Model\Manager\UserManager;
-            $user->register($formData);
-        // case: Display user registration form
+            $user = new UserManager;
+            $validator = $user->getValidator('register', $formData);
+            if ($validator->isValid()) {
+                $user->register($formData, $twig);                
+            } else {
+                $registerForm = Self::getRegisterForm();
+                echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action'], 'messages' => $validator->getErrors()]);
+            }
+            // case: Display user registration form
         } else {
-            $registerForm = new \App\Controller\Form\UserForm;
-            $registerForm = $registerForm->renderForm();
+            $registerForm = Self::getRegisterForm();
             echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
         };
 
+    }
+
+    public static function getRegisterForm() : array
+    {
+        $registerForm = new UserForm;
+        return $registerForm->renderForm();
     }
 
     /**
@@ -91,8 +118,14 @@ abstract class FrontController
     public static function login()
     {
         $formData = Input::post();
-        $user = new \App\Model\Manager\UserManager;
-        $user->login($formData);
+        $user = new UserManager;
+        
+        $validator = $user->getValidator('login', $formData);
+            if ($validator->isValid()) {
+                $user->login($formData, $twig);                
+            } else {
+                echo $twig->render('pages/home.twig', ['messages' => $validator->getErrors()]);
+            }
 
     }
 
@@ -103,7 +136,7 @@ abstract class FrontController
      */
     public static function logout()
     {
-        $user = new \App\Model\Manager\UserManager;
+        $user = new UserManager;
         $user->logout();
 
     }
@@ -116,7 +149,7 @@ abstract class FrontController
      */
     public static function home(object $twig)
     {
-        $postslist = new \App\Controller\Post\PostsList(3);
+        $postslist = new PostsList(3);
         $posts = $postslist->getPosts();
         echo $twig->render('pages/home.twig', ['posts' => $posts]);
 

@@ -51,22 +51,25 @@ abstract class FrontController
      * @param object $twig
      * @return void
      */
-    public static function postform(object $twig)
+    public static function postform(object $twig, array $messages = null)
     {
-        $post = new PostManager;
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "add") {
+            // add post according to form data
+            $post = new PostManager;
             $formData = Input::post();            
             $validator = $post->getValidator($formData);
             if ($validator->isValid()){
                 $post->addpost($formData, $twig);
             } else {
-                $postForm = Self::getPostForm();
-                echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action'], 'messages' => $validator->getErrors()]);
+                $messages = $validator->getErrors();
+                $messages["status"] = "error";
+                echo json_encode($messages);
             }
             
         } else {
+            // display post form
             $postForm = Self::getPostForm();
-            echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
+            echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
         }
     }
 
@@ -113,9 +116,10 @@ abstract class FrontController
     /**
      * Get login form data and call login() function
      *
+     * @param $twig
      * @return void
      */
-    public static function login()
+    public static function login($twig)
     {
         $formData = Input::post();
         $user = new UserManager;

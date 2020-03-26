@@ -14,6 +14,7 @@ abstract class Routes
      *
      * @param object $twig
      * @return object
+     * @throws \Exception
      */
     public static function setRoutes(object $twig) : object
     {

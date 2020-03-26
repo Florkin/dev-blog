@@ -1,9 +1,3 @@
-{% if messages is defined and messages != null %}
 <div class="messages">
-    {% for key, message in messages %}
-    <p role="alert" class="message alert {% if key == 'success' %}alert-success {% else %}alert-danger {% endif %}">
-        {{message}}<span class="close">X</span>
-    </p>
-    {% endfor %}
+
 </div>
-{% endif %}

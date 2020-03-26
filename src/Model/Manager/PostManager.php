@@ -29,13 +29,14 @@ class PostManager
             `date_add` date DEFAULT NULL,
             `date_update` date DEFAULT NULL,
             PRIMARY KEY (`id_post`)
-          ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-        if ($db->exec($sql)) {
-            echo "Table created successfully.";
-        } else {
+          ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
+
+        try {
+            $db->exec($sql);
+        } catch (Error $e) {
             echo "\nPDO::errorInfo():\n";
             print_r($db->errorInfo());
-        }
+        };
     }
 
     /**
@@ -88,16 +89,19 @@ class PostManager
         if ($db->exec($sql)) {
             $id_post = $db->lastInsertId();
             if ($this->uploadImg($id_post)) {
-                $postForm = FrontController::getPostForm();
-                echo $twig->render('pages/posts-list.twig', ['postForm' => $postForm['form'], 'actionAddPost' => $postForm['action'], 'messages' => ['success' => 'L\article a bien été soumis pour validation']]);
+                $messages["status"] = "success";
+                $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
+                echo json_encode($messages);
             } else {
-                $postForm = FrontController::getPostForm();
-                echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddPost' => $postForm['action'], 'messages' => ['error' => 'Il y a eu un problème lors de l\'upload de l\'image']]);
+                $messages["status"] = "error";
+                $messages['message'] = "Il y a eu un problème d'upload avec l'image";
+                echo json_encode($messages);
             }
 
         } else {
-            $postForm = FrontController::getPostForm();
-            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionaddPost' => $postForm['action'], 'messages' => $db->errorInfo()]);
+            $messages["status"] = "error";
+            $messages['message'] = $db->errorInfo();
+            echo json_encode($messages);
         }
     }
 
@@ -176,5 +180,5 @@ class PostManager
             ->length('title', 5, 255)
             ->length('content', 200, 50000);
     }
-    
+
 }

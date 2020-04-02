@@ -2,8 +2,13 @@
 
 namespace App\Model\Manager;
 
-use Intervention\Image\ImageManagerStatic as Image;
+use PDO;
 use \App\Config;
+use App\Model\Manager\DbManager;
+use App\Controller\Form\PostForm;
+use App\Controller\FrontController;
+use App\Controller\Validator\Validator;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class PostManager
 {
@@ -24,13 +29,14 @@ class PostManager
             `date_add` date DEFAULT NULL,
             `date_update` date DEFAULT NULL,
             PRIMARY KEY (`id_post`)
-          ) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;";
-        if ($db->exec($sql)) {
-            echo "Table created successfully.";
-        } else {
+          ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;";
+
+        try {
+            $db->exec($sql);
+        } catch (Error $e) {
             echo "\nPDO::errorInfo():\n";
             print_r($db->errorInfo());
-        }
+        };
     }
 
     /**
@@ -46,7 +52,7 @@ class PostManager
         if ($file !== null && isset($file)) {
             $img = Image::make($file['tmp_name']);
             $img->fit(800, 450);
-              
+
             if ($img->save('img/posts_headers/post_' . $id_post . '.jpg')) {
                 return true;
             } else {
@@ -63,7 +69,7 @@ class PostManager
      * @param array $formData
      * @return void
      */
-    public function addPost(array $formData)
+    public function addPost(array $formData, $twig)
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -83,14 +89,19 @@ class PostManager
         if ($db->exec($sql)) {
             $id_post = $db->lastInsertId();
             if ($this->uploadImg($id_post)) {
-                echo "Post added successfully.";
+                $messages["status"] = "success";
+                $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
+                echo json_encode($messages);
             } else {
-                echo 'image upload problem';
+                $messages["status"] = "error";
+                $messages['message'] = "Il y a eu un problème d'upload avec l'image";
+                echo json_encode($messages);
             }
 
         } else {
-            echo "\nPDO::errorInfo():\n";
-            print_r($db->errorInfo());
+            $messages["status"] = "error";
+            $messages['message'] = $db->errorInfo();
+            echo json_encode($messages);
         }
     }
 
@@ -131,7 +142,7 @@ class PostManager
      * @param integer $quantity
      * @return array list of articles with content
      */
-    public function getPostsList(int $quantity): array
+    public function getPostsList(int $quantity): ?array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -156,7 +167,18 @@ class PostManager
             return $list;
 
         } else {
-            return false;
+            return null;
         }
     }
+
+    public function getValidator($formData)
+    {
+        return (new Validator($formData))
+            ->required('title', 'intro', 'content')
+            ->isCleanHtml('content')
+            ->length('intro', 10, 255)
+            ->length('title', 5, 255)
+            ->length('content', 200, 50000);
+    }
+
 }

@@ -2,6 +2,9 @@
 
 namespace App\Model\Manager;
 
+use App\Controller\FrontController;
+use App\Controller\Validator\Validator;
+
 class UserManager
 {
     /**
@@ -127,7 +130,7 @@ class UserManager
      * @param array $formData
      * @return void
      */
-    public function register(array $formData)
+    public function register(array $formData, $twig)
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')){
@@ -143,18 +146,25 @@ class UserManager
         }
 
         try {
-            $userId = $auth->register($email, $password, $username
-        );
+            $userId = $auth->register($email, $password, $username);
 
-            echo 'We have signed up a new UserManager with the ID ' . $userId;
+            $messages["status"] = "success";
+            $messages['message'] = "Votre compte a bien été enregistré. Vous allez recevoir un email pour l'activer.";
+            echo json_encode($messages);
+
         } catch (\Delight\Auth\InvalidEmailException $e) {
             die('Invalid email address');
         } catch (\Delight\Auth\InvalidPasswordException $e) {
             die('Invalid password');
         } catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            die('User already exists');
+            $registerForm = FrontController::getRegisterForm();
+            $messages["status"] = "error";
+            $messages['message'] = "Cette adresse email a déjà été enregistrée sur le site";
+            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            die('Too many requests');
+            $registerForm = FrontController::getRegisterForm();
+            $messages["status"] = "error";
+            $messages['message'] = "Trop de requètes";
         }
     }
 
@@ -162,9 +172,12 @@ class UserManager
      * User Login function
      *
      * @param array $formData
+     * @param $twig
      * @return void
+     * @throws \Delight\Auth\AttemptCancelledException
+     * @throws \Delight\Auth\AuthError
      */
-    public function login(array $formData)
+    public function login(array $formData, $twig)
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -185,15 +198,25 @@ class UserManager
         try {
             $auth->login($email, $password, $rememberDuration);
 
-            echo 'User is logged in';
+            $messages["status"] = "success";
+            $messages['message'] = "Vous êtes maintenant connectés à votre compte";
+            echo json_encode($messages);
         } catch (\Delight\Auth\InvalidEmailException $e) {
-            die('Wrong email address');
+            $messages["status"] = "error";
+            $messages['message'] = "Cet email n'existe pas";
+            echo json_encode($messages);
         } catch (\Delight\Auth\InvalidPasswordException $e) {
-            die('Wrong password');
+            $messages["status"] = "error";
+            $messages['message'] = "Ce mot de passe est faux";
+            echo json_encode($messages);
         } catch (\Delight\Auth\EmailNotVerifiedException $e) {
-            die('Email not verified');
+            $messages["status"] = "error";
+            $messages['message'] = "Cette adresse mail n'est pas vérifiée";
+            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            die('Too many requests');
+            $messages["status"] = "error";
+            $messages['message'] = "Trop de requètes";
+            echo json_encode($messages);
         }
 
     }
@@ -216,5 +239,20 @@ class UserManager
             die('Not logged in');
         }
 
+    }
+
+    public function getValidator($action, $formData){
+        if ($action == 'register'){
+            return (new Validator($formData))
+            ->required('email', 'username', 'password')
+            ->email('email')
+            ->password('password')
+            ->username('username');
+        } elseif ($action == 'login'){
+            return (new Validator($formData))
+            ->required('email', 'password')
+            ->email('email')
+            ->password('password');
+        }        
     }
 }

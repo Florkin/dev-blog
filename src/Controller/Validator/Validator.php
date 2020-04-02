@@ -48,8 +48,7 @@ class Validator
 
     public function email(string $key): self
     {
-        $pattern = '/^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$/';
-        if (!preg_match($pattern, $this->params[$key])) {
+        if (filter_var($this->params['key'], FILTER_VALIDATE_EMAIL)) {
             $this->errors[$key] = "L'email n'est pas valide";
         };
         return $this;

@@ -1,6 +1,8 @@
 $('.form').on('submit', function (event) {
+    // Remove all messages
+    $(".messages .message").remove();
     event.preventDefault();
-    var formData = new FormData(this)
+    var formData = new FormData(this);
 
     $.ajax({
         type: "POST",
@@ -32,8 +34,13 @@ $('.form').on('submit', function (event) {
                             '    </p>')
                     }
                 });
-                tinymce.editors[0].setContent("");
-                $('form').find("input[type=text],input[type=file], textarea").val("");
+
+                // Clear form
+                if (typeof tinymce !== "undefined"){
+                    tinymce.editors[0].setContent("");
+                }
+
+                $('form').find("input[type=text],input[type=file], input[type=password], input[type=email] textarea").val("");
             }
             $(".messages .message").on('click', function(){
                 $(this).remove();

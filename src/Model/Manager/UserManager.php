@@ -147,8 +147,10 @@ class UserManager
 
         try {
             $userId = $auth->register($email, $password, $username);
-        
-        echo $twig->render('pages/home.twig', ['messages' => array('success' => 'Votre compte a bien été créé')]);
+
+            $messages["status"] = "success";
+            $messages['message'] = "Votre compte a bien été enregistré. Vous allez recevoir un email pour l'activer.";
+            echo json_encode($messages);
 
         } catch (\Delight\Auth\InvalidEmailException $e) {
             die('Invalid email address');
@@ -156,10 +158,13 @@ class UserManager
             die('Invalid password');
         } catch (\Delight\Auth\UserAlreadyExistsException $e) {
             $registerForm = FrontController::getRegisterForm();
-            echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action'], 'messages' => ['error' => 'Cet adresse email a déjà été enregistrée sur le site']]);
+            $messages["status"] = "error";
+            $messages['message'] = "Cette adresse email a déjà été enregistrée sur le site";
+            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
             $registerForm = FrontController::getRegisterForm();
-            echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action'], 'messages' => ['error' => 'Trop de requètes']]);
+            $messages["status"] = "error";
+            $messages['message'] = "Trop de requètes";
         }
     }
 
@@ -167,7 +172,10 @@ class UserManager
      * User Login function
      *
      * @param array $formData
+     * @param $twig
      * @return void
+     * @throws \Delight\Auth\AttemptCancelledException
+     * @throws \Delight\Auth\AuthError
      */
     public function login(array $formData, $twig)
     {
@@ -190,15 +198,25 @@ class UserManager
         try {
             $auth->login($email, $password, $rememberDuration);
 
-            echo $twig->render('pages/home.twig', ['messages' => array('success' => 'Vous êtes maintenant connecté a votre compte')]);
+            $messages["status"] = "success";
+            $messages['message'] = "Vous êtes maintenant connectés à votre compte";
+            echo json_encode($messages);
         } catch (\Delight\Auth\InvalidEmailException $e) {
-            echo $twig->render('pages/registration.twig', ['messages' => array('success' => 'Cette adresse mail n\'existe pas')]);
+            $messages["status"] = "error";
+            $messages['message'] = "Cet email n'existe pas";
+            echo json_encode($messages);
         } catch (\Delight\Auth\InvalidPasswordException $e) {
-            echo $twig->render('pages/registration.twig', ['messages' => array('success' => 'Ce mot de passe est faux')]);
+            $messages["status"] = "error";
+            $messages['message'] = "Ce mot de passe est faux";
+            echo json_encode($messages);
         } catch (\Delight\Auth\EmailNotVerifiedException $e) {
-            echo $twig->render('pages/registration.twig', ['messages' => array('success' => 'Cette adresse mail n\'est pas vérifiée')]);
+            $messages["status"] = "error";
+            $messages['message'] = "Cette adresse mail n'est pas vérifiée";
+            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            die('Too many requests');
+            $messages["status"] = "error";
+            $messages['message'] = "Trop de requètes";
+            echo json_encode($messages);
         }
 
     }

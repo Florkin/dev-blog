@@ -88,19 +88,22 @@ abstract class FrontController
      */
     public static function registration(object $twig)
     {
-        // case: register user
+
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
+            // case: register user
             $formData = Input::post();
             $user = new UserManager;
             $validator = $user->getValidator('register', $formData);
             if ($validator->isValid()) {
                 $user->register($formData, $twig);                
             } else {
-                $registerForm = Self::getRegisterForm();
-                echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action'], 'messages' => $validator->getErrors()]);
+                $messages = $validator->getErrors();
+                $messages["status"] = "error";
+                echo json_encode($messages);
             }
-            // case: Display user registration form
+
         } else {
+            // case: Display user registration form
             $registerForm = Self::getRegisterForm();
             echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
         };
@@ -128,7 +131,9 @@ abstract class FrontController
             if ($validator->isValid()) {
                 $user->login($formData, $twig);                
             } else {
-                echo $twig->render('pages/home.twig', ['messages' => $validator->getErrors()]);
+                $messages = $validator->getErrors();
+                $messages["status"] = "error";
+                echo json_encode($messages);
             }
 
     }

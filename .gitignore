@@ -1,4 +1,4 @@
-front/_dev/node_modules/*
+node_modules/
 front/assets/*
 src/Config.php
 vendor/*

@@ -1,0 +1,14 @@
+{% extends 'layout.twig' %}
+
+{% block head %}
+    <title>Administration</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Liste des articles</h1>
+        <div class="row">
+            {{ dump(posts) }}
+        </div>
+    </div>
+{% endblock %}

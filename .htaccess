@@ -1,4 +1,6 @@
 RewriteEngine On
 RewriteBase /
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . /index.php [L] 
+RewriteCond %{REQUEST_URI} !^/admin/?$
+RewriteRule . /index.php [L]
+

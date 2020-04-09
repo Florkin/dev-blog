@@ -1,13 +1,13 @@
 <?php
 
-namespace App;
+namespace Admin;
 
-use \App\Controller\FrontController;
+use Admin\Controller\BackController;
 
 /**
  * Routing class
  */
-abstract class Routes
+abstract class AdminRoutes
 {
     /**
      * Set all routing system
@@ -36,30 +36,15 @@ abstract class Routes
      */
     public static function setGetRoutes(object $twig, object $router)
     {
+        $router->map('GET', '/admin/', function ($twig) {
+            return BackController::adminList($twig);
+        }, 'Administration');
 
-        $router->map('GET', '/', function ($twig) {
-            return FrontController::home($twig);
-        }, 'Accueil');
+        $router->map('GET', '/admin/ecrire-un-article', function ($twig) {
+            die('die in admin-router (writeArticle)');
+            return BackController::writeArticle($twig);
+        }, 'write-article');
 
-        $router->map('GET', '/inscription', function ($twig) {
-            return FrontController::registration($twig);
-        }, 'formulaire-inscription');
-
-        $router->map('GET', '/ajouter-un-article', function ($twig) {
-            return FrontController::postform($twig);
-        }, 'formulaire-article');
-
-        $router->map('GET', '/articles', function ($twig) {
-            return FrontController::postslist($twig);
-        }, 'articles');
-
-        $router->map('GET', '/articles/[i:id]', function ($id, $twig) {
-            return FrontController::post($id, $twig);
-        }, 'article');
-
-        $router->map('GET', '/logout', function () {
-            return FrontController::logout();
-        }, 'logout');
 
         return $router;
     }
@@ -72,19 +57,6 @@ abstract class Routes
      */
     public static function setPostRoutes(object $router)
     {
-        $router->map('POST', '/ajouter-un-article', function ($twig) {
-            return FrontController::postform($twig);
-        }, 'ajouter-un-article');
-
-        $router->map('POST', '/inscription', function ($twig) {
-            return FrontController::registration($twig);
-        }, 'inscription');
-
-        $router->map('POST', '/login', function ($twig) {
-            return FrontController::login($twig);
-        }, 'login');
-
-        return $router;
     }
 
     /**

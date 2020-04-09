@@ -3,6 +3,7 @@
 namespace Admin;
 
 use Admin\Controller\BackController;
+use Admin\Model\Manager\AdminPostManager;
 
 /**
  * Routing class
@@ -16,7 +17,7 @@ abstract class AdminRoutes
      * @return object
      * @throws \Exception
      */
-    public static function setRoutes(object $twig) : object
+    public static function setRoutes(object $twig): object
     {
         $router = new \AltoRouter;
 
@@ -41,8 +42,12 @@ abstract class AdminRoutes
         }, 'Administration');
 
         $router->map('GET', '/admin/ecrire-un-article', function ($twig) {
-            return BackController::writeArticle($twig);
+            return BackController::writePost($twig);
         }, 'write-article');
+
+        $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
+            return AdminPostManager::postToggleActivation($id);
+        }, 'activation-article');
 
 
         return $router;
@@ -56,8 +61,8 @@ abstract class AdminRoutes
      */
     public static function setPostRoutes(object $router)
     {
-        $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
-            return BackController::writeArticle($twig);
+        $router->map('POST', '/admin/ecrire-un-article', function () {
+            return BackController::writePost();
         }, 'ajouter-article');
 
         return $router;

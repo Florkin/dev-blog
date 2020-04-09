@@ -12,7 +12,7 @@
             </div>
         </div>
         {% for post in posts %}
-            <div class="row hover-1-wrap mb-5 mb-lg-5">
+            <div class="border-bottom row hover-1-wrap mb-5 mb-lg-5">
                 <div class="col-12">
                     <div class="row">
                         <div class="mb-4 mb-lg-0 col-lg-3">
@@ -23,9 +23,18 @@
                         <div class="col-lg-9 align-self-center order-lg-1"
                              data-aos="{% if loop.index is divisible by(2) %}fade-right{% else %}fade-left{% endif %}">
                             <h2 class="text-black">{{ post.title }}</h2>
-                            <p class="mb-4">{{ post.date_update }}</p>
-                            <p class="mb-4">{{ post.intro|raw }}</p>
-                            <p><a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">id = {{ post.id_post }}</a></p>
+                            <p class="mb-2">{{ post.date_update }}</p>
+                            <p class="mb-2">{{ post.intro|raw }}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-3">
+                        <div class="col-4">
+                            <a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
+                        {% if post.active == 1 %}
+                            <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}" class="post-activation btn btn-warning">Desactiver</a>
+                        {% else %}
+                            <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}" class="post-activation btn btn-danger">Activer</a>
+                        {% endif %}
                         </div>
                     </div>
                 </div>

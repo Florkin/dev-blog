@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Controller\Post;
+namespace Admin\Controller\Post;
 
-use App\Model\Manager\PostManager;
+use Admin\Model\Manager\AdminPostManager;
 
-class PostsList
+class AdminPostsList
 {
     /**
      * Quantity of posts to display
@@ -25,8 +25,8 @@ class PostsList
      */
     public function getPosts(): ?array
     {
-        $postsList = new PostManager;
-        return $postsList->getActivePostsList($this->quantity);
+        $postsList = new AdminPostManager;
+        return $postsList->getPostsList($this->quantity);
     }
 
 }

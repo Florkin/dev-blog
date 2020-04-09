@@ -40,7 +40,7 @@ $('.form').on('submit', function (event) {
                     tinymce.editors[0].setContent("");
                 }
 
-                $('form').find("input[type=text],input[type=file], input[type=password], input[type=email] textarea").val("");
+                $('form').find("input[type=text],input[type=file], input[type=password], input[type=email], textarea").val("");
             }
             $(".messages .message").on('click', function(){
                 $(this).remove();

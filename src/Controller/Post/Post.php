@@ -10,6 +10,7 @@ class Post
     private $content;
     private $date_add;
     private $date_update;
+    private $active;
     private $img_url;
 
     /**
@@ -28,6 +29,7 @@ class Post
         $this->content = $content['content'];
         $this->date_add = $content['date_add'];
         $this->date_update = $content['date_update'];
+        $this->active = $content['active'];
         $this->img_url = $content['img_url'];
     }
 
@@ -47,5 +49,10 @@ class Post
             'date_update' => $this->date_update,
             'img_url' => $this->img_url
         );
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 }

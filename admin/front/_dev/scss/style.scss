@@ -1,3 +1,14 @@
 @import './bootstrap/bootstrap.scss';
 
+.messages{
+  bottom: 0;
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  padding: 0 30px;
+  .close{
+    cursor:pointer;
+  }
+}
+
 

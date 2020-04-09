@@ -1,1 +1,3648 @@
-!function(t){function e(i){if(n[i])return n[i].exports;var r=n[i]={i:i,l:false,exports:{}};t[i].call(r.exports,r,r.exports,e);r.l=true;return r.exports}var n={};e.m=t;e.c=n;e.i=function(t){return t};e.d=function(t,n,i){if(!e.o(t,n))Object.defineProperty(t,n,{configurable:false,enumerable:true,get:i})};e.n=function(t){var n=t&&t.__esModule?function(){return t.default}:function(){return t};e.d(n,"a",n);return n};e.o=function(t,e){return Object.prototype.hasOwnProperty.call(t,e)};e.p="";e(e.s=3)}([function(t,e,n){"use strict";n(2)},function(t,e){},function(t,e,n){"use strict";if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires jQuery");+function(t){var e=t.fn.jquery.split(" ")[0].split(".");if(e[0]<2&&e[1]<9||1==e[0]&&9==e[1]&&e[2]<1||e[0]>=4)throw new Error("Bootstrap's JavaScript requires at least jQuery v1.9.1 but less than v4.0.0")}(jQuery);+function(){function t(t,e){if(!t)throw new ReferenceError("this hasn't been initialised - super() hasn't been called");return e&&("object"==typeof e||"function"==typeof e)?e:t}function e(t,e){if("function"!=typeof e&&null!==e)throw new TypeError("Super expression must either be null or a function, not "+typeof e);t.prototype=Object.create(e&&e.prototype,{constructor:{value:t,enumerable:false,writable:true,configurable:true}});if(e)Object.setPrototypeOf?Object.setPrototypeOf(t,e):t.__proto__=e}function n(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}var i="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t};var r=function(){function t(t,e){for(var n=0;n<e.length;n++){var i=e[n];i.enumerable=i.enumerable||false;i.configurable=true;if("value"in i)i.writable=true;Object.defineProperty(t,i.key,i)}}return function(e,n,i){if(n)t(e.prototype,n);if(i)t(e,i);return e}}();var o=function(t){function e(t){return{}.toString.call(t).match(/\s([a-zA-Z]+)/)[1].toLowerCase()}function n(t){return(t[0]||t).nodeType}function i(){return{bindType:s.end,delegateType:s.end,handle:function(e){if(t(e.target).is(this))return e.handleObj.handler.apply(this,arguments);return}}}function r(){if(window.QUnit)return false;var t=document.createElement("bootstrap");for(var e in a)if(void 0!==t.style[e])return{end:a[e]};return false}function o(e){var n=this;var i=false;t(this).one(l.TRANSITION_END,function(){i=true});setTimeout(function(){if(!i)l.triggerTransitionEnd(n)},e);return this}var s=false;var a={WebkitTransition:"webkitTransitionEnd",MozTransition:"transitionend",OTransition:"oTransitionEnd otransitionend",transition:"transitionend"};var l={TRANSITION_END:"bsTransitionEnd",getUID:function(t){do{t+=~~(1e6*Math.random())}while(document.getElementById(t));return t},getSelectorFromElement:function(t){var e=t.getAttribute("data-target");if(!e){e=t.getAttribute("href")||"";e=/^#[a-z]/i.test(e)?e:null}return e},reflow:function(t){new Function("bs","return bs")(t.offsetHeight)},triggerTransitionEnd:function(e){t(e).trigger(s.end)},supportsTransitionEnd:function(){return Boolean(s)},typeCheckConfig:function(t,i,r){for(var o in r)if(r.hasOwnProperty(o)){var s=r[o];var a=i[o];var l=void 0;if(a&&n(a))l="element";else l=e(a);if(!new RegExp(s).test(l))throw new Error(t.toUpperCase()+': Option "'+o+'" provided type "'+l+'" but expected type "'+s+'".')}}};!function(){s=r();t.fn.emulateTransitionEnd=o;if(l.supportsTransitionEnd())t.event.special[l.TRANSITION_END]=i()}();return l}(jQuery);!function(t){var e="alert";var i=t.fn[e];var s={DISMISS:'[data-dismiss="alert"]'};var a={CLOSE:"close.bs.alert",CLOSED:"closed.bs.alert",CLICK_DATA_API:"click.bs.alert.data-api"};var l={ALERT:"alert",FADE:"fade",IN:"in"};var f=function(){function e(t){n(this,e);this._element=t}e.prototype.close=function(t){t=t||this._element;var e=this._getRootElement(t);if(this._triggerCloseEvent(e).isDefaultPrevented())return;this._removeElement(e)};e.prototype.dispose=function(){t.removeData(this._element,"bs.alert");this._element=null};e.prototype._getRootElement=function(e){var n=o.getSelectorFromElement(e);var i=false;if(n)i=t(n)[0];if(!i)i=t(e).closest("."+l.ALERT)[0];return i};e.prototype._triggerCloseEvent=function(e){var n=t.Event(a.CLOSE);t(e).trigger(n);return n};e.prototype._removeElement=function(e){t(e).removeClass(l.IN);if(!o.supportsTransitionEnd()||!t(e).hasClass(l.FADE)){this._destroyElement(e);return}t(e).one(o.TRANSITION_END,t.proxy(this._destroyElement,this,e)).emulateTransitionEnd(150)};e.prototype._destroyElement=function(e){t(e).detach().trigger(a.CLOSED).remove()};e._jQueryInterface=function(n){return this.each(function(){var i=t(this);var r=i.data("bs.alert");if(!r){r=new e(this);i.data("bs.alert",r)}if("close"===n)r[n](this)})};e._handleDismiss=function(t){return function(e){if(e)e.preventDefault();t.close(this)}};r(e,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}}]);return e}();t(document).on(a.CLICK_DATA_API,s.DISMISS,f._handleDismiss(new f));t.fn[e]=f._jQueryInterface;t.fn[e].Constructor=f;t.fn[e].noConflict=function(){t.fn[e]=i;return f._jQueryInterface}}(jQuery);!function(t){var e="button";var i=t.fn[e];var o={ACTIVE:"active",BUTTON:"btn",FOCUS:"focus"};var s={DATA_TOGGLE_CARROT:'[data-toggle^="button"]',DATA_TOGGLE:'[data-toggle="buttons"]',INPUT:"input",ACTIVE:".active",BUTTON:".btn"};var a={CLICK_DATA_API:"click.bs.button.data-api",FOCUS_BLUR_DATA_API:"focus.bs.button.data-api blur.bs.button.data-api"};var l=function(){function e(t){n(this,e);this._element=t}e.prototype.toggle=function(){var e=true;var n=t(this._element).closest(s.DATA_TOGGLE)[0];if(n){var i=t(this._element).find(s.INPUT)[0];if(i){if("radio"===i.type)if(i.checked&&t(this._element).hasClass(o.ACTIVE))e=false;else{var r=t(n).find(s.ACTIVE)[0];if(r)t(r).removeClass(o.ACTIVE)}if(e){i.checked=!t(this._element).hasClass(o.ACTIVE);t(this._element).trigger("change")}i.focus()}}else this._element.setAttribute("aria-pressed",!t(this._element).hasClass(o.ACTIVE));if(e)t(this._element).toggleClass(o.ACTIVE)};e.prototype.dispose=function(){t.removeData(this._element,"bs.button");this._element=null};e._jQueryInterface=function(n){return this.each(function(){var i=t(this).data("bs.button");if(!i){i=new e(this);t(this).data("bs.button",i)}if("toggle"===n)i[n]()})};r(e,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}}]);return e}();t(document).on(a.CLICK_DATA_API,s.DATA_TOGGLE_CARROT,function(e){e.preventDefault();var n=e.target;if(!t(n).hasClass(o.BUTTON))n=t(n).closest(s.BUTTON);l._jQueryInterface.call(t(n),"toggle")}).on(a.FOCUS_BLUR_DATA_API,s.DATA_TOGGLE_CARROT,function(e){var n=t(e.target).closest(s.BUTTON)[0];t(n).toggleClass(o.FOCUS,/^focus(in)?$/.test(e.type))});t.fn[e]=l._jQueryInterface;t.fn[e].Constructor=l;t.fn[e].noConflict=function(){t.fn[e]=i;return l._jQueryInterface}}(jQuery);!function(t){var e="carousel";var s="bs.carousel";var a="."+s;var l=t.fn[e];var f={interval:5e3,keyboard:true,slide:false,pause:"hover",wrap:true};var c={interval:"(number|boolean)",keyboard:"boolean",slide:"(boolean|string)",pause:"(string|boolean)",wrap:"boolean"};var u={NEXT:"next",PREVIOUS:"prev"};var h={SLIDE:"slide"+a,SLID:"slid"+a,KEYDOWN:"keydown"+a,MOUSEENTER:"mouseenter"+a,MOUSELEAVE:"mouseleave"+a,LOAD_DATA_API:"load.bs.carousel.data-api",CLICK_DATA_API:"click.bs.carousel.data-api"};var d={CAROUSEL:"carousel",ACTIVE:"active",SLIDE:"slide",RIGHT:"right",LEFT:"left",ITEM:"carousel-item"};var _={ACTIVE:".active",ACTIVE_ITEM:".active.carousel-item",ITEM:".carousel-item",NEXT_PREV:".next, .prev",INDICATORS:".carousel-indicators",DATA_SLIDE:"[data-slide], [data-slide-to]",DATA_RIDE:'[data-ride="carousel"]'};var p=function(){function l(e,i){n(this,l);this._items=null;this._interval=null;this._activeElement=null;this._isPaused=false;this._isSliding=false;this._config=this._getConfig(i);this._element=t(e)[0];this._indicatorsElement=t(this._element).find(_.INDICATORS)[0];this._addEventListeners()}l.prototype.next=function(){if(!this._isSliding)this._slide(u.NEXT)};l.prototype.nextWhenVisible=function(){if(!document.hidden)this.next()};l.prototype.prev=function(){if(!this._isSliding)this._slide(u.PREVIOUS)};l.prototype.pause=function(e){if(!e)this._isPaused=true;if(t(this._element).find(_.NEXT_PREV)[0]&&o.supportsTransitionEnd()){o.triggerTransitionEnd(this._element);this.cycle(true)}clearInterval(this._interval);this._interval=null};l.prototype.cycle=function(e){if(!e)this._isPaused=false;if(this._interval){clearInterval(this._interval);this._interval=null}if(this._config.interval&&!this._isPaused)this._interval=setInterval(t.proxy(document.visibilityState?this.nextWhenVisible:this.next,this),this._config.interval)};l.prototype.to=function(e){var n=this;this._activeElement=t(this._element).find(_.ACTIVE_ITEM)[0];var i=this._getItemIndex(this._activeElement);if(e>this._items.length-1||e<0)return;if(this._isSliding){t(this._element).one(h.SLID,function(){return n.to(e)});return}if(i===e){this.pause();this.cycle();return}var r=e>i?u.NEXT:u.PREVIOUS;this._slide(r,this._items[e])};l.prototype.dispose=function(){t(this._element).off(a);t.removeData(this._element,s);this._items=null;this._config=null;this._element=null;this._interval=null;this._isPaused=null;this._isSliding=null;this._activeElement=null;this._indicatorsElement=null};l.prototype._getConfig=function(n){n=t.extend({},f,n);o.typeCheckConfig(e,n,c);return n};l.prototype._addEventListeners=function(){if(this._config.keyboard)t(this._element).on(h.KEYDOWN,t.proxy(this._keydown,this));if("hover"===this._config.pause&&!("ontouchstart"in document.documentElement))t(this._element).on(h.MOUSEENTER,t.proxy(this.pause,this)).on(h.MOUSELEAVE,t.proxy(this.cycle,this))};l.prototype._keydown=function(t){t.preventDefault();if(/input|textarea/i.test(t.target.tagName))return;switch(t.which){case 37:this.prev();break;case 39:this.next();break;default:return}};l.prototype._getItemIndex=function(e){this._items=t.makeArray(t(e).parent().find(_.ITEM));return this._items.indexOf(e)};l.prototype._getItemByDirection=function(t,e){var n=t===u.NEXT;var i=t===u.PREVIOUS;var r=this._getItemIndex(e);var o=this._items.length-1;if((i&&0===r||n&&r===o)&&!this._config.wrap)return e;var s=t===u.PREVIOUS?-1:1;var a=(r+s)%this._items.length;return-1===a?this._items[this._items.length-1]:this._items[a]};l.prototype._triggerSlideEvent=function(e,n){var i=t.Event(h.SLIDE,{relatedTarget:e,direction:n});t(this._element).trigger(i);return i};l.prototype._setActiveIndicatorElement=function(e){if(this._indicatorsElement){t(this._indicatorsElement).find(_.ACTIVE).removeClass(d.ACTIVE);var n=this._indicatorsElement.children[this._getItemIndex(e)];if(n)t(n).addClass(d.ACTIVE)}};l.prototype._slide=function(e,n){var i=this;var r=t(this._element).find(_.ACTIVE_ITEM)[0];var s=n||r&&this._getItemByDirection(e,r);var a=Boolean(this._interval);var l=e===u.NEXT?d.LEFT:d.RIGHT;if(s&&t(s).hasClass(d.ACTIVE)){this._isSliding=false;return}if(this._triggerSlideEvent(s,l).isDefaultPrevented())return;if(!r||!s)return;this._isSliding=true;if(a)this.pause();this._setActiveIndicatorElement(s);var f=t.Event(h.SLID,{relatedTarget:s,direction:l});if(o.supportsTransitionEnd()&&t(this._element).hasClass(d.SLIDE)){t(s).addClass(e);o.reflow(s);t(r).addClass(l);t(s).addClass(l);t(r).one(o.TRANSITION_END,function(){t(s).removeClass(l).removeClass(e);t(s).addClass(d.ACTIVE);t(r).removeClass(d.ACTIVE).removeClass(e).removeClass(l);i._isSliding=false;setTimeout(function(){return t(i._element).trigger(f)},0)}).emulateTransitionEnd(600)}else{t(r).removeClass(d.ACTIVE);t(s).addClass(d.ACTIVE);this._isSliding=false;t(this._element).trigger(f)}if(a)this.cycle()};l._jQueryInterface=function(e){return this.each(function(){var n=t(this).data(s);var r=t.extend({},f,t(this).data());if("object"===(void 0===e?"undefined":i(e)))t.extend(r,e);var o="string"==typeof e?e:r.slide;if(!n){n=new l(this,r);t(this).data(s,n)}if("number"==typeof e)n.to(e);else if("string"==typeof o){if(void 0===n[o])throw new Error('No method named "'+o+'"');n[o]()}else if(r.interval){n.pause();n.cycle()}})};l._dataApiClickHandler=function(e){var n=o.getSelectorFromElement(this);if(!n)return;var i=t(n)[0];if(!i||!t(i).hasClass(d.CAROUSEL))return;var r=t.extend({},t(i).data(),t(this).data());var a=this.getAttribute("data-slide-to");if(a)r.interval=false;l._jQueryInterface.call(t(i),r);if(a)t(i).data(s).to(a);e.preventDefault()};r(l,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}},{key:"Default",get:function(){return f}}]);return l}();t(document).on(h.CLICK_DATA_API,_.DATA_SLIDE,p._dataApiClickHandler);t(window).on(h.LOAD_DATA_API,function(){t(_.DATA_RIDE).each(function(){var e=t(this);p._jQueryInterface.call(e,e.data())})});t.fn[e]=p._jQueryInterface;t.fn[e].Constructor=p;t.fn[e].noConflict=function(){t.fn[e]=l;return p._jQueryInterface}}(jQuery);!function(t){var e="collapse";var s="bs.collapse";var a=t.fn[e];var l={toggle:true,parent:""};var f={toggle:"boolean",parent:"string"};var c={SHOW:"show.bs.collapse",SHOWN:"shown.bs.collapse",HIDE:"hide.bs.collapse",HIDDEN:"hidden.bs.collapse",CLICK_DATA_API:"click.bs.collapse.data-api"};var u={IN:"in",COLLAPSE:"collapse",COLLAPSING:"collapsing",COLLAPSED:"collapsed"};var h={WIDTH:"width",HEIGHT:"height"};var d={ACTIVES:".card > .in, .card > .collapsing",DATA_TOGGLE:'[data-toggle="collapse"]'};var _=function(){function a(e,i){n(this,a);this._isTransitioning=false;this._element=e;this._config=this._getConfig(i);this._triggerArray=t.makeArray(t('[data-toggle="collapse"][href="#'+e.id+'"],[data-toggle="collapse"][data-target="#'+e.id+'"]'));this._parent=this._config.parent?this._getParent():null;if(!this._config.parent)this._addAriaAndCollapsedClass(this._element,this._triggerArray);if(this._config.toggle)this.toggle()}a.prototype.toggle=function(){if(t(this._element).hasClass(u.IN))this.hide();else this.show()};a.prototype.show=function(){var e=this;if(this._isTransitioning||t(this._element).hasClass(u.IN))return;var n=void 0;var i=void 0;if(this._parent){n=t.makeArray(t(d.ACTIVES));if(!n.length)n=null}if(n){i=t(n).data(s);if(i&&i._isTransitioning)return}var r=t.Event(c.SHOW);t(this._element).trigger(r);if(r.isDefaultPrevented())return;if(n){a._jQueryInterface.call(t(n),"hide");if(!i)t(n).data(s,null)}var l=this._getDimension();t(this._element).removeClass(u.COLLAPSE).addClass(u.COLLAPSING);this._element.style[l]=0;this._element.setAttribute("aria-expanded",true);if(this._triggerArray.length)t(this._triggerArray).removeClass(u.COLLAPSED).attr("aria-expanded",true);this.setTransitioning(true);var f=function(){t(e._element).removeClass(u.COLLAPSING).addClass(u.COLLAPSE).addClass(u.IN);e._element.style[l]="";e.setTransitioning(false);t(e._element).trigger(c.SHOWN)};if(!o.supportsTransitionEnd()){f();return}var h=l[0].toUpperCase()+l.slice(1);var _="scroll"+h;t(this._element).one(o.TRANSITION_END,f).emulateTransitionEnd(600);this._element.style[l]=this._element[_]+"px"};a.prototype.hide=function(){var e=this;if(this._isTransitioning||!t(this._element).hasClass(u.IN))return;var n=t.Event(c.HIDE);t(this._element).trigger(n);if(n.isDefaultPrevented())return;var i=this._getDimension();var r=i===h.WIDTH?"offsetWidth":"offsetHeight";this._element.style[i]=this._element[r]+"px";o.reflow(this._element);t(this._element).addClass(u.COLLAPSING).removeClass(u.COLLAPSE).removeClass(u.IN);this._element.setAttribute("aria-expanded",false);if(this._triggerArray.length)t(this._triggerArray).addClass(u.COLLAPSED).attr("aria-expanded",false);this.setTransitioning(true);var s=function(){e.setTransitioning(false);t(e._element).removeClass(u.COLLAPSING).addClass(u.COLLAPSE).trigger(c.HIDDEN)};this._element.style[i]="";if(!o.supportsTransitionEnd()){s();return}t(this._element).one(o.TRANSITION_END,s).emulateTransitionEnd(600)};a.prototype.setTransitioning=function(t){this._isTransitioning=t};a.prototype.dispose=function(){t.removeData(this._element,s);this._config=null;this._parent=null;this._element=null;this._triggerArray=null;this._isTransitioning=null};a.prototype._getConfig=function(n){n=t.extend({},l,n);n.toggle=Boolean(n.toggle);o.typeCheckConfig(e,n,f);return n};a.prototype._getDimension=function(){return t(this._element).hasClass(h.WIDTH)?h.WIDTH:h.HEIGHT};a.prototype._getParent=function(){var e=this;var n=t(this._config.parent)[0];var i='[data-toggle="collapse"][data-parent="'+this._config.parent+'"]';t(n).find(i).each(function(t,n){e._addAriaAndCollapsedClass(a._getTargetFromElement(n),[n])});return n};a.prototype._addAriaAndCollapsedClass=function(e,n){if(e){var i=t(e).hasClass(u.IN);e.setAttribute("aria-expanded",i);if(n.length)t(n).toggleClass(u.COLLAPSED,!i).attr("aria-expanded",i)}};a._getTargetFromElement=function(e){var n=o.getSelectorFromElement(e);return n?t(n)[0]:null};a._jQueryInterface=function(e){return this.each(function(){var n=t(this);var r=n.data(s);var o=t.extend({},l,n.data(),"object"===(void 0===e?"undefined":i(e))&&e);if(!r&&o.toggle&&/show|hide/.test(e))o.toggle=false;if(!r){r=new a(this,o);n.data(s,r)}if("string"==typeof e){if(void 0===r[e])throw new Error('No method named "'+e+'"');r[e]()}})};r(a,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}},{key:"Default",get:function(){return l}}]);return a}();t(document).on(c.CLICK_DATA_API,d.DATA_TOGGLE,function(e){e.preventDefault();var n=_._getTargetFromElement(this);var i=t(n).data(s);var r=i?"toggle":t(this).data();_._jQueryInterface.call(t(n),r)});t.fn[e]=_._jQueryInterface;t.fn[e].Constructor=_;t.fn[e].noConflict=function(){t.fn[e]=a;return _._jQueryInterface}}(jQuery);!function(t){var e="dropdown";var i=".bs.dropdown";var s=t.fn[e];var a={HIDE:"hide"+i,HIDDEN:"hidden"+i,SHOW:"show"+i,SHOWN:"shown"+i,CLICK:"click"+i,CLICK_DATA_API:"click.bs.dropdown.data-api",KEYDOWN_DATA_API:"keydown.bs.dropdown.data-api"};var l={BACKDROP:"dropdown-backdrop",DISABLED:"disabled",OPEN:"open"};var f={BACKDROP:".dropdown-backdrop",DATA_TOGGLE:'[data-toggle="dropdown"]',FORM_CHILD:".dropdown form",ROLE_MENU:'[role="menu"]',ROLE_LISTBOX:'[role="listbox"]',NAVBAR_NAV:".navbar-nav",VISIBLE_ITEMS:'[role="menu"] li:not(.disabled) a, [role="listbox"] li:not(.disabled) a'};var c=function(){function e(t){n(this,e);this._element=t;this._addEventListeners()}e.prototype.toggle=function(){if(this.disabled||t(this).hasClass(l.DISABLED))return false;var n=e._getParentFromElement(this);var i=t(n).hasClass(l.OPEN);e._clearMenus();if(i)return false;if("ontouchstart"in document.documentElement&&!t(n).closest(f.NAVBAR_NAV).length){var r=document.createElement("div");r.className=l.BACKDROP;t(r).insertBefore(this);t(r).on("click",e._clearMenus)}var o={relatedTarget:this};var s=t.Event(a.SHOW,o);t(n).trigger(s);if(s.isDefaultPrevented())return false;this.focus();this.setAttribute("aria-expanded","true");t(n).toggleClass(l.OPEN);t(n).trigger(t.Event(a.SHOWN,o));return false};e.prototype.dispose=function(){t.removeData(this._element,"bs.dropdown");t(this._element).off(i);this._element=null};e.prototype._addEventListeners=function(){t(this._element).on(a.CLICK,this.toggle)};e._jQueryInterface=function(n){return this.each(function(){var i=t(this).data("bs.dropdown");if(!i)t(this).data("bs.dropdown",i=new e(this));if("string"==typeof n){if(void 0===i[n])throw new Error('No method named "'+n+'"');i[n].call(this)}})};e._clearMenus=function(n){if(n&&3===n.which)return;var i=t(f.BACKDROP)[0];if(i)i.parentNode.removeChild(i);var r=t.makeArray(t(f.DATA_TOGGLE));for(var o=0;o<r.length;o++){var s=e._getParentFromElement(r[o]);var c={relatedTarget:r[o]};if(!t(s).hasClass(l.OPEN))continue;if(n&&"click"===n.type&&/input|textarea/i.test(n.target.tagName)&&t.contains(s,n.target))continue;var u=t.Event(a.HIDE,c);t(s).trigger(u);if(u.isDefaultPrevented())continue;r[o].setAttribute("aria-expanded","false");t(s).removeClass(l.OPEN).trigger(t.Event(a.HIDDEN,c))}};e._getParentFromElement=function(e){var n=void 0;var i=o.getSelectorFromElement(e);if(i)n=t(i)[0];return n||e.parentNode};e._dataApiKeydownHandler=function(n){if(!/(38|40|27|32)/.test(n.which)||/input|textarea/i.test(n.target.tagName))return;n.preventDefault();n.stopPropagation();if(this.disabled||t(this).hasClass(l.DISABLED))return;var i=e._getParentFromElement(this);var r=t(i).hasClass(l.OPEN);if(!r&&27!==n.which||r&&27===n.which){if(27===n.which){var o=t(i).find(f.DATA_TOGGLE)[0];t(o).trigger("focus")}t(this).trigger("click");return}var s=t.makeArray(t(f.VISIBLE_ITEMS));s=s.filter(function(t){return t.offsetWidth||t.offsetHeight});if(!s.length)return;var a=s.indexOf(n.target);if(38===n.which&&a>0)a--;if(40===n.which&&a<s.length-1)a++;if(a<0)a=0;s[a].focus()};r(e,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}}]);return e}();t(document).on(a.KEYDOWN_DATA_API,f.DATA_TOGGLE,c._dataApiKeydownHandler).on(a.KEYDOWN_DATA_API,f.ROLE_MENU,c._dataApiKeydownHandler).on(a.KEYDOWN_DATA_API,f.ROLE_LISTBOX,c._dataApiKeydownHandler).on(a.CLICK_DATA_API,c._clearMenus).on(a.CLICK_DATA_API,f.DATA_TOGGLE,c.prototype.toggle).on(a.CLICK_DATA_API,f.FORM_CHILD,function(t){t.stopPropagation()});t.fn[e]=c._jQueryInterface;t.fn[e].Constructor=c;t.fn[e].noConflict=function(){t.fn[e]=s;return c._jQueryInterface}}(jQuery);!function(t){var e="modal";var s=".bs.modal";var a=t.fn[e];var l={backdrop:true,keyboard:true,focus:true,show:true};var f={backdrop:"(boolean|string)",keyboard:"boolean",focus:"boolean",show:"boolean"};var c={HIDE:"hide.bs.modal",HIDDEN:"hidden.bs.modal",SHOW:"show.bs.modal",SHOWN:"shown.bs.modal",FOCUSIN:"focusin.bs.modal",RESIZE:"resize.bs.modal",CLICK_DISMISS:"click.dismiss.bs.modal",KEYDOWN_DISMISS:"keydown.dismiss.bs.modal",MOUSEUP_DISMISS:"mouseup.dismiss.bs.modal",MOUSEDOWN_DISMISS:"mousedown.dismiss.bs.modal",CLICK_DATA_API:"click.bs.modal.data-api"};var u={SCROLLBAR_MEASURER:"modal-scrollbar-measure",BACKDROP:"modal-backdrop",OPEN:"modal-open",FADE:"fade",IN:"in"};var h={DIALOG:".modal-dialog",DATA_TOGGLE:'[data-toggle="modal"]',DATA_DISMISS:'[data-dismiss="modal"]',FIXED_CONTENT:".navbar-fixed-top, .navbar-fixed-bottom, .is-fixed"};var d=function(){function a(e,i){n(this,a);this._config=this._getConfig(i);this._element=e;this._dialog=t(e).find(h.DIALOG)[0];this._backdrop=null;this._isShown=false;this._isBodyOverflowing=false;this._ignoreBackdropClick=false;this._originalBodyPadding=0;this._scrollbarWidth=0}a.prototype.toggle=function(t){return this._isShown?this.hide():this.show(t)};a.prototype.show=function(e){var n=this;var i=t.Event(c.SHOW,{relatedTarget:e});t(this._element).trigger(i);if(this._isShown||i.isDefaultPrevented())return;this._isShown=true;this._checkScrollbar();this._setScrollbar();t(document.body).addClass(u.OPEN);this._setEscapeEvent();this._setResizeEvent();t(this._element).on(c.CLICK_DISMISS,h.DATA_DISMISS,t.proxy(this.hide,this));t(this._dialog).on(c.MOUSEDOWN_DISMISS,function(){t(n._element).one(c.MOUSEUP_DISMISS,function(e){if(t(e.target).is(n._element))n._ignoreBackdropClick=true})});this._showBackdrop(t.proxy(this._showElement,this,e))};a.prototype.hide=function(e){if(e)e.preventDefault();var n=t.Event(c.HIDE);t(this._element).trigger(n);if(!this._isShown||n.isDefaultPrevented())return;this._isShown=false;this._setEscapeEvent();this._setResizeEvent();t(document).off(c.FOCUSIN);t(this._element).removeClass(u.IN);t(this._element).off(c.CLICK_DISMISS);t(this._dialog).off(c.MOUSEDOWN_DISMISS);if(o.supportsTransitionEnd()&&t(this._element).hasClass(u.FADE))t(this._element).one(o.TRANSITION_END,t.proxy(this._hideModal,this)).emulateTransitionEnd(300);else this._hideModal()};a.prototype.dispose=function(){t.removeData(this._element,"bs.modal");t(window).off(s);t(document).off(s);t(this._element).off(s);t(this._backdrop).off(s);this._config=null;this._element=null;this._dialog=null;this._backdrop=null;this._isShown=null;this._isBodyOverflowing=null;this._ignoreBackdropClick=null;this._originalBodyPadding=null;this._scrollbarWidth=null};a.prototype._getConfig=function(n){n=t.extend({},l,n);o.typeCheckConfig(e,n,f);return n};a.prototype._showElement=function(e){var n=this;var i=o.supportsTransitionEnd()&&t(this._element).hasClass(u.FADE);if(!this._element.parentNode||this._element.parentNode.nodeType!==Node.ELEMENT_NODE)document.body.appendChild(this._element);this._element.style.display="block";this._element.removeAttribute("aria-hidden");this._element.scrollTop=0;if(i)o.reflow(this._element);t(this._element).addClass(u.IN);if(this._config.focus)this._enforceFocus();var r=t.Event(c.SHOWN,{relatedTarget:e});var s=function(){if(n._config.focus)n._element.focus();t(n._element).trigger(r)};if(i)t(this._dialog).one(o.TRANSITION_END,s).emulateTransitionEnd(300);else s()};a.prototype._enforceFocus=function(){var e=this;t(document).off(c.FOCUSIN).on(c.FOCUSIN,function(n){if(document!==n.target&&e._element!==n.target&&!t(e._element).has(n.target).length)e._element.focus()})};a.prototype._setEscapeEvent=function(){var e=this;if(this._isShown&&this._config.keyboard)t(this._element).on(c.KEYDOWN_DISMISS,function(t){if(27===t.which)e.hide()});else if(!this._isShown)t(this._element).off(c.KEYDOWN_DISMISS)};a.prototype._setResizeEvent=function(){if(this._isShown)t(window).on(c.RESIZE,t.proxy(this._handleUpdate,this));else t(window).off(c.RESIZE)};a.prototype._hideModal=function(){var e=this;this._element.style.display="none";this._element.setAttribute("aria-hidden","true");this._showBackdrop(function(){t(document.body).removeClass(u.OPEN);e._resetAdjustments();e._resetScrollbar();t(e._element).trigger(c.HIDDEN)})};a.prototype._removeBackdrop=function(){if(this._backdrop){t(this._backdrop).remove();this._backdrop=null}};a.prototype._showBackdrop=function(e){var n=this;var i=t(this._element).hasClass(u.FADE)?u.FADE:"";if(this._isShown&&this._config.backdrop){var r=o.supportsTransitionEnd()&&i;this._backdrop=document.createElement("div");this._backdrop.className=u.BACKDROP;if(i)t(this._backdrop).addClass(i);t(this._backdrop).appendTo(document.body);t(this._element).on(c.CLICK_DISMISS,function(t){if(n._ignoreBackdropClick){n._ignoreBackdropClick=false;return}if(t.target!==t.currentTarget)return;if("static"===n._config.backdrop)n._element.focus();else n.hide()});if(r)o.reflow(this._backdrop);t(this._backdrop).addClass(u.IN);if(!e)return;if(!r){e();return}t(this._backdrop).one(o.TRANSITION_END,e).emulateTransitionEnd(150)}else if(!this._isShown&&this._backdrop){t(this._backdrop).removeClass(u.IN);var s=function(){n._removeBackdrop();if(e)e()};if(o.supportsTransitionEnd()&&t(this._element).hasClass(u.FADE))t(this._backdrop).one(o.TRANSITION_END,s).emulateTransitionEnd(150);else s()}else if(e)e()};a.prototype._handleUpdate=function(){this._adjustDialog()};a.prototype._adjustDialog=function(){var t=this._element.scrollHeight>document.documentElement.clientHeight;if(!this._isBodyOverflowing&&t)this._element.style.paddingLeft=this._scrollbarWidth+"px";if(this._isBodyOverflowing&&!t)this._element.style.paddingRight=this._scrollbarWidth+"px"};a.prototype._resetAdjustments=function(){this._element.style.paddingLeft="";this._element.style.paddingRight=""};a.prototype._checkScrollbar=function(){this._isBodyOverflowing=document.body.clientWidth<window.innerWidth;this._scrollbarWidth=this._getScrollbarWidth()};a.prototype._setScrollbar=function(){var e=parseInt(t(h.FIXED_CONTENT).css("padding-right")||0,10);this._originalBodyPadding=document.body.style.paddingRight||"";if(this._isBodyOverflowing)document.body.style.paddingRight=e+this._scrollbarWidth+"px"};a.prototype._resetScrollbar=function(){document.body.style.paddingRight=this._originalBodyPadding};a.prototype._getScrollbarWidth=function(){var t=document.createElement("div");t.className=u.SCROLLBAR_MEASURER;document.body.appendChild(t);var e=t.offsetWidth-t.clientWidth;document.body.removeChild(t);return e};a._jQueryInterface=function(e,n){return this.each(function(){var r=t(this).data("bs.modal");var o=t.extend({},a.Default,t(this).data(),"object"===(void 0===e?"undefined":i(e))&&e);if(!r){r=new a(this,o);t(this).data("bs.modal",r)}if("string"==typeof e){if(void 0===r[e])throw new Error('No method named "'+e+'"');r[e](n)}else if(o.show)r.show(n)})};r(a,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}},{key:"Default",get:function(){return l}}]);return a}();t(document).on(c.CLICK_DATA_API,h.DATA_TOGGLE,function(e){var n=this;var i=void 0;var r=o.getSelectorFromElement(this);if(r)i=t(r)[0];var s=t(i).data("bs.modal")?"toggle":t.extend({},t(i).data(),t(this).data());if("A"===this.tagName)e.preventDefault();var a=t(i).one(c.SHOW,function(e){if(e.isDefaultPrevented())return;a.one(c.HIDDEN,function(){if(t(n).is(":visible"))n.focus()})});d._jQueryInterface.call(t(i),s,this)});t.fn[e]=d._jQueryInterface;t.fn[e].Constructor=d;t.fn[e].noConflict=function(){t.fn[e]=a;return d._jQueryInterface}}(jQuery);!function(t){var e="scrollspy";var s=t.fn[e];var a={offset:10,method:"auto",target:""};var l={offset:"number",method:"string",target:"(string|element)"};var f={ACTIVATE:"activate.bs.scrollspy",SCROLL:"scroll.bs.scrollspy",LOAD_DATA_API:"load.bs.scrollspy.data-api"};var c={DROPDOWN_ITEM:"dropdown-item",DROPDOWN_MENU:"dropdown-menu",NAV_LINK:"nav-link",NAV:"nav",ACTIVE:"active"};var u={DATA_SPY:'[data-spy="scroll"]',ACTIVE:".active",LIST_ITEM:".list-item",LI:"li",LI_DROPDOWN:"li.dropdown",NAV_LINKS:".nav-link",DROPDOWN:".dropdown",DROPDOWN_ITEMS:".dropdown-item",DROPDOWN_TOGGLE:".dropdown-toggle"};var h={OFFSET:"offset",POSITION:"position"};var d=function(){function s(e,i){n(this,s);this._element=e;this._scrollElement="BODY"===e.tagName?window:e;this._config=this._getConfig(i);this._selector=this._config.target+" "+u.NAV_LINKS+","+this._config.target+" "+u.DROPDOWN_ITEMS;this._offsets=[];this._targets=[];this._activeTarget=null;this._scrollHeight=0;t(this._scrollElement).on(f.SCROLL,t.proxy(this._process,this));this.refresh();this._process()}s.prototype.refresh=function(){var e=this;var n=this._scrollElement!==this._scrollElement.window?h.POSITION:h.OFFSET;var i="auto"===this._config.method?n:this._config.method;var r=i===h.POSITION?this._getScrollTop():0;this._offsets=[];this._targets=[];this._scrollHeight=this._getScrollHeight();t.makeArray(t(this._selector)).map(function(e){var n=void 0;var s=o.getSelectorFromElement(e);if(s)n=t(s)[0];if(n&&(n.offsetWidth||n.offsetHeight))return[t(n)[i]().top+r,s];return null}).filter(function(t){return t}).sort(function(t,e){return t[0]-e[0]}).forEach(function(t){e._offsets.push(t[0]);e._targets.push(t[1])})};s.prototype.dispose=function(){t.removeData(this._element,"bs.scrollspy");t(this._scrollElement).off(".bs.scrollspy");this._element=null;this._scrollElement=null;this._config=null;this._selector=null;this._offsets=null;this._targets=null;this._activeTarget=null;this._scrollHeight=null};s.prototype._getConfig=function(n){n=t.extend({},a,n);if("string"!=typeof n.target){var i=t(n.target).attr("id");if(!i){i=o.getUID(e);t(n.target).attr("id",i)}n.target="#"+i}o.typeCheckConfig(e,n,l);return n};s.prototype._getScrollTop=function(){return this._scrollElement===window?this._scrollElement.scrollY:this._scrollElement.scrollTop};s.prototype._getScrollHeight=function(){return this._scrollElement.scrollHeight||Math.max(document.body.scrollHeight,document.documentElement.scrollHeight)};s.prototype._process=function(){var t=this._getScrollTop()+this._config.offset;var e=this._getScrollHeight();var n=this._config.offset+e-this._scrollElement.offsetHeight;if(this._scrollHeight!==e)this.refresh();if(t>=n){var i=this._targets[this._targets.length-1];if(this._activeTarget!==i)this._activate(i)}if(this._activeTarget&&t<this._offsets[0]){this._activeTarget=null;this._clear();return}for(var r=this._offsets.length;r--;){if(this._activeTarget!==this._targets[r]&&t>=this._offsets[r]&&(void 0===this._offsets[r+1]||t<this._offsets[r+1]))this._activate(this._targets[r])}};s.prototype._activate=function(e){this._activeTarget=e;this._clear();var n=this._selector.split(",");n=n.map(function(t){return t+'[data-target="'+e+'"],'+t+'[href="'+e+'"]'});var i=t(n.join(","));if(i.hasClass(c.DROPDOWN_ITEM)){i.closest(u.DROPDOWN).find(u.DROPDOWN_TOGGLE).addClass(c.ACTIVE);i.addClass(c.ACTIVE)}else i.parents(u.LI).find(u.NAV_LINKS).addClass(c.ACTIVE);t(this._scrollElement).trigger(f.ACTIVATE,{relatedTarget:e})};s.prototype._clear=function(){t(this._selector).filter(u.ACTIVE).removeClass(c.ACTIVE)};s._jQueryInterface=function(e){return this.each(function(){var n=t(this).data("bs.scrollspy");var r="object"===(void 0===e?"undefined":i(e))&&e||null;if(!n){n=new s(this,r);t(this).data("bs.scrollspy",n)}if("string"==typeof e){if(void 0===n[e])throw new Error('No method named "'+e+'"');n[e]()}})};r(s,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}},{key:"Default",get:function(){return a}}]);return s}();t(window).on(f.LOAD_DATA_API,function(){var e=t.makeArray(t(u.DATA_SPY));for(var n=e.length;n--;){var i=t(e[n]);d._jQueryInterface.call(i,i.data())}});t.fn[e]=d._jQueryInterface;t.fn[e].Constructor=d;t.fn[e].noConflict=function(){t.fn[e]=s;return d._jQueryInterface}}(jQuery);!function(t){var e=t.fn.tab;var i={HIDE:"hide.bs.tab",HIDDEN:"hidden.bs.tab",SHOW:"show.bs.tab",SHOWN:"shown.bs.tab",CLICK_DATA_API:"click.bs.tab.data-api"};var s={DROPDOWN_MENU:"dropdown-menu",ACTIVE:"active",FADE:"fade",IN:"in"};var a={A:"a",LI:"li",DROPDOWN:".dropdown",UL:"ul:not(.dropdown-menu)",FADE_CHILD:"> .nav-item .fade, > .fade",ACTIVE:".active",ACTIVE_CHILD:"> .nav-item > .active, > .active",DATA_TOGGLE:'[data-toggle="tab"], [data-toggle="pill"]',DROPDOWN_TOGGLE:".dropdown-toggle",DROPDOWN_ACTIVE_CHILD:"> .dropdown-menu .active"};var l=function(){function e(t){n(this,e);this._element=t}e.prototype.show=function(){var e=this;if(this._element.parentNode&&this._element.parentNode.nodeType===Node.ELEMENT_NODE&&t(this._element).hasClass(s.ACTIVE))return;var n=void 0;var r=void 0;var l=t(this._element).closest(a.UL)[0];var f=o.getSelectorFromElement(this._element);if(l){r=t.makeArray(t(l).find(a.ACTIVE));r=r[r.length-1]}var c=t.Event(i.HIDE,{relatedTarget:this._element});var u=t.Event(i.SHOW,{relatedTarget:r});if(r)t(r).trigger(c);t(this._element).trigger(u);if(u.isDefaultPrevented()||c.isDefaultPrevented())return;if(f)n=t(f)[0];this._activate(this._element,l);var h=function(){var n=t.Event(i.HIDDEN,{relatedTarget:e._element});var o=t.Event(i.SHOWN,{relatedTarget:r});t(r).trigger(n);t(e._element).trigger(o)};if(n)this._activate(n,n.parentNode,h);else h()};e.prototype.dispose=function(){t.removeClass(this._element,"bs.tab");this._element=null};e.prototype._activate=function(e,n,i){var r=t(n).find(a.ACTIVE_CHILD)[0];var l=i&&o.supportsTransitionEnd()&&(r&&t(r).hasClass(s.FADE)||Boolean(t(n).find(a.FADE_CHILD)[0]));var f=t.proxy(this._transitionComplete,this,e,r,l,i);if(r&&l)t(r).one(o.TRANSITION_END,f).emulateTransitionEnd(150);else f();if(r)t(r).removeClass(s.IN)};e.prototype._transitionComplete=function(e,n,i,r){if(n){t(n).removeClass(s.ACTIVE);var l=t(n).find(a.DROPDOWN_ACTIVE_CHILD)[0];if(l)t(l).removeClass(s.ACTIVE);n.setAttribute("aria-expanded",false)}t(e).addClass(s.ACTIVE);e.setAttribute("aria-expanded",true);if(i){o.reflow(e);t(e).addClass(s.IN)}else t(e).removeClass(s.FADE);if(e.parentNode&&t(e.parentNode).hasClass(s.DROPDOWN_MENU)){var f=t(e).closest(a.DROPDOWN)[0];if(f)t(f).find(a.DROPDOWN_TOGGLE).addClass(s.ACTIVE);e.setAttribute("aria-expanded",true)}if(r)r()};e._jQueryInterface=function(n){return this.each(function(){var i=t(this);var r=i.data("bs.tab");if(!r){r=r=new e(this);i.data("bs.tab",r)}if("string"==typeof n){if(void 0===r[n])throw new Error('No method named "'+n+'"');r[n]()}})};r(e,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}}]);return e}();t(document).on(i.CLICK_DATA_API,a.DATA_TOGGLE,function(e){e.preventDefault();l._jQueryInterface.call(t(this),"show")});t.fn.tab=l._jQueryInterface;t.fn.tab.Constructor=l;t.fn.tab.noConflict=function(){t.fn.tab=e;return l._jQueryInterface}}(jQuery);var s=function(t){if(void 0===window.Tether)throw new Error("Bootstrap tooltips require Tether (http://tether.io/)");var e="tooltip";var s=".bs.tooltip";var a=t.fn[e];var l={animation:true,template:'<div class="tooltip" role="tooltip"><div class="tooltip-inner"></div></div>',trigger:"hover focus",title:"",delay:0,html:false,selector:false,placement:"top",offset:"0 0",constraints:[]};var f={animation:"boolean",template:"string",title:"(string|element|function)",trigger:"string",delay:"(number|object)",html:"boolean",selector:"(string|boolean)",placement:"(string|function)",offset:"string",constraints:"array"};var c={TOP:"bottom center",RIGHT:"middle left",BOTTOM:"top center",LEFT:"middle right"};var u={IN:"in",OUT:"out"};var h={HIDE:"hide"+s,HIDDEN:"hidden"+s,SHOW:"show"+s,SHOWN:"shown"+s,INSERTED:"inserted"+s,CLICK:"click"+s,FOCUSIN:"focusin"+s,FOCUSOUT:"focusout"+s,MOUSEENTER:"mouseenter"+s,MOUSELEAVE:"mouseleave"+s};var d={FADE:"fade",IN:"in"};var _={TOOLTIP:".tooltip",TOOLTIP_INNER:".tooltip-inner"};var p={element:false,enabled:false};var g={HOVER:"hover",FOCUS:"focus",CLICK:"click",MANUAL:"manual"};var v=function(){function a(t,e){n(this,a);this._isEnabled=true;this._timeout=0;this._hoverState="";this._activeTrigger={};this._tether=null;this.element=t;this.config=this._getConfig(e);this.tip=null;this._setListeners()}a.prototype.enable=function(){this._isEnabled=true};a.prototype.disable=function(){this._isEnabled=false};a.prototype.toggleEnabled=function(){this._isEnabled=!this._isEnabled};a.prototype.toggle=function(e){if(e){var n=this.constructor.DATA_KEY;var i=t(e.currentTarget).data(n);if(!i){i=new this.constructor(e.currentTarget,this._getDelegateConfig());t(e.currentTarget).data(n,i)}i._activeTrigger.click=!i._activeTrigger.click;if(i._isWithActiveTrigger())i._enter(null,i);else i._leave(null,i)}else{if(t(this.getTipElement()).hasClass(d.IN)){this._leave(null,this);return}this._enter(null,this)}};a.prototype.dispose=function(){clearTimeout(this._timeout);this.cleanupTether();t.removeData(this.element,this.constructor.DATA_KEY);t(this.element).off(this.constructor.EVENT_KEY);if(this.tip)t(this.tip).remove();this._isEnabled=null;this._timeout=null;this._hoverState=null;this._activeTrigger=null;this._tether=null;this.element=null;this.config=null;this.tip=null};a.prototype.show=function(){var e=this;var n=t.Event(this.constructor.Event.SHOW);if(this.isWithContent()&&this._isEnabled){t(this.element).trigger(n);var i=t.contains(this.element.ownerDocument.documentElement,this.element);if(n.isDefaultPrevented()||!i)return;var r=this.getTipElement();var s=o.getUID(this.constructor.NAME);r.setAttribute("id",s);this.element.setAttribute("aria-describedby",s);this.setContent();if(this.config.animation)t(r).addClass(d.FADE);var l="function"==typeof this.config.placement?this.config.placement.call(this,r,this.element):this.config.placement;var f=this._getAttachment(l);t(r).data(this.constructor.DATA_KEY,this).appendTo(document.body);t(this.element).trigger(this.constructor.Event.INSERTED);this._tether=new Tether({attachment:f,element:r,target:this.element,classes:p,classPrefix:"bs-tether",offset:this.config.offset,constraints:this.config.constraints,addTargetClasses:false});o.reflow(r);this._tether.position();t(r).addClass(d.IN);var c=function(){var n=e._hoverState;e._hoverState=null;t(e.element).trigger(e.constructor.Event.SHOWN);if(n===u.OUT)e._leave(null,e)};if(o.supportsTransitionEnd()&&t(this.tip).hasClass(d.FADE)){t(this.tip).one(o.TRANSITION_END,c).emulateTransitionEnd(a._TRANSITION_DURATION);return}c()}};a.prototype.hide=function(e){var n=this;var i=this.getTipElement();var r=t.Event(this.constructor.Event.HIDE);var s=function(){if(n._hoverState!==u.IN&&i.parentNode)i.parentNode.removeChild(i);n.element.removeAttribute("aria-describedby");t(n.element).trigger(n.constructor.Event.HIDDEN);n.cleanupTether();if(e)e()};t(this.element).trigger(r);if(r.isDefaultPrevented())return;t(i).removeClass(d.IN);if(o.supportsTransitionEnd()&&t(this.tip).hasClass(d.FADE))t(i).one(o.TRANSITION_END,s).emulateTransitionEnd(150);else s();this._hoverState=""};a.prototype.isWithContent=function(){return Boolean(this.getTitle())};a.prototype.getTipElement=function(){return this.tip=this.tip||t(this.config.template)[0]};a.prototype.setContent=function(){var e=t(this.getTipElement());this.setElementContent(e.find(_.TOOLTIP_INNER),this.getTitle());e.removeClass(d.FADE).removeClass(d.IN);this.cleanupTether()};a.prototype.setElementContent=function(e,n){var r=this.config.html;if("object"===(void 0===n?"undefined":i(n))&&(n.nodeType||n.jquery))if(r){if(!t(n).parent().is(e))e.empty().append(n)}else e.text(t(n).text());else e[r?"html":"text"](n)};a.prototype.getTitle=function(){var t=this.element.getAttribute("data-original-title");if(!t)t="function"==typeof this.config.title?this.config.title.call(this.element):this.config.title;return t};a.prototype.cleanupTether=function(){if(this._tether)this._tether.destroy()};a.prototype._getAttachment=function(t){return c[t.toUpperCase()]};a.prototype._setListeners=function(){var e=this;this.config.trigger.split(" ").forEach(function(n){if("click"===n)t(e.element).on(e.constructor.Event.CLICK,e.config.selector,t.proxy(e.toggle,e));else if(n!==g.MANUAL){var i=n===g.HOVER?e.constructor.Event.MOUSEENTER:e.constructor.Event.FOCUSIN;var r=n===g.HOVER?e.constructor.Event.MOUSELEAVE:e.constructor.Event.FOCUSOUT;t(e.element).on(i,e.config.selector,t.proxy(e._enter,e)).on(r,e.config.selector,t.proxy(e._leave,e))}});if(this.config.selector)this.config=t.extend({},this.config,{trigger:"manual",selector:""});else this._fixTitle()};a.prototype._fixTitle=function(){var t=i(this.element.getAttribute("data-original-title"));if(this.element.getAttribute("title")||"string"!==t){this.element.setAttribute("data-original-title",this.element.getAttribute("title")||"");this.element.setAttribute("title","")}};a.prototype._enter=function(e,n){var i=this.constructor.DATA_KEY;n=n||t(e.currentTarget).data(i);if(!n){n=new this.constructor(e.currentTarget,this._getDelegateConfig());t(e.currentTarget).data(i,n)}if(e)n._activeTrigger["focusin"===e.type?g.FOCUS:g.HOVER]=true;if(t(n.getTipElement()).hasClass(d.IN)||n._hoverState===u.IN){n._hoverState=u.IN;return}clearTimeout(n._timeout);n._hoverState=u.IN;if(!n.config.delay||!n.config.delay.show){n.show();return}n._timeout=setTimeout(function(){if(n._hoverState===u.IN)n.show()},n.config.delay.show)};a.prototype._leave=function(e,n){var i=this.constructor.DATA_KEY;n=n||t(e.currentTarget).data(i);if(!n){n=new this.constructor(e.currentTarget,this._getDelegateConfig());t(e.currentTarget).data(i,n)}if(e)n._activeTrigger["focusout"===e.type?g.FOCUS:g.HOVER]=false;if(n._isWithActiveTrigger())return;clearTimeout(n._timeout);n._hoverState=u.OUT;if(!n.config.delay||!n.config.delay.hide){n.hide();return}n._timeout=setTimeout(function(){if(n._hoverState===u.OUT)n.hide()},n.config.delay.hide)};a.prototype._isWithActiveTrigger=function(){for(var t in this._activeTrigger)if(this._activeTrigger[t])return true;return false};a.prototype._getConfig=function(n){n=t.extend({},this.constructor.Default,t(this.element).data(),n);if(n.delay&&"number"==typeof n.delay)n.delay={show:n.delay,hide:n.delay};o.typeCheckConfig(e,n,this.constructor.DefaultType);return n};a.prototype._getDelegateConfig=function(){var t={};if(this.config)for(var e in this.config)if(this.constructor.Default[e]!==this.config[e])t[e]=this.config[e];return t};a._jQueryInterface=function(e){return this.each(function(){var n=t(this).data("bs.tooltip");var r="object"===(void 0===e?"undefined":i(e))?e:null;if(!n&&/dispose|hide/.test(e))return;if(!n){n=new a(this,r);t(this).data("bs.tooltip",n)}if("string"==typeof e){if(void 0===n[e])throw new Error('No method named "'+e+'"');n[e]()}})};r(a,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}},{key:"Default",get:function(){return l}},{key:"NAME",get:function(){return e}},{key:"DATA_KEY",get:function(){return"bs.tooltip"}},{key:"Event",get:function(){return h}},{key:"EVENT_KEY",get:function(){return s}},{key:"DefaultType",get:function(){return f}}]);return a}();t.fn[e]=v._jQueryInterface;t.fn[e].Constructor=v;t.fn[e].noConflict=function(){t.fn[e]=a;return v._jQueryInterface};return v}(jQuery);!function(o){var a="popover";var l=".bs.popover";var f=o.fn[a];var c=o.extend({},s.Default,{placement:"right",trigger:"click",content:"",template:'<div class="popover" role="tooltip"><h3 class="popover-title"></h3><div class="popover-content"></div></div>'});var u=o.extend({},s.DefaultType,{content:"(string|element|function)"});var h={FADE:"fade",IN:"in"};var d={TITLE:".popover-title",CONTENT:".popover-content"};var _={HIDE:"hide"+l,HIDDEN:"hidden"+l,SHOW:"show"+l,SHOWN:"shown"+l,INSERTED:"inserted"+l,CLICK:"click"+l,FOCUSIN:"focusin"+l,FOCUSOUT:"focusout"+l,MOUSEENTER:"mouseenter"+l,MOUSELEAVE:"mouseleave"+l};var p=function(s){function f(){n(this,f);return t(this,s.apply(this,arguments))}e(f,s);f.prototype.isWithContent=function(){return this.getTitle()||this._getContent()};f.prototype.getTipElement=function(){return this.tip=this.tip||o(this.config.template)[0]};f.prototype.setContent=function(){var t=o(this.getTipElement());this.setElementContent(t.find(d.TITLE),this.getTitle());this.setElementContent(t.find(d.CONTENT),this._getContent());t.removeClass(h.FADE).removeClass(h.IN);this.cleanupTether()};f.prototype._getContent=function(){return this.element.getAttribute("data-content")||("function"==typeof this.config.content?this.config.content.call(this.element):this.config.content)};f._jQueryInterface=function(t){return this.each(function(){var e=o(this).data("bs.popover");var n="object"===(void 0===t?"undefined":i(t))?t:null;if(!e&&/destroy|hide/.test(t))return;if(!e){e=new f(this,n);o(this).data("bs.popover",e)}if("string"==typeof t){if(void 0===e[t])throw new Error('No method named "'+t+'"');e[t]()}})};r(f,null,[{key:"VERSION",get:function(){return"4.0.0-alpha.5"}},{key:"Default",get:function(){return c}},{key:"NAME",get:function(){return a}},{key:"DATA_KEY",get:function(){return"bs.popover"}},{key:"Event",get:function(){return _}},{key:"EVENT_KEY",get:function(){return l}},{key:"DefaultType",get:function(){return u}}]);return f}(s);o.fn[a]=p._jQueryInterface;o.fn[a].Constructor=p;o.fn[a].noConflict=function(){o.fn[a]=f;return p._jQueryInterface}}(jQuery)}()},function(t,e,n){n(0);t.exports=n(1)}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// identity function for calling harmony imports with the correct context
+/******/ 	__webpack_require__.i = function(value) { return value; };
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, {
+/******/ 				configurable: false,
+/******/ 				enumerable: true,
+/******/ 				get: getter
+/******/ 			});
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 3);
+/******/ })
+/************************************************************************/
+/******/ ([
+/* 0 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+__webpack_require__(2);
+
+__webpack_require__(13);
+
+__webpack_require__(15);
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/*!
+ * Bootstrap v4.0.0-alpha.5 (https://getbootstrap.com)
+ * Copyright 2011-2016 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ */
+
+
+
+if (typeof jQuery === 'undefined') {
+  throw new Error('Bootstrap\'s JavaScript requires jQuery');
+}
+
++(function ($) {
+  var version = $.fn.jquery.split(' ')[0].split('.');
+  if (version[0] < 2 && version[1] < 9 || version[0] == 1 && version[1] == 9 && version[2] < 1 || version[0] >= 4) {
+    throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0');
+  }
+})(jQuery);
+
++(function () {
+
+  var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  };
+
+  var _createClass = (function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);if (staticProps) defineProperties(Constructor, staticProps);return Constructor;
+    };
+  })();
+
+  function _possibleConstructorReturn(self, call) {
+    if (!self) {
+      throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+    }return call && (typeof call === "object" || typeof call === "function") ? call : self;
+  }
+
+  function _inherits(subClass, superClass) {
+    if (typeof superClass !== "function" && superClass !== null) {
+      throw new TypeError("Super expression must either be null or a function, not " + typeof superClass);
+    }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+  }
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): util.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Util = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Private TransitionEnd Helpers
+     * ------------------------------------------------------------------------
+     */
+
+    var transition = false;
+
+    var MAX_UID = 1000000;
+
+    var TransitionEndEvent = {
+      WebkitTransition: 'webkitTransitionEnd',
+      MozTransition: 'transitionend',
+      OTransition: 'oTransitionEnd otransitionend',
+      transition: 'transitionend'
+    };
+
+    // shoutout AngusCroll (https://goo.gl/pxwQGp)
+    function toType(obj) {
+      return ({}).toString.call(obj).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+    }
+
+    function isElement(obj) {
+      return (obj[0] || obj).nodeType;
+    }
+
+    function getSpecialTransitionEndEvent() {
+      return {
+        bindType: transition.end,
+        delegateType: transition.end,
+        handle: function handle(event) {
+          if ($(event.target).is(this)) {
+            return event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
+          }
+          return undefined;
+        }
+      };
+    }
+
+    function transitionEndTest() {
+      if (window.QUnit) {
+        return false;
+      }
+
+      var el = document.createElement('bootstrap');
+
+      for (var name in TransitionEndEvent) {
+        if (el.style[name] !== undefined) {
+          return { end: TransitionEndEvent[name] };
+        }
+      }
+
+      return false;
+    }
+
+    function transitionEndEmulator(duration) {
+      var _this = this;
+
+      var called = false;
+
+      $(this).one(Util.TRANSITION_END, function () {
+        called = true;
+      });
+
+      setTimeout(function () {
+        if (!called) {
+          Util.triggerTransitionEnd(_this);
+        }
+      }, duration);
+
+      return this;
+    }
+
+    function setTransitionEndSupport() {
+      transition = transitionEndTest();
+
+      $.fn.emulateTransitionEnd = transitionEndEmulator;
+
+      if (Util.supportsTransitionEnd()) {
+        $.event.special[Util.TRANSITION_END] = getSpecialTransitionEndEvent();
+      }
+    }
+
+    /**
+     * --------------------------------------------------------------------------
+     * Public Util Api
+     * --------------------------------------------------------------------------
+     */
+
+    var Util = {
+
+      TRANSITION_END: 'bsTransitionEnd',
+
+      getUID: function getUID(prefix) {
+        do {
+          /* eslint-disable no-bitwise */
+          prefix += ~ ~(Math.random() * MAX_UID); // "~~" acts like a faster Math.floor() here
+          /* eslint-enable no-bitwise */
+        } while (document.getElementById(prefix));
+        return prefix;
+      },
+      getSelectorFromElement: function getSelectorFromElement(element) {
+        var selector = element.getAttribute('data-target');
+
+        if (!selector) {
+          selector = element.getAttribute('href') || '';
+          selector = /^#[a-z]/i.test(selector) ? selector : null;
+        }
+
+        return selector;
+      },
+      reflow: function reflow(element) {
+        new Function('bs', 'return bs')(element.offsetHeight);
+      },
+      triggerTransitionEnd: function triggerTransitionEnd(element) {
+        $(element).trigger(transition.end);
+      },
+      supportsTransitionEnd: function supportsTransitionEnd() {
+        return Boolean(transition);
+      },
+      typeCheckConfig: function typeCheckConfig(componentName, config, configTypes) {
+        for (var property in configTypes) {
+          if (configTypes.hasOwnProperty(property)) {
+            var expectedTypes = configTypes[property];
+            var value = config[property];
+            var valueType = void 0;
+
+            if (value && isElement(value)) {
+              valueType = 'element';
+            } else {
+              valueType = toType(value);
+            }
+
+            if (!new RegExp(expectedTypes).test(valueType)) {
+              throw new Error(componentName.toUpperCase() + ': ' + ('Option "' + property + '" provided type "' + valueType + '" ') + ('but expected type "' + expectedTypes + '".'));
+            }
+          }
+        }
+      }
+    };
+
+    setTransitionEndSupport();
+
+    return Util;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): alert.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Alert = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'alert';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.alert';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var TRANSITION_DURATION = 150;
+
+    var Selector = {
+      DISMISS: '[data-dismiss="alert"]'
+    };
+
+    var Event = {
+      CLOSE: 'close' + EVENT_KEY,
+      CLOSED: 'closed' + EVENT_KEY,
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      ALERT: 'alert',
+      FADE: 'fade',
+      IN: 'in'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Alert = (function () {
+      function Alert(element) {
+        _classCallCheck(this, Alert);
+
+        this._element = element;
+      }
+
+      // getters
+
+      // public
+
+      Alert.prototype.close = function close(element) {
+        element = element || this._element;
+
+        var rootElement = this._getRootElement(element);
+        var customEvent = this._triggerCloseEvent(rootElement);
+
+        if (customEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        this._removeElement(rootElement);
+      };
+
+      Alert.prototype.dispose = function dispose() {
+        $.removeData(this._element, DATA_KEY);
+        this._element = null;
+      };
+
+      // private
+
+      Alert.prototype._getRootElement = function _getRootElement(element) {
+        var selector = Util.getSelectorFromElement(element);
+        var parent = false;
+
+        if (selector) {
+          parent = $(selector)[0];
+        }
+
+        if (!parent) {
+          parent = $(element).closest('.' + ClassName.ALERT)[0];
+        }
+
+        return parent;
+      };
+
+      Alert.prototype._triggerCloseEvent = function _triggerCloseEvent(element) {
+        var closeEvent = $.Event(Event.CLOSE);
+
+        $(element).trigger(closeEvent);
+        return closeEvent;
+      };
+
+      Alert.prototype._removeElement = function _removeElement(element) {
+        $(element).removeClass(ClassName.IN);
+
+        if (!Util.supportsTransitionEnd() || !$(element).hasClass(ClassName.FADE)) {
+          this._destroyElement(element);
+          return;
+        }
+
+        $(element).one(Util.TRANSITION_END, $.proxy(this._destroyElement, this, element)).emulateTransitionEnd(TRANSITION_DURATION);
+      };
+
+      Alert.prototype._destroyElement = function _destroyElement(element) {
+        $(element).detach().trigger(Event.CLOSED).remove();
+      };
+
+      // static
+
+      Alert._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var $element = $(this);
+          var data = $element.data(DATA_KEY);
+
+          if (!data) {
+            data = new Alert(this);
+            $element.data(DATA_KEY, data);
+          }
+
+          if (config === 'close') {
+            data[config](this);
+          }
+        });
+      };
+
+      Alert._handleDismiss = function _handleDismiss(alertInstance) {
+        return function (event) {
+          if (event) {
+            event.preventDefault();
+          }
+
+          alertInstance.close(this);
+        };
+      };
+
+      _createClass(Alert, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }]);
+
+      return Alert;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.CLICK_DATA_API, Selector.DISMISS, Alert._handleDismiss(new Alert()));
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Alert._jQueryInterface;
+    $.fn[NAME].Constructor = Alert;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Alert._jQueryInterface;
+    };
+
+    return Alert;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): button.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Button = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'button';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.button';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+
+    var ClassName = {
+      ACTIVE: 'active',
+      BUTTON: 'btn',
+      FOCUS: 'focus'
+    };
+
+    var Selector = {
+      DATA_TOGGLE_CARROT: '[data-toggle^="button"]',
+      DATA_TOGGLE: '[data-toggle="buttons"]',
+      INPUT: 'input',
+      ACTIVE: '.active',
+      BUTTON: '.btn'
+    };
+
+    var Event = {
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY,
+      FOCUS_BLUR_DATA_API: 'focus' + EVENT_KEY + DATA_API_KEY + ' ' + ('blur' + EVENT_KEY + DATA_API_KEY)
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Button = (function () {
+      function Button(element) {
+        _classCallCheck(this, Button);
+
+        this._element = element;
+      }
+
+      // getters
+
+      // public
+
+      Button.prototype.toggle = function toggle() {
+        var triggerChangeEvent = true;
+        var rootElement = $(this._element).closest(Selector.DATA_TOGGLE)[0];
+
+        if (rootElement) {
+          var input = $(this._element).find(Selector.INPUT)[0];
+
+          if (input) {
+            if (input.type === 'radio') {
+              if (input.checked && $(this._element).hasClass(ClassName.ACTIVE)) {
+                triggerChangeEvent = false;
+              } else {
+                var activeElement = $(rootElement).find(Selector.ACTIVE)[0];
+
+                if (activeElement) {
+                  $(activeElement).removeClass(ClassName.ACTIVE);
+                }
+              }
+            }
+
+            if (triggerChangeEvent) {
+              input.checked = !$(this._element).hasClass(ClassName.ACTIVE);
+              $(this._element).trigger('change');
+            }
+
+            input.focus();
+          }
+        } else {
+          this._element.setAttribute('aria-pressed', !$(this._element).hasClass(ClassName.ACTIVE));
+        }
+
+        if (triggerChangeEvent) {
+          $(this._element).toggleClass(ClassName.ACTIVE);
+        }
+      };
+
+      Button.prototype.dispose = function dispose() {
+        $.removeData(this._element, DATA_KEY);
+        this._element = null;
+      };
+
+      // static
+
+      Button._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          if (!data) {
+            data = new Button(this);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (config === 'toggle') {
+            data[config]();
+          }
+        });
+      };
+
+      _createClass(Button, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }]);
+
+      return Button;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE_CARROT, function (event) {
+      event.preventDefault();
+
+      var button = event.target;
+
+      if (!$(button).hasClass(ClassName.BUTTON)) {
+        button = $(button).closest(Selector.BUTTON);
+      }
+
+      Button._jQueryInterface.call($(button), 'toggle');
+    }).on(Event.FOCUS_BLUR_DATA_API, Selector.DATA_TOGGLE_CARROT, function (event) {
+      var button = $(event.target).closest(Selector.BUTTON)[0];
+      $(button).toggleClass(ClassName.FOCUS, /^focus(in)?$/.test(event.type));
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Button._jQueryInterface;
+    $.fn[NAME].Constructor = Button;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Button._jQueryInterface;
+    };
+
+    return Button;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): carousel.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Carousel = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'carousel';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.carousel';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var TRANSITION_DURATION = 600;
+    var ARROW_LEFT_KEYCODE = 37; // KeyboardEvent.which value for left arrow key
+    var ARROW_RIGHT_KEYCODE = 39; // KeyboardEvent.which value for right arrow key
+
+    var Default = {
+      interval: 5000,
+      keyboard: true,
+      slide: false,
+      pause: 'hover',
+      wrap: true
+    };
+
+    var DefaultType = {
+      interval: '(number|boolean)',
+      keyboard: 'boolean',
+      slide: '(boolean|string)',
+      pause: '(string|boolean)',
+      wrap: 'boolean'
+    };
+
+    var Direction = {
+      NEXT: 'next',
+      PREVIOUS: 'prev'
+    };
+
+    var Event = {
+      SLIDE: 'slide' + EVENT_KEY,
+      SLID: 'slid' + EVENT_KEY,
+      KEYDOWN: 'keydown' + EVENT_KEY,
+      MOUSEENTER: 'mouseenter' + EVENT_KEY,
+      MOUSELEAVE: 'mouseleave' + EVENT_KEY,
+      LOAD_DATA_API: 'load' + EVENT_KEY + DATA_API_KEY,
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      CAROUSEL: 'carousel',
+      ACTIVE: 'active',
+      SLIDE: 'slide',
+      RIGHT: 'right',
+      LEFT: 'left',
+      ITEM: 'carousel-item'
+    };
+
+    var Selector = {
+      ACTIVE: '.active',
+      ACTIVE_ITEM: '.active.carousel-item',
+      ITEM: '.carousel-item',
+      NEXT_PREV: '.next, .prev',
+      INDICATORS: '.carousel-indicators',
+      DATA_SLIDE: '[data-slide], [data-slide-to]',
+      DATA_RIDE: '[data-ride="carousel"]'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Carousel = (function () {
+      function Carousel(element, config) {
+        _classCallCheck(this, Carousel);
+
+        this._items = null;
+        this._interval = null;
+        this._activeElement = null;
+
+        this._isPaused = false;
+        this._isSliding = false;
+
+        this._config = this._getConfig(config);
+        this._element = $(element)[0];
+        this._indicatorsElement = $(this._element).find(Selector.INDICATORS)[0];
+
+        this._addEventListeners();
+      }
+
+      // getters
+
+      // public
+
+      Carousel.prototype.next = function next() {
+        if (!this._isSliding) {
+          this._slide(Direction.NEXT);
+        }
+      };
+
+      Carousel.prototype.nextWhenVisible = function nextWhenVisible() {
+        // Don't call next when the page isn't visible
+        if (!document.hidden) {
+          this.next();
+        }
+      };
+
+      Carousel.prototype.prev = function prev() {
+        if (!this._isSliding) {
+          this._slide(Direction.PREVIOUS);
+        }
+      };
+
+      Carousel.prototype.pause = function pause(event) {
+        if (!event) {
+          this._isPaused = true;
+        }
+
+        if ($(this._element).find(Selector.NEXT_PREV)[0] && Util.supportsTransitionEnd()) {
+          Util.triggerTransitionEnd(this._element);
+          this.cycle(true);
+        }
+
+        clearInterval(this._interval);
+        this._interval = null;
+      };
+
+      Carousel.prototype.cycle = function cycle(event) {
+        if (!event) {
+          this._isPaused = false;
+        }
+
+        if (this._interval) {
+          clearInterval(this._interval);
+          this._interval = null;
+        }
+
+        if (this._config.interval && !this._isPaused) {
+          this._interval = setInterval($.proxy(document.visibilityState ? this.nextWhenVisible : this.next, this), this._config.interval);
+        }
+      };
+
+      Carousel.prototype.to = function to(index) {
+        var _this2 = this;
+
+        this._activeElement = $(this._element).find(Selector.ACTIVE_ITEM)[0];
+
+        var activeIndex = this._getItemIndex(this._activeElement);
+
+        if (index > this._items.length - 1 || index < 0) {
+          return;
+        }
+
+        if (this._isSliding) {
+          $(this._element).one(Event.SLID, function () {
+            return _this2.to(index);
+          });
+          return;
+        }
+
+        if (activeIndex === index) {
+          this.pause();
+          this.cycle();
+          return;
+        }
+
+        var direction = index > activeIndex ? Direction.NEXT : Direction.PREVIOUS;
+
+        this._slide(direction, this._items[index]);
+      };
+
+      Carousel.prototype.dispose = function dispose() {
+        $(this._element).off(EVENT_KEY);
+        $.removeData(this._element, DATA_KEY);
+
+        this._items = null;
+        this._config = null;
+        this._element = null;
+        this._interval = null;
+        this._isPaused = null;
+        this._isSliding = null;
+        this._activeElement = null;
+        this._indicatorsElement = null;
+      };
+
+      // private
+
+      Carousel.prototype._getConfig = function _getConfig(config) {
+        config = $.extend({}, Default, config);
+        Util.typeCheckConfig(NAME, config, DefaultType);
+        return config;
+      };
+
+      Carousel.prototype._addEventListeners = function _addEventListeners() {
+        if (this._config.keyboard) {
+          $(this._element).on(Event.KEYDOWN, $.proxy(this._keydown, this));
+        }
+
+        if (this._config.pause === 'hover' && !('ontouchstart' in document.documentElement)) {
+          $(this._element).on(Event.MOUSEENTER, $.proxy(this.pause, this)).on(Event.MOUSELEAVE, $.proxy(this.cycle, this));
+        }
+      };
+
+      Carousel.prototype._keydown = function _keydown(event) {
+        event.preventDefault();
+
+        if (/input|textarea/i.test(event.target.tagName)) {
+          return;
+        }
+
+        switch (event.which) {
+          case ARROW_LEFT_KEYCODE:
+            this.prev();
+            break;
+          case ARROW_RIGHT_KEYCODE:
+            this.next();
+            break;
+          default:
+            return;
+        }
+      };
+
+      Carousel.prototype._getItemIndex = function _getItemIndex(element) {
+        this._items = $.makeArray($(element).parent().find(Selector.ITEM));
+        return this._items.indexOf(element);
+      };
+
+      Carousel.prototype._getItemByDirection = function _getItemByDirection(direction, activeElement) {
+        var isNextDirection = direction === Direction.NEXT;
+        var isPrevDirection = direction === Direction.PREVIOUS;
+        var activeIndex = this._getItemIndex(activeElement);
+        var lastItemIndex = this._items.length - 1;
+        var isGoingToWrap = isPrevDirection && activeIndex === 0 || isNextDirection && activeIndex === lastItemIndex;
+
+        if (isGoingToWrap && !this._config.wrap) {
+          return activeElement;
+        }
+
+        var delta = direction === Direction.PREVIOUS ? -1 : 1;
+        var itemIndex = (activeIndex + delta) % this._items.length;
+
+        return itemIndex === -1 ? this._items[this._items.length - 1] : this._items[itemIndex];
+      };
+
+      Carousel.prototype._triggerSlideEvent = function _triggerSlideEvent(relatedTarget, directionalClassname) {
+        var slideEvent = $.Event(Event.SLIDE, {
+          relatedTarget: relatedTarget,
+          direction: directionalClassname
+        });
+
+        $(this._element).trigger(slideEvent);
+
+        return slideEvent;
+      };
+
+      Carousel.prototype._setActiveIndicatorElement = function _setActiveIndicatorElement(element) {
+        if (this._indicatorsElement) {
+          $(this._indicatorsElement).find(Selector.ACTIVE).removeClass(ClassName.ACTIVE);
+
+          var nextIndicator = this._indicatorsElement.children[this._getItemIndex(element)];
+
+          if (nextIndicator) {
+            $(nextIndicator).addClass(ClassName.ACTIVE);
+          }
+        }
+      };
+
+      Carousel.prototype._slide = function _slide(direction, element) {
+        var _this3 = this;
+
+        var activeElement = $(this._element).find(Selector.ACTIVE_ITEM)[0];
+        var nextElement = element || activeElement && this._getItemByDirection(direction, activeElement);
+
+        var isCycling = Boolean(this._interval);
+
+        var directionalClassName = direction === Direction.NEXT ? ClassName.LEFT : ClassName.RIGHT;
+
+        if (nextElement && $(nextElement).hasClass(ClassName.ACTIVE)) {
+          this._isSliding = false;
+          return;
+        }
+
+        var slideEvent = this._triggerSlideEvent(nextElement, directionalClassName);
+        if (slideEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        if (!activeElement || !nextElement) {
+          // some weirdness is happening, so we bail
+          return;
+        }
+
+        this._isSliding = true;
+
+        if (isCycling) {
+          this.pause();
+        }
+
+        this._setActiveIndicatorElement(nextElement);
+
+        var slidEvent = $.Event(Event.SLID, {
+          relatedTarget: nextElement,
+          direction: directionalClassName
+        });
+
+        if (Util.supportsTransitionEnd() && $(this._element).hasClass(ClassName.SLIDE)) {
+
+          $(nextElement).addClass(direction);
+
+          Util.reflow(nextElement);
+
+          $(activeElement).addClass(directionalClassName);
+          $(nextElement).addClass(directionalClassName);
+
+          $(activeElement).one(Util.TRANSITION_END, function () {
+            $(nextElement).removeClass(directionalClassName).removeClass(direction);
+
+            $(nextElement).addClass(ClassName.ACTIVE);
+
+            $(activeElement).removeClass(ClassName.ACTIVE).removeClass(direction).removeClass(directionalClassName);
+
+            _this3._isSliding = false;
+
+            setTimeout(function () {
+              return $(_this3._element).trigger(slidEvent);
+            }, 0);
+          }).emulateTransitionEnd(TRANSITION_DURATION);
+        } else {
+          $(activeElement).removeClass(ClassName.ACTIVE);
+          $(nextElement).addClass(ClassName.ACTIVE);
+
+          this._isSliding = false;
+          $(this._element).trigger(slidEvent);
+        }
+
+        if (isCycling) {
+          this.cycle();
+        }
+      };
+
+      // static
+
+      Carousel._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+          var _config = $.extend({}, Default, $(this).data());
+
+          if ((typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object') {
+            $.extend(_config, config);
+          }
+
+          var action = typeof config === 'string' ? config : _config.slide;
+
+          if (!data) {
+            data = new Carousel(this, _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'number') {
+            data.to(config);
+          } else if (typeof action === 'string') {
+            if (data[action] === undefined) {
+              throw new Error('No method named "' + action + '"');
+            }
+            data[action]();
+          } else if (_config.interval) {
+            data.pause();
+            data.cycle();
+          }
+        });
+      };
+
+      Carousel._dataApiClickHandler = function _dataApiClickHandler(event) {
+        var selector = Util.getSelectorFromElement(this);
+
+        if (!selector) {
+          return;
+        }
+
+        var target = $(selector)[0];
+
+        if (!target || !$(target).hasClass(ClassName.CAROUSEL)) {
+          return;
+        }
+
+        var config = $.extend({}, $(target).data(), $(this).data());
+        var slideIndex = this.getAttribute('data-slide-to');
+
+        if (slideIndex) {
+          config.interval = false;
+        }
+
+        Carousel._jQueryInterface.call($(target), config);
+
+        if (slideIndex) {
+          $(target).data(DATA_KEY).to(slideIndex);
+        }
+
+        event.preventDefault();
+      };
+
+      _createClass(Carousel, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }, {
+        key: 'Default',
+        get: function get() {
+          return Default;
+        }
+      }]);
+
+      return Carousel;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.CLICK_DATA_API, Selector.DATA_SLIDE, Carousel._dataApiClickHandler);
+
+    $(window).on(Event.LOAD_DATA_API, function () {
+      $(Selector.DATA_RIDE).each(function () {
+        var $carousel = $(this);
+        Carousel._jQueryInterface.call($carousel, $carousel.data());
+      });
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Carousel._jQueryInterface;
+    $.fn[NAME].Constructor = Carousel;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Carousel._jQueryInterface;
+    };
+
+    return Carousel;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): collapse.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Collapse = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'collapse';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.collapse';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var TRANSITION_DURATION = 600;
+
+    var Default = {
+      toggle: true,
+      parent: ''
+    };
+
+    var DefaultType = {
+      toggle: 'boolean',
+      parent: 'string'
+    };
+
+    var Event = {
+      SHOW: 'show' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
+      HIDE: 'hide' + EVENT_KEY,
+      HIDDEN: 'hidden' + EVENT_KEY,
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      IN: 'in',
+      COLLAPSE: 'collapse',
+      COLLAPSING: 'collapsing',
+      COLLAPSED: 'collapsed'
+    };
+
+    var Dimension = {
+      WIDTH: 'width',
+      HEIGHT: 'height'
+    };
+
+    var Selector = {
+      ACTIVES: '.card > .in, .card > .collapsing',
+      DATA_TOGGLE: '[data-toggle="collapse"]'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Collapse = (function () {
+      function Collapse(element, config) {
+        _classCallCheck(this, Collapse);
+
+        this._isTransitioning = false;
+        this._element = element;
+        this._config = this._getConfig(config);
+        this._triggerArray = $.makeArray($('[data-toggle="collapse"][href="#' + element.id + '"],' + ('[data-toggle="collapse"][data-target="#' + element.id + '"]')));
+
+        this._parent = this._config.parent ? this._getParent() : null;
+
+        if (!this._config.parent) {
+          this._addAriaAndCollapsedClass(this._element, this._triggerArray);
+        }
+
+        if (this._config.toggle) {
+          this.toggle();
+        }
+      }
+
+      // getters
+
+      // public
+
+      Collapse.prototype.toggle = function toggle() {
+        if ($(this._element).hasClass(ClassName.IN)) {
+          this.hide();
+        } else {
+          this.show();
+        }
+      };
+
+      Collapse.prototype.show = function show() {
+        var _this4 = this;
+
+        if (this._isTransitioning || $(this._element).hasClass(ClassName.IN)) {
+          return;
+        }
+
+        var actives = void 0;
+        var activesData = void 0;
+
+        if (this._parent) {
+          actives = $.makeArray($(Selector.ACTIVES));
+          if (!actives.length) {
+            actives = null;
+          }
+        }
+
+        if (actives) {
+          activesData = $(actives).data(DATA_KEY);
+          if (activesData && activesData._isTransitioning) {
+            return;
+          }
+        }
+
+        var startEvent = $.Event(Event.SHOW);
+        $(this._element).trigger(startEvent);
+        if (startEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        if (actives) {
+          Collapse._jQueryInterface.call($(actives), 'hide');
+          if (!activesData) {
+            $(actives).data(DATA_KEY, null);
+          }
+        }
+
+        var dimension = this._getDimension();
+
+        $(this._element).removeClass(ClassName.COLLAPSE).addClass(ClassName.COLLAPSING);
+
+        this._element.style[dimension] = 0;
+        this._element.setAttribute('aria-expanded', true);
+
+        if (this._triggerArray.length) {
+          $(this._triggerArray).removeClass(ClassName.COLLAPSED).attr('aria-expanded', true);
+        }
+
+        this.setTransitioning(true);
+
+        var complete = function complete() {
+          $(_this4._element).removeClass(ClassName.COLLAPSING).addClass(ClassName.COLLAPSE).addClass(ClassName.IN);
+
+          _this4._element.style[dimension] = '';
+
+          _this4.setTransitioning(false);
+
+          $(_this4._element).trigger(Event.SHOWN);
+        };
+
+        if (!Util.supportsTransitionEnd()) {
+          complete();
+          return;
+        }
+
+        var capitalizedDimension = dimension[0].toUpperCase() + dimension.slice(1);
+        var scrollSize = 'scroll' + capitalizedDimension;
+
+        $(this._element).one(Util.TRANSITION_END, complete).emulateTransitionEnd(TRANSITION_DURATION);
+
+        this._element.style[dimension] = this._element[scrollSize] + 'px';
+      };
+
+      Collapse.prototype.hide = function hide() {
+        var _this5 = this;
+
+        if (this._isTransitioning || !$(this._element).hasClass(ClassName.IN)) {
+          return;
+        }
+
+        var startEvent = $.Event(Event.HIDE);
+        $(this._element).trigger(startEvent);
+        if (startEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        var dimension = this._getDimension();
+        var offsetDimension = dimension === Dimension.WIDTH ? 'offsetWidth' : 'offsetHeight';
+
+        this._element.style[dimension] = this._element[offsetDimension] + 'px';
+
+        Util.reflow(this._element);
+
+        $(this._element).addClass(ClassName.COLLAPSING).removeClass(ClassName.COLLAPSE).removeClass(ClassName.IN);
+
+        this._element.setAttribute('aria-expanded', false);
+
+        if (this._triggerArray.length) {
+          $(this._triggerArray).addClass(ClassName.COLLAPSED).attr('aria-expanded', false);
+        }
+
+        this.setTransitioning(true);
+
+        var complete = function complete() {
+          _this5.setTransitioning(false);
+          $(_this5._element).removeClass(ClassName.COLLAPSING).addClass(ClassName.COLLAPSE).trigger(Event.HIDDEN);
+        };
+
+        this._element.style[dimension] = '';
+
+        if (!Util.supportsTransitionEnd()) {
+          complete();
+          return;
+        }
+
+        $(this._element).one(Util.TRANSITION_END, complete).emulateTransitionEnd(TRANSITION_DURATION);
+      };
+
+      Collapse.prototype.setTransitioning = function setTransitioning(isTransitioning) {
+        this._isTransitioning = isTransitioning;
+      };
+
+      Collapse.prototype.dispose = function dispose() {
+        $.removeData(this._element, DATA_KEY);
+
+        this._config = null;
+        this._parent = null;
+        this._element = null;
+        this._triggerArray = null;
+        this._isTransitioning = null;
+      };
+
+      // private
+
+      Collapse.prototype._getConfig = function _getConfig(config) {
+        config = $.extend({}, Default, config);
+        config.toggle = Boolean(config.toggle); // coerce string values
+        Util.typeCheckConfig(NAME, config, DefaultType);
+        return config;
+      };
+
+      Collapse.prototype._getDimension = function _getDimension() {
+        var hasWidth = $(this._element).hasClass(Dimension.WIDTH);
+        return hasWidth ? Dimension.WIDTH : Dimension.HEIGHT;
+      };
+
+      Collapse.prototype._getParent = function _getParent() {
+        var _this6 = this;
+
+        var parent = $(this._config.parent)[0];
+        var selector = '[data-toggle="collapse"][data-parent="' + this._config.parent + '"]';
+
+        $(parent).find(selector).each(function (i, element) {
+          _this6._addAriaAndCollapsedClass(Collapse._getTargetFromElement(element), [element]);
+        });
+
+        return parent;
+      };
+
+      Collapse.prototype._addAriaAndCollapsedClass = function _addAriaAndCollapsedClass(element, triggerArray) {
+        if (element) {
+          var isOpen = $(element).hasClass(ClassName.IN);
+          element.setAttribute('aria-expanded', isOpen);
+
+          if (triggerArray.length) {
+            $(triggerArray).toggleClass(ClassName.COLLAPSED, !isOpen).attr('aria-expanded', isOpen);
+          }
+        }
+      };
+
+      // static
+
+      Collapse._getTargetFromElement = function _getTargetFromElement(element) {
+        var selector = Util.getSelectorFromElement(element);
+        return selector ? $(selector)[0] : null;
+      };
+
+      Collapse._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var $this = $(this);
+          var data = $this.data(DATA_KEY);
+          var _config = $.extend({}, Default, $this.data(), (typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object' && config);
+
+          if (!data && _config.toggle && /show|hide/.test(config)) {
+            _config.toggle = false;
+          }
+
+          if (!data) {
+            data = new Collapse(this, _config);
+            $this.data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config]();
+          }
+        });
+      };
+
+      _createClass(Collapse, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }, {
+        key: 'Default',
+        get: function get() {
+          return Default;
+        }
+      }]);
+
+      return Collapse;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
+      event.preventDefault();
+
+      var target = Collapse._getTargetFromElement(this);
+      var data = $(target).data(DATA_KEY);
+      var config = data ? 'toggle' : $(this).data();
+
+      Collapse._jQueryInterface.call($(target), config);
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Collapse._jQueryInterface;
+    $.fn[NAME].Constructor = Collapse;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Collapse._jQueryInterface;
+    };
+
+    return Collapse;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): dropdown.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Dropdown = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'dropdown';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.dropdown';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
+    var ARROW_UP_KEYCODE = 38; // KeyboardEvent.which value for up arrow key
+    var ARROW_DOWN_KEYCODE = 40; // KeyboardEvent.which value for down arrow key
+    var RIGHT_MOUSE_BUTTON_WHICH = 3; // MouseEvent.which value for the right button (assuming a right-handed mouse)
+
+    var Event = {
+      HIDE: 'hide' + EVENT_KEY,
+      HIDDEN: 'hidden' + EVENT_KEY,
+      SHOW: 'show' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
+      CLICK: 'click' + EVENT_KEY,
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY,
+      KEYDOWN_DATA_API: 'keydown' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      BACKDROP: 'dropdown-backdrop',
+      DISABLED: 'disabled',
+      OPEN: 'open'
+    };
+
+    var Selector = {
+      BACKDROP: '.dropdown-backdrop',
+      DATA_TOGGLE: '[data-toggle="dropdown"]',
+      FORM_CHILD: '.dropdown form',
+      ROLE_MENU: '[role="menu"]',
+      ROLE_LISTBOX: '[role="listbox"]',
+      NAVBAR_NAV: '.navbar-nav',
+      VISIBLE_ITEMS: '[role="menu"] li:not(.disabled) a, ' + '[role="listbox"] li:not(.disabled) a'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Dropdown = (function () {
+      function Dropdown(element) {
+        _classCallCheck(this, Dropdown);
+
+        this._element = element;
+
+        this._addEventListeners();
+      }
+
+      // getters
+
+      // public
+
+      Dropdown.prototype.toggle = function toggle() {
+        if (this.disabled || $(this).hasClass(ClassName.DISABLED)) {
+          return false;
+        }
+
+        var parent = Dropdown._getParentFromElement(this);
+        var isActive = $(parent).hasClass(ClassName.OPEN);
+
+        Dropdown._clearMenus();
+
+        if (isActive) {
+          return false;
+        }
+
+        if ('ontouchstart' in document.documentElement && !$(parent).closest(Selector.NAVBAR_NAV).length) {
+
+          // if mobile we use a backdrop because click events don't delegate
+          var dropdown = document.createElement('div');
+          dropdown.className = ClassName.BACKDROP;
+          $(dropdown).insertBefore(this);
+          $(dropdown).on('click', Dropdown._clearMenus);
+        }
+
+        var relatedTarget = { relatedTarget: this };
+        var showEvent = $.Event(Event.SHOW, relatedTarget);
+
+        $(parent).trigger(showEvent);
+
+        if (showEvent.isDefaultPrevented()) {
+          return false;
+        }
+
+        this.focus();
+        this.setAttribute('aria-expanded', 'true');
+
+        $(parent).toggleClass(ClassName.OPEN);
+        $(parent).trigger($.Event(Event.SHOWN, relatedTarget));
+
+        return false;
+      };
+
+      Dropdown.prototype.dispose = function dispose() {
+        $.removeData(this._element, DATA_KEY);
+        $(this._element).off(EVENT_KEY);
+        this._element = null;
+      };
+
+      // private
+
+      Dropdown.prototype._addEventListeners = function _addEventListeners() {
+        $(this._element).on(Event.CLICK, this.toggle);
+      };
+
+      // static
+
+      Dropdown._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+
+          if (!data) {
+            $(this).data(DATA_KEY, data = new Dropdown(this));
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config].call(this);
+          }
+        });
+      };
+
+      Dropdown._clearMenus = function _clearMenus(event) {
+        if (event && event.which === RIGHT_MOUSE_BUTTON_WHICH) {
+          return;
+        }
+
+        var backdrop = $(Selector.BACKDROP)[0];
+        if (backdrop) {
+          backdrop.parentNode.removeChild(backdrop);
+        }
+
+        var toggles = $.makeArray($(Selector.DATA_TOGGLE));
+
+        for (var i = 0; i < toggles.length; i++) {
+          var parent = Dropdown._getParentFromElement(toggles[i]);
+          var relatedTarget = { relatedTarget: toggles[i] };
+
+          if (!$(parent).hasClass(ClassName.OPEN)) {
+            continue;
+          }
+
+          if (event && event.type === 'click' && /input|textarea/i.test(event.target.tagName) && $.contains(parent, event.target)) {
+            continue;
+          }
+
+          var hideEvent = $.Event(Event.HIDE, relatedTarget);
+          $(parent).trigger(hideEvent);
+          if (hideEvent.isDefaultPrevented()) {
+            continue;
+          }
+
+          toggles[i].setAttribute('aria-expanded', 'false');
+
+          $(parent).removeClass(ClassName.OPEN).trigger($.Event(Event.HIDDEN, relatedTarget));
+        }
+      };
+
+      Dropdown._getParentFromElement = function _getParentFromElement(element) {
+        var parent = void 0;
+        var selector = Util.getSelectorFromElement(element);
+
+        if (selector) {
+          parent = $(selector)[0];
+        }
+
+        return parent || element.parentNode;
+      };
+
+      Dropdown._dataApiKeydownHandler = function _dataApiKeydownHandler(event) {
+        if (!/(38|40|27|32)/.test(event.which) || /input|textarea/i.test(event.target.tagName)) {
+          return;
+        }
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (this.disabled || $(this).hasClass(ClassName.DISABLED)) {
+          return;
+        }
+
+        var parent = Dropdown._getParentFromElement(this);
+        var isActive = $(parent).hasClass(ClassName.OPEN);
+
+        if (!isActive && event.which !== ESCAPE_KEYCODE || isActive && event.which === ESCAPE_KEYCODE) {
+
+          if (event.which === ESCAPE_KEYCODE) {
+            var toggle = $(parent).find(Selector.DATA_TOGGLE)[0];
+            $(toggle).trigger('focus');
+          }
+
+          $(this).trigger('click');
+          return;
+        }
+
+        var items = $.makeArray($(Selector.VISIBLE_ITEMS));
+
+        items = items.filter(function (item) {
+          return item.offsetWidth || item.offsetHeight;
+        });
+
+        if (!items.length) {
+          return;
+        }
+
+        var index = items.indexOf(event.target);
+
+        if (event.which === ARROW_UP_KEYCODE && index > 0) {
+          // up
+          index--;
+        }
+
+        if (event.which === ARROW_DOWN_KEYCODE && index < items.length - 1) {
+          // down
+          index++;
+        }
+
+        if (index < 0) {
+          index = 0;
+        }
+
+        items[index].focus();
+      };
+
+      _createClass(Dropdown, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }]);
+
+      return Dropdown;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.KEYDOWN_DATA_API, Selector.DATA_TOGGLE, Dropdown._dataApiKeydownHandler).on(Event.KEYDOWN_DATA_API, Selector.ROLE_MENU, Dropdown._dataApiKeydownHandler).on(Event.KEYDOWN_DATA_API, Selector.ROLE_LISTBOX, Dropdown._dataApiKeydownHandler).on(Event.CLICK_DATA_API, Dropdown._clearMenus).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, Dropdown.prototype.toggle).on(Event.CLICK_DATA_API, Selector.FORM_CHILD, function (e) {
+      e.stopPropagation();
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Dropdown._jQueryInterface;
+    $.fn[NAME].Constructor = Dropdown;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Dropdown._jQueryInterface;
+    };
+
+    return Dropdown;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): modal.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Modal = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'modal';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.modal';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var TRANSITION_DURATION = 300;
+    var BACKDROP_TRANSITION_DURATION = 150;
+    var ESCAPE_KEYCODE = 27; // KeyboardEvent.which value for Escape (Esc) key
+
+    var Default = {
+      backdrop: true,
+      keyboard: true,
+      focus: true,
+      show: true
+    };
+
+    var DefaultType = {
+      backdrop: '(boolean|string)',
+      keyboard: 'boolean',
+      focus: 'boolean',
+      show: 'boolean'
+    };
+
+    var Event = {
+      HIDE: 'hide' + EVENT_KEY,
+      HIDDEN: 'hidden' + EVENT_KEY,
+      SHOW: 'show' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
+      FOCUSIN: 'focusin' + EVENT_KEY,
+      RESIZE: 'resize' + EVENT_KEY,
+      CLICK_DISMISS: 'click.dismiss' + EVENT_KEY,
+      KEYDOWN_DISMISS: 'keydown.dismiss' + EVENT_KEY,
+      MOUSEUP_DISMISS: 'mouseup.dismiss' + EVENT_KEY,
+      MOUSEDOWN_DISMISS: 'mousedown.dismiss' + EVENT_KEY,
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      SCROLLBAR_MEASURER: 'modal-scrollbar-measure',
+      BACKDROP: 'modal-backdrop',
+      OPEN: 'modal-open',
+      FADE: 'fade',
+      IN: 'in'
+    };
+
+    var Selector = {
+      DIALOG: '.modal-dialog',
+      DATA_TOGGLE: '[data-toggle="modal"]',
+      DATA_DISMISS: '[data-dismiss="modal"]',
+      FIXED_CONTENT: '.navbar-fixed-top, .navbar-fixed-bottom, .is-fixed'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Modal = (function () {
+      function Modal(element, config) {
+        _classCallCheck(this, Modal);
+
+        this._config = this._getConfig(config);
+        this._element = element;
+        this._dialog = $(element).find(Selector.DIALOG)[0];
+        this._backdrop = null;
+        this._isShown = false;
+        this._isBodyOverflowing = false;
+        this._ignoreBackdropClick = false;
+        this._originalBodyPadding = 0;
+        this._scrollbarWidth = 0;
+      }
+
+      // getters
+
+      // public
+
+      Modal.prototype.toggle = function toggle(relatedTarget) {
+        return this._isShown ? this.hide() : this.show(relatedTarget);
+      };
+
+      Modal.prototype.show = function show(relatedTarget) {
+        var _this7 = this;
+
+        var showEvent = $.Event(Event.SHOW, {
+          relatedTarget: relatedTarget
+        });
+
+        $(this._element).trigger(showEvent);
+
+        if (this._isShown || showEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        this._isShown = true;
+
+        this._checkScrollbar();
+        this._setScrollbar();
+
+        $(document.body).addClass(ClassName.OPEN);
+
+        this._setEscapeEvent();
+        this._setResizeEvent();
+
+        $(this._element).on(Event.CLICK_DISMISS, Selector.DATA_DISMISS, $.proxy(this.hide, this));
+
+        $(this._dialog).on(Event.MOUSEDOWN_DISMISS, function () {
+          $(_this7._element).one(Event.MOUSEUP_DISMISS, function (event) {
+            if ($(event.target).is(_this7._element)) {
+              _this7._ignoreBackdropClick = true;
+            }
+          });
+        });
+
+        this._showBackdrop($.proxy(this._showElement, this, relatedTarget));
+      };
+
+      Modal.prototype.hide = function hide(event) {
+        if (event) {
+          event.preventDefault();
+        }
+
+        var hideEvent = $.Event(Event.HIDE);
+
+        $(this._element).trigger(hideEvent);
+
+        if (!this._isShown || hideEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        this._isShown = false;
+
+        this._setEscapeEvent();
+        this._setResizeEvent();
+
+        $(document).off(Event.FOCUSIN);
+
+        $(this._element).removeClass(ClassName.IN);
+
+        $(this._element).off(Event.CLICK_DISMISS);
+        $(this._dialog).off(Event.MOUSEDOWN_DISMISS);
+
+        if (Util.supportsTransitionEnd() && $(this._element).hasClass(ClassName.FADE)) {
+
+          $(this._element).one(Util.TRANSITION_END, $.proxy(this._hideModal, this)).emulateTransitionEnd(TRANSITION_DURATION);
+        } else {
+          this._hideModal();
+        }
+      };
+
+      Modal.prototype.dispose = function dispose() {
+        $.removeData(this._element, DATA_KEY);
+
+        $(window).off(EVENT_KEY);
+        $(document).off(EVENT_KEY);
+        $(this._element).off(EVENT_KEY);
+        $(this._backdrop).off(EVENT_KEY);
+
+        this._config = null;
+        this._element = null;
+        this._dialog = null;
+        this._backdrop = null;
+        this._isShown = null;
+        this._isBodyOverflowing = null;
+        this._ignoreBackdropClick = null;
+        this._originalBodyPadding = null;
+        this._scrollbarWidth = null;
+      };
+
+      // private
+
+      Modal.prototype._getConfig = function _getConfig(config) {
+        config = $.extend({}, Default, config);
+        Util.typeCheckConfig(NAME, config, DefaultType);
+        return config;
+      };
+
+      Modal.prototype._showElement = function _showElement(relatedTarget) {
+        var _this8 = this;
+
+        var transition = Util.supportsTransitionEnd() && $(this._element).hasClass(ClassName.FADE);
+
+        if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
+          // don't move modals dom position
+          document.body.appendChild(this._element);
+        }
+
+        this._element.style.display = 'block';
+        this._element.removeAttribute('aria-hidden');
+        this._element.scrollTop = 0;
+
+        if (transition) {
+          Util.reflow(this._element);
+        }
+
+        $(this._element).addClass(ClassName.IN);
+
+        if (this._config.focus) {
+          this._enforceFocus();
+        }
+
+        var shownEvent = $.Event(Event.SHOWN, {
+          relatedTarget: relatedTarget
+        });
+
+        var transitionComplete = function transitionComplete() {
+          if (_this8._config.focus) {
+            _this8._element.focus();
+          }
+          $(_this8._element).trigger(shownEvent);
+        };
+
+        if (transition) {
+          $(this._dialog).one(Util.TRANSITION_END, transitionComplete).emulateTransitionEnd(TRANSITION_DURATION);
+        } else {
+          transitionComplete();
+        }
+      };
+
+      Modal.prototype._enforceFocus = function _enforceFocus() {
+        var _this9 = this;
+
+        $(document).off(Event.FOCUSIN) // guard against infinite focus loop
+        .on(Event.FOCUSIN, function (event) {
+          if (document !== event.target && _this9._element !== event.target && !$(_this9._element).has(event.target).length) {
+            _this9._element.focus();
+          }
+        });
+      };
+
+      Modal.prototype._setEscapeEvent = function _setEscapeEvent() {
+        var _this10 = this;
+
+        if (this._isShown && this._config.keyboard) {
+          $(this._element).on(Event.KEYDOWN_DISMISS, function (event) {
+            if (event.which === ESCAPE_KEYCODE) {
+              _this10.hide();
+            }
+          });
+        } else if (!this._isShown) {
+          $(this._element).off(Event.KEYDOWN_DISMISS);
+        }
+      };
+
+      Modal.prototype._setResizeEvent = function _setResizeEvent() {
+        if (this._isShown) {
+          $(window).on(Event.RESIZE, $.proxy(this._handleUpdate, this));
+        } else {
+          $(window).off(Event.RESIZE);
+        }
+      };
+
+      Modal.prototype._hideModal = function _hideModal() {
+        var _this11 = this;
+
+        this._element.style.display = 'none';
+        this._element.setAttribute('aria-hidden', 'true');
+        this._showBackdrop(function () {
+          $(document.body).removeClass(ClassName.OPEN);
+          _this11._resetAdjustments();
+          _this11._resetScrollbar();
+          $(_this11._element).trigger(Event.HIDDEN);
+        });
+      };
+
+      Modal.prototype._removeBackdrop = function _removeBackdrop() {
+        if (this._backdrop) {
+          $(this._backdrop).remove();
+          this._backdrop = null;
+        }
+      };
+
+      Modal.prototype._showBackdrop = function _showBackdrop(callback) {
+        var _this12 = this;
+
+        var animate = $(this._element).hasClass(ClassName.FADE) ? ClassName.FADE : '';
+
+        if (this._isShown && this._config.backdrop) {
+          var doAnimate = Util.supportsTransitionEnd() && animate;
+
+          this._backdrop = document.createElement('div');
+          this._backdrop.className = ClassName.BACKDROP;
+
+          if (animate) {
+            $(this._backdrop).addClass(animate);
+          }
+
+          $(this._backdrop).appendTo(document.body);
+
+          $(this._element).on(Event.CLICK_DISMISS, function (event) {
+            if (_this12._ignoreBackdropClick) {
+              _this12._ignoreBackdropClick = false;
+              return;
+            }
+            if (event.target !== event.currentTarget) {
+              return;
+            }
+            if (_this12._config.backdrop === 'static') {
+              _this12._element.focus();
+            } else {
+              _this12.hide();
+            }
+          });
+
+          if (doAnimate) {
+            Util.reflow(this._backdrop);
+          }
+
+          $(this._backdrop).addClass(ClassName.IN);
+
+          if (!callback) {
+            return;
+          }
+
+          if (!doAnimate) {
+            callback();
+            return;
+          }
+
+          $(this._backdrop).one(Util.TRANSITION_END, callback).emulateTransitionEnd(BACKDROP_TRANSITION_DURATION);
+        } else if (!this._isShown && this._backdrop) {
+          $(this._backdrop).removeClass(ClassName.IN);
+
+          var callbackRemove = function callbackRemove() {
+            _this12._removeBackdrop();
+            if (callback) {
+              callback();
+            }
+          };
+
+          if (Util.supportsTransitionEnd() && $(this._element).hasClass(ClassName.FADE)) {
+            $(this._backdrop).one(Util.TRANSITION_END, callbackRemove).emulateTransitionEnd(BACKDROP_TRANSITION_DURATION);
+          } else {
+            callbackRemove();
+          }
+        } else if (callback) {
+          callback();
+        }
+      };
+
+      // ----------------------------------------------------------------------
+      // the following methods are used to handle overflowing modals
+      // todo (fat): these should probably be refactored out of modal.js
+      // ----------------------------------------------------------------------
+
+      Modal.prototype._handleUpdate = function _handleUpdate() {
+        this._adjustDialog();
+      };
+
+      Modal.prototype._adjustDialog = function _adjustDialog() {
+        var isModalOverflowing = this._element.scrollHeight > document.documentElement.clientHeight;
+
+        if (!this._isBodyOverflowing && isModalOverflowing) {
+          this._element.style.paddingLeft = this._scrollbarWidth + 'px';
+        }
+
+        if (this._isBodyOverflowing && !isModalOverflowing) {
+          this._element.style.paddingRight = this._scrollbarWidth + 'px';
+        }
+      };
+
+      Modal.prototype._resetAdjustments = function _resetAdjustments() {
+        this._element.style.paddingLeft = '';
+        this._element.style.paddingRight = '';
+      };
+
+      Modal.prototype._checkScrollbar = function _checkScrollbar() {
+        this._isBodyOverflowing = document.body.clientWidth < window.innerWidth;
+        this._scrollbarWidth = this._getScrollbarWidth();
+      };
+
+      Modal.prototype._setScrollbar = function _setScrollbar() {
+        var bodyPadding = parseInt($(Selector.FIXED_CONTENT).css('padding-right') || 0, 10);
+
+        this._originalBodyPadding = document.body.style.paddingRight || '';
+
+        if (this._isBodyOverflowing) {
+          document.body.style.paddingRight = bodyPadding + this._scrollbarWidth + 'px';
+        }
+      };
+
+      Modal.prototype._resetScrollbar = function _resetScrollbar() {
+        document.body.style.paddingRight = this._originalBodyPadding;
+      };
+
+      Modal.prototype._getScrollbarWidth = function _getScrollbarWidth() {
+        // thx d.walsh
+        var scrollDiv = document.createElement('div');
+        scrollDiv.className = ClassName.SCROLLBAR_MEASURER;
+        document.body.appendChild(scrollDiv);
+        var scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
+        document.body.removeChild(scrollDiv);
+        return scrollbarWidth;
+      };
+
+      // static
+
+      Modal._jQueryInterface = function _jQueryInterface(config, relatedTarget) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+          var _config = $.extend({}, Modal.Default, $(this).data(), (typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object' && config);
+
+          if (!data) {
+            data = new Modal(this, _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config](relatedTarget);
+          } else if (_config.show) {
+            data.show(relatedTarget);
+          }
+        });
+      };
+
+      _createClass(Modal, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }, {
+        key: 'Default',
+        get: function get() {
+          return Default;
+        }
+      }]);
+
+      return Modal;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
+      var _this13 = this;
+
+      var target = void 0;
+      var selector = Util.getSelectorFromElement(this);
+
+      if (selector) {
+        target = $(selector)[0];
+      }
+
+      var config = $(target).data(DATA_KEY) ? 'toggle' : $.extend({}, $(target).data(), $(this).data());
+
+      if (this.tagName === 'A') {
+        event.preventDefault();
+      }
+
+      var $target = $(target).one(Event.SHOW, function (showEvent) {
+        if (showEvent.isDefaultPrevented()) {
+          // only register focus restorer if modal will actually get shown
+          return;
+        }
+
+        $target.one(Event.HIDDEN, function () {
+          if ($(_this13).is(':visible')) {
+            _this13.focus();
+          }
+        });
+      });
+
+      Modal._jQueryInterface.call($(target), config, this);
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Modal._jQueryInterface;
+    $.fn[NAME].Constructor = Modal;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Modal._jQueryInterface;
+    };
+
+    return Modal;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): scrollspy.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var ScrollSpy = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'scrollspy';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.scrollspy';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+
+    var Default = {
+      offset: 10,
+      method: 'auto',
+      target: ''
+    };
+
+    var DefaultType = {
+      offset: 'number',
+      method: 'string',
+      target: '(string|element)'
+    };
+
+    var Event = {
+      ACTIVATE: 'activate' + EVENT_KEY,
+      SCROLL: 'scroll' + EVENT_KEY,
+      LOAD_DATA_API: 'load' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      DROPDOWN_ITEM: 'dropdown-item',
+      DROPDOWN_MENU: 'dropdown-menu',
+      NAV_LINK: 'nav-link',
+      NAV: 'nav',
+      ACTIVE: 'active'
+    };
+
+    var Selector = {
+      DATA_SPY: '[data-spy="scroll"]',
+      ACTIVE: '.active',
+      LIST_ITEM: '.list-item',
+      LI: 'li',
+      LI_DROPDOWN: 'li.dropdown',
+      NAV_LINKS: '.nav-link',
+      DROPDOWN: '.dropdown',
+      DROPDOWN_ITEMS: '.dropdown-item',
+      DROPDOWN_TOGGLE: '.dropdown-toggle'
+    };
+
+    var OffsetMethod = {
+      OFFSET: 'offset',
+      POSITION: 'position'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var ScrollSpy = (function () {
+      function ScrollSpy(element, config) {
+        _classCallCheck(this, ScrollSpy);
+
+        this._element = element;
+        this._scrollElement = element.tagName === 'BODY' ? window : element;
+        this._config = this._getConfig(config);
+        this._selector = this._config.target + ' ' + Selector.NAV_LINKS + ',' + (this._config.target + ' ' + Selector.DROPDOWN_ITEMS);
+        this._offsets = [];
+        this._targets = [];
+        this._activeTarget = null;
+        this._scrollHeight = 0;
+
+        $(this._scrollElement).on(Event.SCROLL, $.proxy(this._process, this));
+
+        this.refresh();
+        this._process();
+      }
+
+      // getters
+
+      // public
+
+      ScrollSpy.prototype.refresh = function refresh() {
+        var _this14 = this;
+
+        var autoMethod = this._scrollElement !== this._scrollElement.window ? OffsetMethod.POSITION : OffsetMethod.OFFSET;
+
+        var offsetMethod = this._config.method === 'auto' ? autoMethod : this._config.method;
+
+        var offsetBase = offsetMethod === OffsetMethod.POSITION ? this._getScrollTop() : 0;
+
+        this._offsets = [];
+        this._targets = [];
+
+        this._scrollHeight = this._getScrollHeight();
+
+        var targets = $.makeArray($(this._selector));
+
+        targets.map(function (element) {
+          var target = void 0;
+          var targetSelector = Util.getSelectorFromElement(element);
+
+          if (targetSelector) {
+            target = $(targetSelector)[0];
+          }
+
+          if (target && (target.offsetWidth || target.offsetHeight)) {
+            // todo (fat): remove sketch reliance on jQuery position/offset
+            return [$(target)[offsetMethod]().top + offsetBase, targetSelector];
+          }
+          return null;
+        }).filter(function (item) {
+          return item;
+        }).sort(function (a, b) {
+          return a[0] - b[0];
+        }).forEach(function (item) {
+          _this14._offsets.push(item[0]);
+          _this14._targets.push(item[1]);
+        });
+      };
+
+      ScrollSpy.prototype.dispose = function dispose() {
+        $.removeData(this._element, DATA_KEY);
+        $(this._scrollElement).off(EVENT_KEY);
+
+        this._element = null;
+        this._scrollElement = null;
+        this._config = null;
+        this._selector = null;
+        this._offsets = null;
+        this._targets = null;
+        this._activeTarget = null;
+        this._scrollHeight = null;
+      };
+
+      // private
+
+      ScrollSpy.prototype._getConfig = function _getConfig(config) {
+        config = $.extend({}, Default, config);
+
+        if (typeof config.target !== 'string') {
+          var id = $(config.target).attr('id');
+          if (!id) {
+            id = Util.getUID(NAME);
+            $(config.target).attr('id', id);
+          }
+          config.target = '#' + id;
+        }
+
+        Util.typeCheckConfig(NAME, config, DefaultType);
+
+        return config;
+      };
+
+      ScrollSpy.prototype._getScrollTop = function _getScrollTop() {
+        return this._scrollElement === window ? this._scrollElement.scrollY : this._scrollElement.scrollTop;
+      };
+
+      ScrollSpy.prototype._getScrollHeight = function _getScrollHeight() {
+        return this._scrollElement.scrollHeight || Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      };
+
+      ScrollSpy.prototype._process = function _process() {
+        var scrollTop = this._getScrollTop() + this._config.offset;
+        var scrollHeight = this._getScrollHeight();
+        var maxScroll = this._config.offset + scrollHeight - this._scrollElement.offsetHeight;
+
+        if (this._scrollHeight !== scrollHeight) {
+          this.refresh();
+        }
+
+        if (scrollTop >= maxScroll) {
+          var target = this._targets[this._targets.length - 1];
+
+          if (this._activeTarget !== target) {
+            this._activate(target);
+          }
+        }
+
+        if (this._activeTarget && scrollTop < this._offsets[0]) {
+          this._activeTarget = null;
+          this._clear();
+          return;
+        }
+
+        for (var i = this._offsets.length; i--;) {
+          var isActiveTarget = this._activeTarget !== this._targets[i] && scrollTop >= this._offsets[i] && (this._offsets[i + 1] === undefined || scrollTop < this._offsets[i + 1]);
+
+          if (isActiveTarget) {
+            this._activate(this._targets[i]);
+          }
+        }
+      };
+
+      ScrollSpy.prototype._activate = function _activate(target) {
+        this._activeTarget = target;
+
+        this._clear();
+
+        var queries = this._selector.split(',');
+        queries = queries.map(function (selector) {
+          return selector + '[data-target="' + target + '"],' + (selector + '[href="' + target + '"]');
+        });
+
+        var $link = $(queries.join(','));
+
+        if ($link.hasClass(ClassName.DROPDOWN_ITEM)) {
+          $link.closest(Selector.DROPDOWN).find(Selector.DROPDOWN_TOGGLE).addClass(ClassName.ACTIVE);
+          $link.addClass(ClassName.ACTIVE);
+        } else {
+          // todo (fat) this is kinda sus...
+          // recursively add actives to tested nav-links
+          $link.parents(Selector.LI).find(Selector.NAV_LINKS).addClass(ClassName.ACTIVE);
+        }
+
+        $(this._scrollElement).trigger(Event.ACTIVATE, {
+          relatedTarget: target
+        });
+      };
+
+      ScrollSpy.prototype._clear = function _clear() {
+        $(this._selector).filter(Selector.ACTIVE).removeClass(ClassName.ACTIVE);
+      };
+
+      // static
+
+      ScrollSpy._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+          var _config = (typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object' && config || null;
+
+          if (!data) {
+            data = new ScrollSpy(this, _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config]();
+          }
+        });
+      };
+
+      _createClass(ScrollSpy, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }, {
+        key: 'Default',
+        get: function get() {
+          return Default;
+        }
+      }]);
+
+      return ScrollSpy;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(window).on(Event.LOAD_DATA_API, function () {
+      var scrollSpys = $.makeArray($(Selector.DATA_SPY));
+
+      for (var i = scrollSpys.length; i--;) {
+        var $spy = $(scrollSpys[i]);
+        ScrollSpy._jQueryInterface.call($spy, $spy.data());
+      }
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = ScrollSpy._jQueryInterface;
+    $.fn[NAME].Constructor = ScrollSpy;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return ScrollSpy._jQueryInterface;
+    };
+
+    return ScrollSpy;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): tab.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Tab = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'tab';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.tab';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var DATA_API_KEY = '.data-api';
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var TRANSITION_DURATION = 150;
+
+    var Event = {
+      HIDE: 'hide' + EVENT_KEY,
+      HIDDEN: 'hidden' + EVENT_KEY,
+      SHOW: 'show' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
+      CLICK_DATA_API: 'click' + EVENT_KEY + DATA_API_KEY
+    };
+
+    var ClassName = {
+      DROPDOWN_MENU: 'dropdown-menu',
+      ACTIVE: 'active',
+      FADE: 'fade',
+      IN: 'in'
+    };
+
+    var Selector = {
+      A: 'a',
+      LI: 'li',
+      DROPDOWN: '.dropdown',
+      UL: 'ul:not(.dropdown-menu)',
+      FADE_CHILD: '> .nav-item .fade, > .fade',
+      ACTIVE: '.active',
+      ACTIVE_CHILD: '> .nav-item > .active, > .active',
+      DATA_TOGGLE: '[data-toggle="tab"], [data-toggle="pill"]',
+      DROPDOWN_TOGGLE: '.dropdown-toggle',
+      DROPDOWN_ACTIVE_CHILD: '> .dropdown-menu .active'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Tab = (function () {
+      function Tab(element) {
+        _classCallCheck(this, Tab);
+
+        this._element = element;
+      }
+
+      // getters
+
+      // public
+
+      Tab.prototype.show = function show() {
+        var _this15 = this;
+
+        if (this._element.parentNode && this._element.parentNode.nodeType === Node.ELEMENT_NODE && $(this._element).hasClass(ClassName.ACTIVE)) {
+          return;
+        }
+
+        var target = void 0;
+        var previous = void 0;
+        var ulElement = $(this._element).closest(Selector.UL)[0];
+        var selector = Util.getSelectorFromElement(this._element);
+
+        if (ulElement) {
+          previous = $.makeArray($(ulElement).find(Selector.ACTIVE));
+          previous = previous[previous.length - 1];
+        }
+
+        var hideEvent = $.Event(Event.HIDE, {
+          relatedTarget: this._element
+        });
+
+        var showEvent = $.Event(Event.SHOW, {
+          relatedTarget: previous
+        });
+
+        if (previous) {
+          $(previous).trigger(hideEvent);
+        }
+
+        $(this._element).trigger(showEvent);
+
+        if (showEvent.isDefaultPrevented() || hideEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        if (selector) {
+          target = $(selector)[0];
+        }
+
+        this._activate(this._element, ulElement);
+
+        var complete = function complete() {
+          var hiddenEvent = $.Event(Event.HIDDEN, {
+            relatedTarget: _this15._element
+          });
+
+          var shownEvent = $.Event(Event.SHOWN, {
+            relatedTarget: previous
+          });
+
+          $(previous).trigger(hiddenEvent);
+          $(_this15._element).trigger(shownEvent);
+        };
+
+        if (target) {
+          this._activate(target, target.parentNode, complete);
+        } else {
+          complete();
+        }
+      };
+
+      Tab.prototype.dispose = function dispose() {
+        $.removeClass(this._element, DATA_KEY);
+        this._element = null;
+      };
+
+      // private
+
+      Tab.prototype._activate = function _activate(element, container, callback) {
+        var active = $(container).find(Selector.ACTIVE_CHILD)[0];
+        var isTransitioning = callback && Util.supportsTransitionEnd() && (active && $(active).hasClass(ClassName.FADE) || Boolean($(container).find(Selector.FADE_CHILD)[0]));
+
+        var complete = $.proxy(this._transitionComplete, this, element, active, isTransitioning, callback);
+
+        if (active && isTransitioning) {
+          $(active).one(Util.TRANSITION_END, complete).emulateTransitionEnd(TRANSITION_DURATION);
+        } else {
+          complete();
+        }
+
+        if (active) {
+          $(active).removeClass(ClassName.IN);
+        }
+      };
+
+      Tab.prototype._transitionComplete = function _transitionComplete(element, active, isTransitioning, callback) {
+        if (active) {
+          $(active).removeClass(ClassName.ACTIVE);
+
+          var dropdownChild = $(active).find(Selector.DROPDOWN_ACTIVE_CHILD)[0];
+
+          if (dropdownChild) {
+            $(dropdownChild).removeClass(ClassName.ACTIVE);
+          }
+
+          active.setAttribute('aria-expanded', false);
+        }
+
+        $(element).addClass(ClassName.ACTIVE);
+        element.setAttribute('aria-expanded', true);
+
+        if (isTransitioning) {
+          Util.reflow(element);
+          $(element).addClass(ClassName.IN);
+        } else {
+          $(element).removeClass(ClassName.FADE);
+        }
+
+        if (element.parentNode && $(element.parentNode).hasClass(ClassName.DROPDOWN_MENU)) {
+
+          var dropdownElement = $(element).closest(Selector.DROPDOWN)[0];
+          if (dropdownElement) {
+            $(dropdownElement).find(Selector.DROPDOWN_TOGGLE).addClass(ClassName.ACTIVE);
+          }
+
+          element.setAttribute('aria-expanded', true);
+        }
+
+        if (callback) {
+          callback();
+        }
+      };
+
+      // static
+
+      Tab._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var $this = $(this);
+          var data = $this.data(DATA_KEY);
+
+          if (!data) {
+            data = data = new Tab(this);
+            $this.data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config]();
+          }
+        });
+      };
+
+      _createClass(Tab, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }]);
+
+      return Tab;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * Data Api implementation
+     * ------------------------------------------------------------------------
+     */
+
+    $(document).on(Event.CLICK_DATA_API, Selector.DATA_TOGGLE, function (event) {
+      event.preventDefault();
+      Tab._jQueryInterface.call($(this), 'show');
+    });
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Tab._jQueryInterface;
+    $.fn[NAME].Constructor = Tab;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Tab._jQueryInterface;
+    };
+
+    return Tab;
+  })(jQuery);
+
+  /* global Tether */
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): tooltip.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Tooltip = (function ($) {
+
+    /**
+     * Check for Tether dependency
+     * Tether - http://tether.io/
+     */
+    if (window.Tether === undefined) {
+      throw new Error('Bootstrap tooltips require Tether (http://tether.io/)');
+    }
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'tooltip';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.tooltip';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+    var TRANSITION_DURATION = 150;
+    var CLASS_PREFIX = 'bs-tether';
+
+    var Default = {
+      animation: true,
+      template: '<div class="tooltip" role="tooltip">' + '<div class="tooltip-inner"></div></div>',
+      trigger: 'hover focus',
+      title: '',
+      delay: 0,
+      html: false,
+      selector: false,
+      placement: 'top',
+      offset: '0 0',
+      constraints: []
+    };
+
+    var DefaultType = {
+      animation: 'boolean',
+      template: 'string',
+      title: '(string|element|function)',
+      trigger: 'string',
+      delay: '(number|object)',
+      html: 'boolean',
+      selector: '(string|boolean)',
+      placement: '(string|function)',
+      offset: 'string',
+      constraints: 'array'
+    };
+
+    var AttachmentMap = {
+      TOP: 'bottom center',
+      RIGHT: 'middle left',
+      BOTTOM: 'top center',
+      LEFT: 'middle right'
+    };
+
+    var HoverState = {
+      IN: 'in',
+      OUT: 'out'
+    };
+
+    var Event = {
+      HIDE: 'hide' + EVENT_KEY,
+      HIDDEN: 'hidden' + EVENT_KEY,
+      SHOW: 'show' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
+      INSERTED: 'inserted' + EVENT_KEY,
+      CLICK: 'click' + EVENT_KEY,
+      FOCUSIN: 'focusin' + EVENT_KEY,
+      FOCUSOUT: 'focusout' + EVENT_KEY,
+      MOUSEENTER: 'mouseenter' + EVENT_KEY,
+      MOUSELEAVE: 'mouseleave' + EVENT_KEY
+    };
+
+    var ClassName = {
+      FADE: 'fade',
+      IN: 'in'
+    };
+
+    var Selector = {
+      TOOLTIP: '.tooltip',
+      TOOLTIP_INNER: '.tooltip-inner'
+    };
+
+    var TetherClass = {
+      element: false,
+      enabled: false
+    };
+
+    var Trigger = {
+      HOVER: 'hover',
+      FOCUS: 'focus',
+      CLICK: 'click',
+      MANUAL: 'manual'
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Tooltip = (function () {
+      function Tooltip(element, config) {
+        _classCallCheck(this, Tooltip);
+
+        // private
+        this._isEnabled = true;
+        this._timeout = 0;
+        this._hoverState = '';
+        this._activeTrigger = {};
+        this._tether = null;
+
+        // protected
+        this.element = element;
+        this.config = this._getConfig(config);
+        this.tip = null;
+
+        this._setListeners();
+      }
+
+      // getters
+
+      // public
+
+      Tooltip.prototype.enable = function enable() {
+        this._isEnabled = true;
+      };
+
+      Tooltip.prototype.disable = function disable() {
+        this._isEnabled = false;
+      };
+
+      Tooltip.prototype.toggleEnabled = function toggleEnabled() {
+        this._isEnabled = !this._isEnabled;
+      };
+
+      Tooltip.prototype.toggle = function toggle(event) {
+        if (event) {
+          var dataKey = this.constructor.DATA_KEY;
+          var context = $(event.currentTarget).data(dataKey);
+
+          if (!context) {
+            context = new this.constructor(event.currentTarget, this._getDelegateConfig());
+            $(event.currentTarget).data(dataKey, context);
+          }
+
+          context._activeTrigger.click = !context._activeTrigger.click;
+
+          if (context._isWithActiveTrigger()) {
+            context._enter(null, context);
+          } else {
+            context._leave(null, context);
+          }
+        } else {
+
+          if ($(this.getTipElement()).hasClass(ClassName.IN)) {
+            this._leave(null, this);
+            return;
+          }
+
+          this._enter(null, this);
+        }
+      };
+
+      Tooltip.prototype.dispose = function dispose() {
+        clearTimeout(this._timeout);
+
+        this.cleanupTether();
+
+        $.removeData(this.element, this.constructor.DATA_KEY);
+
+        $(this.element).off(this.constructor.EVENT_KEY);
+
+        if (this.tip) {
+          $(this.tip).remove();
+        }
+
+        this._isEnabled = null;
+        this._timeout = null;
+        this._hoverState = null;
+        this._activeTrigger = null;
+        this._tether = null;
+
+        this.element = null;
+        this.config = null;
+        this.tip = null;
+      };
+
+      Tooltip.prototype.show = function show() {
+        var _this16 = this;
+
+        var showEvent = $.Event(this.constructor.Event.SHOW);
+
+        if (this.isWithContent() && this._isEnabled) {
+          $(this.element).trigger(showEvent);
+
+          var isInTheDom = $.contains(this.element.ownerDocument.documentElement, this.element);
+
+          if (showEvent.isDefaultPrevented() || !isInTheDom) {
+            return;
+          }
+
+          var tip = this.getTipElement();
+          var tipId = Util.getUID(this.constructor.NAME);
+
+          tip.setAttribute('id', tipId);
+          this.element.setAttribute('aria-describedby', tipId);
+
+          this.setContent();
+
+          if (this.config.animation) {
+            $(tip).addClass(ClassName.FADE);
+          }
+
+          var placement = typeof this.config.placement === 'function' ? this.config.placement.call(this, tip, this.element) : this.config.placement;
+
+          var attachment = this._getAttachment(placement);
+
+          $(tip).data(this.constructor.DATA_KEY, this).appendTo(document.body);
+
+          $(this.element).trigger(this.constructor.Event.INSERTED);
+
+          this._tether = new Tether({
+            attachment: attachment,
+            element: tip,
+            target: this.element,
+            classes: TetherClass,
+            classPrefix: CLASS_PREFIX,
+            offset: this.config.offset,
+            constraints: this.config.constraints,
+            addTargetClasses: false
+          });
+
+          Util.reflow(tip);
+          this._tether.position();
+
+          $(tip).addClass(ClassName.IN);
+
+          var complete = function complete() {
+            var prevHoverState = _this16._hoverState;
+            _this16._hoverState = null;
+
+            $(_this16.element).trigger(_this16.constructor.Event.SHOWN);
+
+            if (prevHoverState === HoverState.OUT) {
+              _this16._leave(null, _this16);
+            }
+          };
+
+          if (Util.supportsTransitionEnd() && $(this.tip).hasClass(ClassName.FADE)) {
+            $(this.tip).one(Util.TRANSITION_END, complete).emulateTransitionEnd(Tooltip._TRANSITION_DURATION);
+            return;
+          }
+
+          complete();
+        }
+      };
+
+      Tooltip.prototype.hide = function hide(callback) {
+        var _this17 = this;
+
+        var tip = this.getTipElement();
+        var hideEvent = $.Event(this.constructor.Event.HIDE);
+        var complete = function complete() {
+          if (_this17._hoverState !== HoverState.IN && tip.parentNode) {
+            tip.parentNode.removeChild(tip);
+          }
+
+          _this17.element.removeAttribute('aria-describedby');
+          $(_this17.element).trigger(_this17.constructor.Event.HIDDEN);
+          _this17.cleanupTether();
+
+          if (callback) {
+            callback();
+          }
+        };
+
+        $(this.element).trigger(hideEvent);
+
+        if (hideEvent.isDefaultPrevented()) {
+          return;
+        }
+
+        $(tip).removeClass(ClassName.IN);
+
+        if (Util.supportsTransitionEnd() && $(this.tip).hasClass(ClassName.FADE)) {
+
+          $(tip).one(Util.TRANSITION_END, complete).emulateTransitionEnd(TRANSITION_DURATION);
+        } else {
+          complete();
+        }
+
+        this._hoverState = '';
+      };
+
+      // protected
+
+      Tooltip.prototype.isWithContent = function isWithContent() {
+        return Boolean(this.getTitle());
+      };
+
+      Tooltip.prototype.getTipElement = function getTipElement() {
+        return this.tip = this.tip || $(this.config.template)[0];
+      };
+
+      Tooltip.prototype.setContent = function setContent() {
+        var $tip = $(this.getTipElement());
+
+        this.setElementContent($tip.find(Selector.TOOLTIP_INNER), this.getTitle());
+
+        $tip.removeClass(ClassName.FADE).removeClass(ClassName.IN);
+
+        this.cleanupTether();
+      };
+
+      Tooltip.prototype.setElementContent = function setElementContent($element, content) {
+        var html = this.config.html;
+        if ((typeof content === 'undefined' ? 'undefined' : _typeof(content)) === 'object' && (content.nodeType || content.jquery)) {
+          // content is a DOM node or a jQuery
+          if (html) {
+            if (!$(content).parent().is($element)) {
+              $element.empty().append(content);
+            }
+          } else {
+            $element.text($(content).text());
+          }
+        } else {
+          $element[html ? 'html' : 'text'](content);
+        }
+      };
+
+      Tooltip.prototype.getTitle = function getTitle() {
+        var title = this.element.getAttribute('data-original-title');
+
+        if (!title) {
+          title = typeof this.config.title === 'function' ? this.config.title.call(this.element) : this.config.title;
+        }
+
+        return title;
+      };
+
+      Tooltip.prototype.cleanupTether = function cleanupTether() {
+        if (this._tether) {
+          this._tether.destroy();
+        }
+      };
+
+      // private
+
+      Tooltip.prototype._getAttachment = function _getAttachment(placement) {
+        return AttachmentMap[placement.toUpperCase()];
+      };
+
+      Tooltip.prototype._setListeners = function _setListeners() {
+        var _this18 = this;
+
+        var triggers = this.config.trigger.split(' ');
+
+        triggers.forEach(function (trigger) {
+          if (trigger === 'click') {
+            $(_this18.element).on(_this18.constructor.Event.CLICK, _this18.config.selector, $.proxy(_this18.toggle, _this18));
+          } else if (trigger !== Trigger.MANUAL) {
+            var eventIn = trigger === Trigger.HOVER ? _this18.constructor.Event.MOUSEENTER : _this18.constructor.Event.FOCUSIN;
+            var eventOut = trigger === Trigger.HOVER ? _this18.constructor.Event.MOUSELEAVE : _this18.constructor.Event.FOCUSOUT;
+
+            $(_this18.element).on(eventIn, _this18.config.selector, $.proxy(_this18._enter, _this18)).on(eventOut, _this18.config.selector, $.proxy(_this18._leave, _this18));
+          }
+        });
+
+        if (this.config.selector) {
+          this.config = $.extend({}, this.config, {
+            trigger: 'manual',
+            selector: ''
+          });
+        } else {
+          this._fixTitle();
+        }
+      };
+
+      Tooltip.prototype._fixTitle = function _fixTitle() {
+        var titleType = _typeof(this.element.getAttribute('data-original-title'));
+        if (this.element.getAttribute('title') || titleType !== 'string') {
+          this.element.setAttribute('data-original-title', this.element.getAttribute('title') || '');
+          this.element.setAttribute('title', '');
+        }
+      };
+
+      Tooltip.prototype._enter = function _enter(event, context) {
+        var dataKey = this.constructor.DATA_KEY;
+
+        context = context || $(event.currentTarget).data(dataKey);
+
+        if (!context) {
+          context = new this.constructor(event.currentTarget, this._getDelegateConfig());
+          $(event.currentTarget).data(dataKey, context);
+        }
+
+        if (event) {
+          context._activeTrigger[event.type === 'focusin' ? Trigger.FOCUS : Trigger.HOVER] = true;
+        }
+
+        if ($(context.getTipElement()).hasClass(ClassName.IN) || context._hoverState === HoverState.IN) {
+          context._hoverState = HoverState.IN;
+          return;
+        }
+
+        clearTimeout(context._timeout);
+
+        context._hoverState = HoverState.IN;
+
+        if (!context.config.delay || !context.config.delay.show) {
+          context.show();
+          return;
+        }
+
+        context._timeout = setTimeout(function () {
+          if (context._hoverState === HoverState.IN) {
+            context.show();
+          }
+        }, context.config.delay.show);
+      };
+
+      Tooltip.prototype._leave = function _leave(event, context) {
+        var dataKey = this.constructor.DATA_KEY;
+
+        context = context || $(event.currentTarget).data(dataKey);
+
+        if (!context) {
+          context = new this.constructor(event.currentTarget, this._getDelegateConfig());
+          $(event.currentTarget).data(dataKey, context);
+        }
+
+        if (event) {
+          context._activeTrigger[event.type === 'focusout' ? Trigger.FOCUS : Trigger.HOVER] = false;
+        }
+
+        if (context._isWithActiveTrigger()) {
+          return;
+        }
+
+        clearTimeout(context._timeout);
+
+        context._hoverState = HoverState.OUT;
+
+        if (!context.config.delay || !context.config.delay.hide) {
+          context.hide();
+          return;
+        }
+
+        context._timeout = setTimeout(function () {
+          if (context._hoverState === HoverState.OUT) {
+            context.hide();
+          }
+        }, context.config.delay.hide);
+      };
+
+      Tooltip.prototype._isWithActiveTrigger = function _isWithActiveTrigger() {
+        for (var trigger in this._activeTrigger) {
+          if (this._activeTrigger[trigger]) {
+            return true;
+          }
+        }
+
+        return false;
+      };
+
+      Tooltip.prototype._getConfig = function _getConfig(config) {
+        config = $.extend({}, this.constructor.Default, $(this.element).data(), config);
+
+        if (config.delay && typeof config.delay === 'number') {
+          config.delay = {
+            show: config.delay,
+            hide: config.delay
+          };
+        }
+
+        Util.typeCheckConfig(NAME, config, this.constructor.DefaultType);
+
+        return config;
+      };
+
+      Tooltip.prototype._getDelegateConfig = function _getDelegateConfig() {
+        var config = {};
+
+        if (this.config) {
+          for (var key in this.config) {
+            if (this.constructor.Default[key] !== this.config[key]) {
+              config[key] = this.config[key];
+            }
+          }
+        }
+
+        return config;
+      };
+
+      // static
+
+      Tooltip._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+          var _config = (typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object' ? config : null;
+
+          if (!data && /dispose|hide/.test(config)) {
+            return;
+          }
+
+          if (!data) {
+            data = new Tooltip(this, _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config]();
+          }
+        });
+      };
+
+      _createClass(Tooltip, null, [{
+        key: 'VERSION',
+        get: function get() {
+          return VERSION;
+        }
+      }, {
+        key: 'Default',
+        get: function get() {
+          return Default;
+        }
+      }, {
+        key: 'NAME',
+        get: function get() {
+          return NAME;
+        }
+      }, {
+        key: 'DATA_KEY',
+        get: function get() {
+          return DATA_KEY;
+        }
+      }, {
+        key: 'Event',
+        get: function get() {
+          return Event;
+        }
+      }, {
+        key: 'EVENT_KEY',
+        get: function get() {
+          return EVENT_KEY;
+        }
+      }, {
+        key: 'DefaultType',
+        get: function get() {
+          return DefaultType;
+        }
+      }]);
+
+      return Tooltip;
+    })();
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Tooltip._jQueryInterface;
+    $.fn[NAME].Constructor = Tooltip;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Tooltip._jQueryInterface;
+    };
+
+    return Tooltip;
+  })(jQuery);
+
+  /**
+   * --------------------------------------------------------------------------
+   * Bootstrap (v4.0.0-alpha.5): popover.js
+   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+   * --------------------------------------------------------------------------
+   */
+
+  var Popover = (function ($) {
+
+    /**
+     * ------------------------------------------------------------------------
+     * Constants
+     * ------------------------------------------------------------------------
+     */
+
+    var NAME = 'popover';
+    var VERSION = '4.0.0-alpha.5';
+    var DATA_KEY = 'bs.popover';
+    var EVENT_KEY = '.' + DATA_KEY;
+    var JQUERY_NO_CONFLICT = $.fn[NAME];
+
+    var Default = $.extend({}, Tooltip.Default, {
+      placement: 'right',
+      trigger: 'click',
+      content: '',
+      template: '<div class="popover" role="tooltip">' + '<h3 class="popover-title"></h3>' + '<div class="popover-content"></div></div>'
+    });
+
+    var DefaultType = $.extend({}, Tooltip.DefaultType, {
+      content: '(string|element|function)'
+    });
+
+    var ClassName = {
+      FADE: 'fade',
+      IN: 'in'
+    };
+
+    var Selector = {
+      TITLE: '.popover-title',
+      CONTENT: '.popover-content'
+    };
+
+    var Event = {
+      HIDE: 'hide' + EVENT_KEY,
+      HIDDEN: 'hidden' + EVENT_KEY,
+      SHOW: 'show' + EVENT_KEY,
+      SHOWN: 'shown' + EVENT_KEY,
+      INSERTED: 'inserted' + EVENT_KEY,
+      CLICK: 'click' + EVENT_KEY,
+      FOCUSIN: 'focusin' + EVENT_KEY,
+      FOCUSOUT: 'focusout' + EVENT_KEY,
+      MOUSEENTER: 'mouseenter' + EVENT_KEY,
+      MOUSELEAVE: 'mouseleave' + EVENT_KEY
+    };
+
+    /**
+     * ------------------------------------------------------------------------
+     * Class Definition
+     * ------------------------------------------------------------------------
+     */
+
+    var Popover = (function (_Tooltip) {
+      _inherits(Popover, _Tooltip);
+
+      function Popover() {
+        _classCallCheck(this, Popover);
+
+        return _possibleConstructorReturn(this, _Tooltip.apply(this, arguments));
+      }
+
+      // overrides
+
+      Popover.prototype.isWithContent = function isWithContent() {
+        return this.getTitle() || this._getContent();
+      };
+
+      Popover.prototype.getTipElement = function getTipElement() {
+        return this.tip = this.tip || $(this.config.template)[0];
+      };
+
+      Popover.prototype.setContent = function setContent() {
+        var $tip = $(this.getTipElement());
+
+        // we use append for html objects to maintain js events
+        this.setElementContent($tip.find(Selector.TITLE), this.getTitle());
+        this.setElementContent($tip.find(Selector.CONTENT), this._getContent());
+
+        $tip.removeClass(ClassName.FADE).removeClass(ClassName.IN);
+
+        this.cleanupTether();
+      };
+
+      // private
+
+      Popover.prototype._getContent = function _getContent() {
+        return this.element.getAttribute('data-content') || (typeof this.config.content === 'function' ? this.config.content.call(this.element) : this.config.content);
+      };
+
+      // static
+
+      Popover._jQueryInterface = function _jQueryInterface(config) {
+        return this.each(function () {
+          var data = $(this).data(DATA_KEY);
+          var _config = (typeof config === 'undefined' ? 'undefined' : _typeof(config)) === 'object' ? config : null;
+
+          if (!data && /destroy|hide/.test(config)) {
+            return;
+          }
+
+          if (!data) {
+            data = new Popover(this, _config);
+            $(this).data(DATA_KEY, data);
+          }
+
+          if (typeof config === 'string') {
+            if (data[config] === undefined) {
+              throw new Error('No method named "' + config + '"');
+            }
+            data[config]();
+          }
+        });
+      };
+
+      _createClass(Popover, null, [{
+        key: 'VERSION',
+
+        // getters
+
+        get: function get() {
+          return VERSION;
+        }
+      }, {
+        key: 'Default',
+        get: function get() {
+          return Default;
+        }
+      }, {
+        key: 'NAME',
+        get: function get() {
+          return NAME;
+        }
+      }, {
+        key: 'DATA_KEY',
+        get: function get() {
+          return DATA_KEY;
+        }
+      }, {
+        key: 'Event',
+        get: function get() {
+          return Event;
+        }
+      }, {
+        key: 'EVENT_KEY',
+        get: function get() {
+          return EVENT_KEY;
+        }
+      }, {
+        key: 'DefaultType',
+        get: function get() {
+          return DefaultType;
+        }
+      }]);
+
+      return Popover;
+    })(Tooltip);
+
+    /**
+     * ------------------------------------------------------------------------
+     * jQuery
+     * ------------------------------------------------------------------------
+     */
+
+    $.fn[NAME] = Popover._jQueryInterface;
+    $.fn[NAME].Constructor = Popover;
+    $.fn[NAME].noConflict = function () {
+      $.fn[NAME] = JQUERY_NO_CONFLICT;
+      return Popover._jQueryInterface;
+    };
+
+    return Popover;
+  })(jQuery);
+})();
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(0);
+module.exports = __webpack_require__(1);
+
+
+/***/ }),
+/* 4 */,
+/* 5 */,
+/* 6 */,
+/* 7 */,
+/* 8 */,
+/* 9 */,
+/* 10 */,
+/* 11 */,
+/* 12 */,
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+$(document).ready(function () {
+    if ($('textarea#tinymce').length) {
+        tinymce.init({
+            encoding: 'xml',
+            selector: "textarea#tinymce",
+            language: 'fr',
+            height: 300,
+            menubar: false,
+            statusbar: false,
+            plugins: 'code image table link media codesample',
+            toolbar: 'undo redo styleselect bold italic alignleft aligncenter alignright bullist numlist outdent indent format code image table link imagetools media codesample',
+            setup: function setup(editor) {
+                editor.on('change', function () {
+                    tinymce.triggerSave();
+                });
+            }
+        });
+    };
+});
+
+/***/ }),
+/* 14 */,
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+$('.form').on('submit', function (event) {
+    // Remove all messages
+    $(".messages .message").remove();
+    event.preventDefault();
+    var formData = new FormData(this);
+
+    $.ajax({
+        type: "POST",
+        url: $(this).attr('action'),
+        data: formData,
+        enctype: 'multipart/form-data',
+        processData: false,
+        contentType: false,
+
+        beforeSend: function beforeSend() {
+            // loader
+        },
+        success: function success(result) {
+            var messages = JSON.parse(result);
+
+            if (messages["status"] == 'error') {
+                $.each(messages, function (key, value) {
+                    if (key != null && key != 'status') {
+                        $('.messages').append('<p class="message alert alert-danger">\n' + value + '        <span class="close">X</span>\n' + '    </p>');
+                    }
+                });
+            } else {
+                $.each(messages, function (key, value) {
+                    if (key != null && key != 'status') {
+                        $('.messages').append('<p class="message alert alert-success">\n' + value + '        <span class="close">X</span>\n' + '    </p>');
+                    }
+                });
+
+                // Clear form
+                if (typeof tinymce !== "undefined") {
+                    tinymce.editors[0].setContent("");
+                }
+
+                $('form').find("input[type=text],input[type=file], input[type=password], input[type=email] textarea").val("");
+            }
+            $(".messages .message").on('click', function () {
+                $(this).remove();
+            });
+        },
+        error: function error(e) {}
+    });
+});
+
+/***/ })
+/******/ ]);

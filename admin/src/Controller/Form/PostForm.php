@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\Form;
+namespace Admin\Controller\Form;
 
 use FormManager\Factory as F;
 use \App\Config;
@@ -49,7 +49,7 @@ class PostForm
             'class' => 'btn btn-dark btn-md text-white',
         ]);
 
-        $this->actionLink = Config::BASE_URL . "/ajouter-un-article?action=add";
+        $this->actionLink = Config::BASE_ADMIN_URL . "/ecrire-un-article?action=add";
         return array(
             'action' => $this->actionLink,
             'form' => array(

@@ -10,7 +10,6 @@ import './vendors/jquery.easing.1.3.js';
 import './vendors/jquery.sticky.js';
 import './vendors/isotope.pkgd.min.js';
 import './components/main.js';
-import './components/textEditor.js';
 import './components/ajaxForm.js';
 
 

@@ -72,10 +72,6 @@ abstract class Routes
      */
     public static function setPostRoutes(object $router)
     {
-        $router->map('POST', '/ajouter-un-article', function ($twig) {
-            return FrontController::postform($twig);
-        }, 'ajouter-un-article');
-
         $router->map('POST', '/inscription', function ($twig) {
             return FrontController::registration($twig);
         }, 'inscription');

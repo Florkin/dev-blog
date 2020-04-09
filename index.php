@@ -43,6 +43,7 @@ $url = array(
     "register_form" => Config::BASE_URL . "/inscription",
     "logout" => Config::BASE_URL . "/logout",
 );
+
 $twig->addGlobal('url', $url);
 // ===================== ROUTING =====================
 $router = Routes::setRoutes($twig);

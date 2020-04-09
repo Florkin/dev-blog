@@ -53,7 +53,7 @@ class PostManager
             $img = Image::make($file['tmp_name']);
             $img->fit(800, 450);
 
-            if ($img->save('img/posts_headers/post_' . $id_post . '.jpg')) {
+            if ($img->save($_SERVER["DOCUMENT_ROOT"]. 'img/posts_headers/post_' . $id_post . '.jpg')) {
                 return true;
             } else {
                 return false;

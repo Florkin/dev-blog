@@ -1,5 +1,5 @@
 node_modules/
-front/assets/*
+assets/
 src/Config.php
 vendor/*
 composer.lock

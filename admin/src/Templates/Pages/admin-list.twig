@@ -6,9 +6,30 @@
 
 {% block content %}
     <div class="container">
-        <h1>Liste des articles</h1>
-        <div class="row">
-            {{ dump(posts) }}
+        <div class="jumbotron jumbotron-fluid mt-5">
+            <div class="container">
+                <h1 class="display-4">Liste des articles</h1>
+            </div>
         </div>
+        {% for post in posts %}
+            <div class="row hover-1-wrap mb-5 mb-lg-5">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="mb-4 mb-lg-0 col-lg-3">
+                            <a href="#" class="hover-1">
+                                <img src="./../img/posts_headers/post_{{ post.id_post }}.jpg" alt="Image" class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-lg-9 align-self-center order-lg-1"
+                             data-aos="{% if loop.index is divisible by(2) %}fade-right{% else %}fade-left{% endif %}">
+                            <h2 class="text-black">{{ post.title }}</h2>
+                            <p class="mb-4">{{ post.date_update }}</p>
+                            <p class="mb-4">{{ post.intro|raw }}</p>
+                            <p><a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">id = {{ post.id_post }}</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}

@@ -41,7 +41,6 @@ abstract class AdminRoutes
         }, 'Administration');
 
         $router->map('GET', '/admin/ecrire-un-article', function ($twig) {
-            die('die in admin-router (writeArticle)');
             return BackController::writeArticle($twig);
         }, 'write-article');
 
@@ -57,6 +56,11 @@ abstract class AdminRoutes
      */
     public static function setPostRoutes(object $router)
     {
+        $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
+            return BackController::writeArticle($twig);
+        }, 'ajouter-article');
+
+        return $router;
     }
 
     /**

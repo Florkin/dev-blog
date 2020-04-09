@@ -3,6 +3,7 @@
 
 namespace Admin\Controller;
 
+use Admin\Controller\Form\PostForm;
 use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
 use App\Model\Manager\PostManager;
@@ -38,6 +39,12 @@ class BackController
             $postForm = Self::getPostForm();
             echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
         }
+    }
+
+    public static function getPostForm()
+    {
+        $postForm = new PostForm;
+        return $postForm->renderForm();
     }
 
 }

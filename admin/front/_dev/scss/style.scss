@@ -1,4 +1,4 @@
-@import './bootstrap/bootstrap.scss';
+@import '~bootstrap/scss/bootstrap.scss';
 
 .messages{
   bottom: 0;
@@ -8,6 +8,15 @@
   padding: 0 30px;
   .close{
     cursor:pointer;
+  }
+}
+
+.post-toolbar{
+  .post-toolbar-btns{
+    .btn{
+      min-width:200px;
+      margin:5px;
+    }
   }
 }
 

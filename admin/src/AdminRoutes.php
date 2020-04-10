@@ -33,7 +33,7 @@ abstract class AdminRoutes
      *
      * @param object $twig
      * @param object $router
-     * @return void
+     * @return object|object
      */
     public static function setGetRoutes(object $twig, object $router)
     {
@@ -45,9 +45,17 @@ abstract class AdminRoutes
             return BackController::writePost($twig);
         }, 'write-article');
 
+        $router->map('GET', '/admin/modifier-article/[i:id]', function ($id, $twig) {
+            return BackController::writePost($twig, $id);
+        }, 'modify-article');
+
         $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
             return AdminPostManager::postToggleActivation($id);
         }, 'activation-article');
+
+        $router->map('GET', '/admin/articles/[i:id]', function ($id, $twig) {
+            return BackController::post($id, $twig);
+        }, 'article');
 
 
         return $router;

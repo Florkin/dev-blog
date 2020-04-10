@@ -49,7 +49,11 @@ class AdminPostManager
      */
     public function uploadImg(int $id_post): bool
     {
-        $file = isset($_FILES['image']) ? $_FILES['image'] : null;
+        if ($_FILES['image']['name'] !== ""){
+            $file = $_FILES['image'];
+        } else {
+            $file = null;
+        }
 
         if ($file !== null && isset($file)) {
             $img = Image::make($file['tmp_name']);
@@ -83,13 +87,32 @@ class AdminPostManager
 
         $title = addslashes(htmlspecialchars($formData['title']));
         $intro = addslashes(htmlspecialchars($formData['intro']));
-        $content = $formData['content'];
+        $content = htmlentities($formData['content'], ENT_QUOTES | ENT_HTML5);
+        $id_post_to_modify = $formData['modify'];
 
-        $sql = "INSERT INTO posts (title, intro, content, date_add, date_update)
-        VALUES ('" . $title . "', '" . $intro . "', '" . $content . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        if ($id_post_to_modify !== "modify") {
+
+            $sql = "UPDATE posts 
+SET title = '" . $title . "',
+intro = '" . $intro . "',
+content = '" . $content . "',
+date_update = CURRENT_TIMESTAMP 
+WHERE id_post = " . $id_post_to_modify ;
+
+        } else {
+
+            $sql = "INSERT INTO posts(title, intro, content, date_add, date_update)
+        VALUES('" . $title . "', '" . $intro . "', '" . $content . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+
+        }
 
         if ($db->exec($sql)) {
-            $id_post = $db->lastInsertId();
+            if (!$id_post_to_modify !== "modify"){
+                $id_post = $db->lastInsertId();
+            } else {
+                $id_post = $id_post_to_modify;
+            }
+
             if ($this->uploadImg($id_post)) {
                 $messages["status"] = "success";
                 $messages['message'] = "Votre article a bien été envoyé et soumis a validation";

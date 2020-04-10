@@ -44,7 +44,7 @@ class Post
             'id_post' => $this->id_post,
             'title' => $this->title,
             'intro' => $this->intro,
-            'content' => html_entity_decode($this->content),
+            'content' => html_entity_decode($this->content, ENT_QUOTES | ENT_HTML5),
             'date_add' => $this->date_add,
             'date_update' => $this->date_update,
             'img_url' => $this->img_url

@@ -1,7 +1,7 @@
 $(document).ready(function () {
     if ($('textarea#tinymce').length) {
         tinymce.init({
-            encoding: 'xml',
+            // encoding: 'xml',
             selector: "textarea#tinymce",
             language: 'fr',
             height: 300,

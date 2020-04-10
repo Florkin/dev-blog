@@ -93,11 +93,11 @@ class AdminPostManager
         if ($id_post_to_modify !== "modify") {
 
             $sql = "UPDATE posts 
-SET title = '" . $title . "',
-intro = '" . $intro . "',
-content = '" . $content . "',
-date_update = CURRENT_TIMESTAMP 
-WHERE id_post = " . $id_post_to_modify ;
+                    SET title = '" . $title . "' , 
+                    intro = '" . $intro . "' , 
+                    content = '" . $content . "' , 
+                    date_update = CURRENT_TIMESTAMP  
+                    WHERE id_post = " . (int)$id_post_to_modify;
 
         } else {
 

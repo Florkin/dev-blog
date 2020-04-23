@@ -36,7 +36,7 @@ class Validator
         return $this;
     }
 
-    public function notEmpty()
+    public function notEmpty(string...$keys)
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);

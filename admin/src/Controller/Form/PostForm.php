@@ -85,6 +85,7 @@ class PostForm
     /**
      * render post form
      *
+     * @param null $post
      * @return array
      */
     public function renderForm($post = null): array

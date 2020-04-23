@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\Forms\PostForm;
-use App\Controller\Forms\UserForm;
+use App\Controller\Form\PostForm;
+use App\Controller\Form\UserForm;
 use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
 use App\Model\Manager\PostManager;
@@ -50,6 +50,7 @@ abstract class FrontController
      *
      * @param object $twig
      * @return void
+     * @throws \Delight\Auth\AuthError
      */
     public static function registration(object $twig)
     {
@@ -86,6 +87,8 @@ abstract class FrontController
      *
      * @param $twig
      * @return void
+     * @throws \Delight\Auth\AttemptCancelledException
+     * @throws \Delight\Auth\AuthError
      */
     public static function login($twig)
     {

@@ -133,7 +133,9 @@ class UserManager
      * User register function
      *
      * @param array $formData
+     * @param $twig
      * @return void
+     * @throws \Delight\Auth\AuthError
      */
     public function register(array $formData, $twig)
     {
@@ -230,6 +232,7 @@ class UserManager
      * Logout function
      *
      * @return void
+     * @throws \Delight\Auth\AuthError
      */
     public function logout()
     {

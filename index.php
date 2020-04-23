@@ -29,7 +29,7 @@ if (UserManager::checkIsLogged()) {
 };
 
 // ======================== LOGIN FORM =============================
-$loginForm = new \App\Controller\Forms\LoginForm;
+$loginForm = new \App\Controller\Form\LoginForm;
 $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);

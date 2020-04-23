@@ -32,7 +32,7 @@ abstract class Routes
      *
      * @param object $twig
      * @param object $router
-     * @return void
+     * @return object|object
      */
     public static function setGetRoutes(object $twig, object $router)
     {
@@ -68,7 +68,7 @@ abstract class Routes
      * Set POST routes
      *
      * @param object $router
-     * @return void
+     * @return object|object
      */
     public static function setPostRoutes(object $router)
     {

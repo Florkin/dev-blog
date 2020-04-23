@@ -69,7 +69,7 @@ abstract class AdminRoutes
      * Set POST routes
      *
      * @param object $router
-     * @return void
+     * @return object|object
      */
     public static function setPostRoutes(object $router)
     {

@@ -81,6 +81,7 @@ class AdminPostManager
      * Add post to database
      *
      * @param array $formData
+     * @param $twig
      * @return void
      */
     public function addPost(array $formData, $twig)

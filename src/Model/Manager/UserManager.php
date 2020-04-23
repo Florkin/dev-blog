@@ -76,7 +76,7 @@ class UserManager
             KEY `expires_at` (`expires_at`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-          $db->exec($sql);
+        $db->exec($sql);
     }
 
     /**
@@ -84,18 +84,16 @@ class UserManager
      *
      * @return bool
      */
-    public static function checkIsLogged() : bool
+    public static function checkIsLogged(): bool
     {
         $db = DbManager::openDB();
-        if (!DbManager::tableExists($db, 'Users')){
+        if (!DbManager::tableExists($db, 'Users')) {
             Self::createTables($db);
         }
 
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);
         }
-
-//        dump($auth->getRoles());die;
 
         if ($auth->isLoggedIn()) {
             $isLogged = true;
@@ -105,12 +103,23 @@ class UserManager
         return $isLogged;
     }
 
+
+    public static function getUserRole(): array
+    {
+        if (!isset($auth)) {
+            $auth = new Auth(DbManager::openDB(), null, null, false);
+        }
+
+        $roles = $auth->getRoles();
+        return $roles;
+    }
+
     /**
      * Get logged user username
      *
      * @return string
      */
-    public static function getUsername() : string
+    public static function getUsername(): string
     {
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);
@@ -123,7 +132,7 @@ class UserManager
      *
      * @return string
      */
-    public static function getEmail() : string
+    public static function getEmail(): string
     {
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);
@@ -143,7 +152,7 @@ class UserManager
     public function register(array $formData, $twig)
     {
         $db = DbManager::openDB();
-        if (!DbManager::tableExists($db, 'Users')){
+        if (!DbManager::tableExists($db, 'Users')) {
             Self::createTables($db);
         }
 
@@ -160,7 +169,10 @@ class UserManager
 
             $messages["status"] = "success";
             $messages['message'] = "Votre compte a bien été enregistré. Vous allez recevoir un email pour l'activer.";
+
             echo json_encode($messages);
+
+            $auth->admin()->addRoleForUserById($userId, \Delight\Auth\Role::AUTHOR);
 
         } catch (\Delight\Auth\InvalidEmailException $e) {
             die('Invalid email address');
@@ -199,7 +211,7 @@ class UserManager
 
         if (isset($remember) && $remember == 1) {
             // keep logged in for one year
-            $rememberDuration = (int) (60 * 60 * 24 * 365.25);
+            $rememberDuration = (int)(60 * 60 * 24 * 365.25);
         } else {
             // do not keep logged in after session ends
             $rememberDuration = null;
@@ -252,18 +264,19 @@ class UserManager
 
     }
 
-    public function getValidator($action, $formData){
-        if ($action == 'register'){
+    public function getValidator($action, $formData)
+    {
+        if ($action == 'register') {
             return (new Validator($formData))
-            ->required('email', 'username', 'password')
-            ->email('email')
-            ->password('password')
-            ->username('username');
-        } elseif ($action == 'login'){
+                ->required('email', 'username', 'password')
+                ->email('email')
+                ->password('password')
+                ->username('username');
+        } elseif ($action == 'login') {
             return (new Validator($formData))
-            ->required('email', 'password')
-            ->email('email')
-            ->password('password');
-        }        
+                ->required('email', 'password')
+                ->email('email')
+                ->password('password');
+        }
     }
 }

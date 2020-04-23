@@ -45,10 +45,6 @@ abstract class Routes
             return FrontController::registration($twig);
         }, 'formulaire-inscription');
 
-        $router->map('GET', '/ajouter-un-article', function ($twig) {
-            return FrontController::postform($twig);
-        }, 'formulaire-article');
-
         $router->map('GET', '/articles', function ($twig) {
             return FrontController::postslist($twig);
         }, 'articles');

@@ -85,6 +85,11 @@ class UserManager
      */
     public static function checkIsLogged() : bool
     {
+        $db = DbManager::openDB();
+        if (!DbManager::tableExists($db, 'Users')){
+            Self::createTables($db);
+        }
+
         if (!isset($auth)) {
             $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
         }

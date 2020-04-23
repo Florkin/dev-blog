@@ -1,0 +1,23 @@
+@import '~bootstrap/scss/bootstrap.scss';
+
+.messages{
+  bottom: 0;
+  position: fixed;
+  z-index: 9999;
+  width: 100%;
+  padding: 0 30px;
+  .close{
+    cursor:pointer;
+  }
+}
+
+.post-toolbar{
+  .post-toolbar-btns{
+    .btn{
+      min-width:200px;
+      margin:5px;
+    }
+  }
+}
+
+

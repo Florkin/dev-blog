@@ -1,0 +1,71 @@
+{% extends 'layout.twig' %}
+
+{% block head %}
+    <title>Administration</title>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron jumbotron-fluid mt-5">
+            <div class="container">
+                <h1 class="display-4">Liste des articles</h1>
+            </div>
+        </div>
+        {% for post in posts %}
+            <div id="post-{{ post.id_post }}" class="border-bottom row hover-1-wrap mb-5 mb-lg-5">
+                <div class="col-12">
+                    <div class="row">
+                        <div class="mb-4 mb-lg-0 col-lg-3">
+                            <a href="#" class="hover-1">
+                                <img src="./../img/posts_headers/post_{{ post.id_post }}.jpg" alt="Image"
+                                     class="img-fluid">
+                            </a>
+                        </div>
+                        <div class="col-lg-9 align-self-center order-lg-1">
+                            <h2 class="text-black">{{ post.title }}</h2>
+                            <p class="mb-2">{{ post.date_update }}</p>
+                            <p class="mb-2">{{ post.intro|raw }}</p>
+                        </div>
+                    </div>
+                    <div class="row mt-3 mb-3 post-toolbar">
+                        <div class="col-12 text-right">
+                            <div class="post-toolbar-btns">
+                                <a href="articles/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
+                                <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}"
+                                   class="btn btn-secondary">Modifier l'article</a>
+                                {% if post.active == 1 %}
+                                    <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
+                                       class="post-activation btn btn-warning">Desactiver</a>
+                                {% else %}
+                                    <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
+                                       class="post-activation btn btn-success">Activer</a>
+                                {% endif %}
+
+                                <button type="button" class="js-confirm-delete btn btn-danger" data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">Supprimer
+                                    l'article</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Supprimer cet article?</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Cette action est définitive</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

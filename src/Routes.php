@@ -28,7 +28,7 @@ abstract class Routes
     }
 
     /**
-     * Set GET routes 
+     * Set GET routes
      *
      * @param object $twig
      * @param object $router
@@ -72,10 +72,6 @@ abstract class Routes
      */
     public static function setPostRoutes(object $router)
     {
-        $router->map('POST', '/ajouter-un-article', function ($twig) {
-            return FrontController::postform($twig);
-        }, 'ajouter-un-article');
-
         $router->map('POST', '/inscription', function ($twig) {
             return FrontController::registration($twig);
         }, 'inscription');
@@ -118,7 +114,6 @@ abstract class Routes
         } else {
             // no route was matched
             header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
-            echo var_export($match);
         }
     }
 }

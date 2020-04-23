@@ -59,6 +59,7 @@ class AdminPostManager
             $img = Image::make($file['tmp_name']);
             $img->fit(800, 450);
 
+//            print_r($_SERVER["DOCUMENT_ROOT"] . 'img/posts_headers/post_' . $id_post . '.jpg');die;
             if ($img->save($_SERVER["DOCUMENT_ROOT"] . 'img/posts_headers/post_' . $id_post . '.jpg')) {
                 return true;
             } else {
@@ -106,8 +107,10 @@ class AdminPostManager
 
         }
 
-        if ($db->exec($sql)) {
-            if (!$id_post_to_modify !== "modify"){
+        if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
+
+            if ($id_post_to_modify == "modify"){
+                die('here');
                 $id_post = $db->lastInsertId();
             } else {
                 $id_post = $id_post_to_modify;

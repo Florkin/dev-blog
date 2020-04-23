@@ -6,9 +6,14 @@ namespace Admin\Controller;
 use Admin\Controller\Form\PostForm;
 use Admin\Model\Manager\AdminPostManager;
 use Admin\Controller\Post\AdminPostsList;
+use App\Config;
 use App\Controller\Post\Post;
 use Balambasik\Input;
 
+/**
+ * Class BackController
+ * @package Admin\Controller
+ */
 class BackController
 {
 
@@ -45,6 +50,16 @@ class BackController
             // display post form
             $postForm = Self::getPostForm($id_post);
             echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
+        }
+    }
+
+    /**
+     * @param int $id_post
+     */
+    public function deletePost(int $id_post){
+        $post = new AdminPostManager($id_post);
+        if ($post->deletePost()){
+            header('Location: ' . Config::BASE_ADMIN_URL);
         }
     }
 

@@ -14,6 +14,13 @@ use Intervention\Image\ImageManagerStatic as Image;
  */
 class AdminPostManager
 {
+    private $id_post = null;
+
+    public function __construct($id_post = null)
+    {
+        $this->id_post = $id_post;
+    }
+
     /**
      * Create posts table if not exist
      *
@@ -49,7 +56,7 @@ class AdminPostManager
      */
     public function uploadImg(int $id_post): bool
     {
-        if ($_FILES['image']['name'] !== ""){
+        if ($_FILES['image']['name'] !== "") {
             $file = $_FILES['image'];
         } else {
             $file = null;
@@ -97,7 +104,8 @@ class AdminPostManager
                     SET title = '" . $title . "' , 
                     intro = '" . $intro . "' , 
                     content = '" . $content . "' , 
-                    date_update = CURRENT_TIMESTAMP  
+                    date_update = CURRENT_TIMESTAMP ,
+                    active = 0 
                     WHERE id_post = " . (int)$id_post_to_modify;
 
         } else {
@@ -109,8 +117,7 @@ class AdminPostManager
 
         if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
 
-            if ($id_post_to_modify == "modify"){
-                die('here');
+            if ($id_post_to_modify == "modify") {
                 $id_post = $db->lastInsertId();
             } else {
                 $id_post = $id_post_to_modify;
@@ -131,6 +138,24 @@ class AdminPostManager
             $messages['message'] = $db->errorInfo();
             echo json_encode($messages);
         }
+    }
+
+    /**
+     * @return bool
+     */
+    public function deletePost() : bool
+    {
+        if (!isset($db) || $db == null) {
+            $db = DbManager::openDB();
+        }
+
+        $id = $this->id_post;
+        $sql = "DELETE FROM `posts` WHERE id_post = " . $id;
+        if ($db->exec($sql)){
+            return true;
+        };
+
+        return false;
     }
 
     /**
@@ -212,7 +237,7 @@ class AdminPostManager
             Self::setActive($id_post, 1);
         }
 
-        header('Location: ' . Config::BASE_ADMIN_URL);
+        header('Location: ' . $_SERVER['HTTP_REFERER'] . "#post-" . $id_post);
     }
 
     /**

@@ -18,6 +18,9 @@
                 {% endif %}
                 <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}" class="btn btn-secondary">Modifier
                     l'article</a>
+
+                <button type="button" class="js-confirm-delete btn btn-danger" data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">Supprimer
+                    l'article</button>
             </div>
         </div>
     </section>
@@ -45,5 +48,24 @@
             </div>
         </div>
     </section>
+
+
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Supprimer cet article?</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Cette action est définitive</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}

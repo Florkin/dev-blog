@@ -43,11 +43,15 @@ abstract class AdminRoutes
 
         $router->map('GET', '/admin/ecrire-un-article', function ($twig) {
             return BackController::writePost($twig);
-        }, 'write-article');
+        }, 'write-post');
 
         $router->map('GET', '/admin/modifier-article/[i:id]', function ($id, $twig) {
             return BackController::writePost($twig, $id);
-        }, 'modify-article');
+        }, 'modify-post');
+
+        $router->map('GET', '/admin/supprimer-article/[i:id]', function ($id) {
+            return BackController::deletePost($id);
+        }, 'delete-post');
 
         $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
             return AdminPostManager::postToggleActivation($id);

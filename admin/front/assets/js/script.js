@@ -63,7 +63,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -101,15 +101,17 @@ module.exports = g;
 "use strict";
 
 
+__webpack_require__(9);
+
 __webpack_require__(8);
 
-__webpack_require__(7);
+__webpack_require__(6);
 
 __webpack_require__(5);
 
-__webpack_require__(4);
-
 __webpack_require__(3);
+
+__webpack_require__(4);
 
 /***/ }),
 /* 2 */
@@ -179,6 +181,20 @@ $('.form').on('submit', function (event) {
 "use strict";
 
 
+$('.js-confirm-delete').on('click', function () {
+    var action = $(this).attr('data-href');
+    $('#confirm-delete .btn-ok').attr({
+        href: action
+    });
+});
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 $(document).ready(function () {
     if ($('textarea#tinymce').length) {
         tinymce.init({
@@ -200,7 +216,7 @@ $(document).ready(function () {
 });
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -208,7 +224,7 @@ $(document).ready(function () {
   * Bootstrap v4.4.1 (https://getbootstrap.com/)
   * Copyright 2011-2019 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-  */(function(global,factory){ true?factory(exports,__webpack_require__(9),__webpack_require__(6)):typeof define === 'function' && define.amd?define(['exports','jquery','popper.js'],factory):(global = global || self,factory(global.bootstrap = {},global.jQuery,global.Popper));})(undefined,function(exports,$,Popper){'use strict';$ = $ && $.hasOwnProperty('default')?$['default']:$;Popper = Popper && Popper.hasOwnProperty('default')?Popper['default']:Popper;function _defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if("value" in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}function _createClass(Constructor,protoProps,staticProps){if(protoProps)_defineProperties(Constructor.prototype,protoProps);if(staticProps)_defineProperties(Constructor,staticProps);return Constructor;}function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key] = value;}return obj;}function ownKeys(object,enumerableOnly){var keys=Object.keys(object);if(Object.getOwnPropertySymbols){var symbols=Object.getOwnPropertySymbols(object);if(enumerableOnly)symbols = symbols.filter(function(sym){return Object.getOwnPropertyDescriptor(object,sym).enumerable;});keys.push.apply(keys,symbols);}return keys;}function _objectSpread2(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i] != null?arguments[i]:{};if(i % 2){ownKeys(Object(source),true).forEach(function(key){_defineProperty(target,key,source[key]);});}else if(Object.getOwnPropertyDescriptors){Object.defineProperties(target,Object.getOwnPropertyDescriptors(source));}else {ownKeys(Object(source)).forEach(function(key){Object.defineProperty(target,key,Object.getOwnPropertyDescriptor(source,key));});}}return target;}function _inheritsLoose(subClass,superClass){subClass.prototype = Object.create(superClass.prototype);subClass.prototype.constructor = subClass;subClass.__proto__ = superClass;} /**
+  */(function(global,factory){ true?factory(exports,__webpack_require__(10),__webpack_require__(7)):typeof define === 'function' && define.amd?define(['exports','jquery','popper.js'],factory):(global = global || self,factory(global.bootstrap = {},global.jQuery,global.Popper));})(undefined,function(exports,$,Popper){'use strict';$ = $ && $.hasOwnProperty('default')?$['default']:$;Popper = Popper && Popper.hasOwnProperty('default')?Popper['default']:Popper;function _defineProperties(target,props){for(var i=0;i < props.length;i++) {var descriptor=props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if("value" in descriptor)descriptor.writable = true;Object.defineProperty(target,descriptor.key,descriptor);}}function _createClass(Constructor,protoProps,staticProps){if(protoProps)_defineProperties(Constructor.prototype,protoProps);if(staticProps)_defineProperties(Constructor,staticProps);return Constructor;}function _defineProperty(obj,key,value){if(key in obj){Object.defineProperty(obj,key,{value:value,enumerable:true,configurable:true,writable:true});}else {obj[key] = value;}return obj;}function ownKeys(object,enumerableOnly){var keys=Object.keys(object);if(Object.getOwnPropertySymbols){var symbols=Object.getOwnPropertySymbols(object);if(enumerableOnly)symbols = symbols.filter(function(sym){return Object.getOwnPropertyDescriptor(object,sym).enumerable;});keys.push.apply(keys,symbols);}return keys;}function _objectSpread2(target){for(var i=1;i < arguments.length;i++) {var source=arguments[i] != null?arguments[i]:{};if(i % 2){ownKeys(Object(source),true).forEach(function(key){_defineProperty(target,key,source[key]);});}else if(Object.getOwnPropertyDescriptors){Object.defineProperties(target,Object.getOwnPropertyDescriptors(source));}else {ownKeys(Object(source)).forEach(function(key){Object.defineProperty(target,key,Object.getOwnPropertyDescriptor(source,key));});}}return target;}function _inheritsLoose(subClass,superClass){subClass.prototype = Object.create(superClass.prototype);subClass.prototype.constructor = subClass;subClass.__proto__ = superClass;} /**
    * --------------------------------------------------------------------------
    * Bootstrap (v4.4.1): util.js
    * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
@@ -551,7 +567,7 @@ Toast._jQueryInterface = function _jQueryInterface(config){return this.each(func
    */$.fn[NAME$a] = Toast._jQueryInterface;$.fn[NAME$a].Constructor = Toast;$.fn[NAME$a].noConflict = function(){$.fn[NAME$a] = JQUERY_NO_CONFLICT$a;return Toast._jQueryInterface;};exports.Alert = Alert;exports.Button = Button;exports.Carousel = Carousel;exports.Collapse = Collapse;exports.Dropdown = Dropdown;exports.Modal = Modal;exports.Popover = Popover;exports.Scrollspy = ScrollSpy;exports.Tab = Tab;exports.Toast = Toast;exports.Tooltip = Tooltip;exports.Util = Util;Object.defineProperty(exports,'__esModule',{value:true});}); //# sourceMappingURL=bootstrap.js.map
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -3133,7 +3149,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -5687,7 +5703,7 @@ module.exports = exports['default'];
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -6187,13 +6203,13 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 });
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, exports) {
 
 module.exports = jQuery;
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(1);

@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use App\Controller\Form\PostForm;
-use App\Controller\Form\UserForm;
+use App\Controller\Forms\PostForm;
+use App\Controller\Forms\UserForm;
 use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
 use App\Model\Manager\PostManager;

@@ -1,8 +1,8 @@
-front/_dev/node_modules/*
-front/assets/*
+node_modules/
+assets/
 src/Config.php
-vendor/*
+vendor/
 composer.lock
-cache/*
-img/*
+cache/
+img/
 robots.txt

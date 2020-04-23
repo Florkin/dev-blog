@@ -4,6 +4,7 @@ namespace App\Model\Manager;
 
 use App\Controller\FrontController;
 use App\Controller\Validator\Validator;
+use Delight\Auth\Auth as Auth;
 
 class UserManager
 {
@@ -91,8 +92,10 @@ class UserManager
         }
 
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
+
+//        dump($auth->getRoles());die;
 
         if ($auth->isLoggedIn()) {
             $isLogged = true;
@@ -110,7 +113,7 @@ class UserManager
     public static function getUsername() : string
     {
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
         return $auth->getUsername();
     }
@@ -123,7 +126,7 @@ class UserManager
     public static function getEmail() : string
     {
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         return $auth->getEmail();
@@ -149,7 +152,7 @@ class UserManager
         $username = $formData['username'];
 
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth($db, null, null, false);
+            $auth = new Auth($db, null, null, false);
         }
 
         try {
@@ -191,7 +194,7 @@ class UserManager
         $remember = (empty($formData['remember']) ? 0 : 1);
 
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         if (isset($remember) && $remember == 1) {
@@ -237,7 +240,7 @@ class UserManager
     public function logout()
     {
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         try {

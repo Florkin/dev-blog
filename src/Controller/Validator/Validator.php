@@ -48,7 +48,7 @@ class Validator
 
     public function email(string $key): self
     {
-        if (filter_var($this->params['key'], FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($this->params[$key], FILTER_VALIDATE_EMAIL)) {
             $this->errors[$key] = "L'email n'est pas valide";
         };
         return $this;

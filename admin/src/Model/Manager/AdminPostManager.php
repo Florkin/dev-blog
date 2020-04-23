@@ -212,14 +212,19 @@ class AdminPostManager
 
             $response = $db->query($sql);
 
-            $list = array();
+            if ($response){
+                $list = array();
 
-            while ($data = $response->fetch()) {
-                array_push($list, $data);
-            };
+                while ($data = $response->fetch()) {
+                    array_push($list, $data);
+                };
 
-            $response->closeCursor();
-            return $list;
+                $response->closeCursor();
+                return $list;
+            } else {
+                return null;
+            }
+
 
         } else {
             return null;

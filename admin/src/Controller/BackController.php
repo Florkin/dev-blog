@@ -49,7 +49,7 @@ class BackController
         } else {
             // display post form
             $postForm = Self::getPostForm($id_post);
-            echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
+            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
         }
     }
 

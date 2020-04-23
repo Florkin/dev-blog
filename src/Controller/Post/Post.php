@@ -10,6 +10,7 @@ class Post
     private $content;
     private $date_add;
     private $date_update;
+    private $active;
     private $img_url;
 
     /**
@@ -28,6 +29,7 @@ class Post
         $this->content = $content['content'];
         $this->date_add = $content['date_add'];
         $this->date_update = $content['date_update'];
+        $this->active = $content['active'];
         $this->img_url = $content['img_url'];
     }
 
@@ -42,10 +44,16 @@ class Post
             'id_post' => $this->id_post,
             'title' => $this->title,
             'intro' => $this->intro,
-            'content' => html_entity_decode($this->content),
+            'content' => html_entity_decode($this->content, ENT_QUOTES | ENT_HTML5),
             'date_add' => $this->date_add,
             'date_update' => $this->date_update,
-            'img_url' => $this->img_url
+            'img_url' => $this->img_url,
+            "active" => $this->active
         );
+    }
+
+    public function isActive()
+    {
+        return $this->active;
     }
 }

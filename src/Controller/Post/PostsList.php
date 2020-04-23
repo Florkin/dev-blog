@@ -2,6 +2,8 @@
 
 namespace App\Controller\Post;
 
+use App\Model\Manager\PostManager;
+
 class PostsList
 {
     /**
@@ -23,8 +25,8 @@ class PostsList
      */
     public function getPosts(): ?array
     {
-        $postsList = new \App\Model\Manager\PostManager;
-        return $postsList->getPostsList($this->quantity);
+        $postsList = new PostManager;
+        return $postsList->getActivePostsList($this->quantity);
     }
 
 }

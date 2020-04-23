@@ -45,41 +45,6 @@ abstract class FrontController
     }
 
     /**
-     * If getting POST from form, call addpost() function.
-     * Else, display post form
-     *
-     * @param object $twig
-     * @return void
-     */
-    public static function postform(object $twig, array $messages = null)
-    {
-        if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "add") {
-            // add post according to form data
-            $post = new PostManager;
-            $formData = Input::post();            
-            $validator = $post->getValidator($formData);
-            if ($validator->isValid()){
-                $post->addpost($formData, $twig);
-            } else {
-                $messages = $validator->getErrors();
-                $messages["status"] = "error";
-                echo json_encode($messages);
-            }
-            
-        } else {
-            // display post form
-            $postForm = Self::getPostForm();
-            echo $twig->render('Pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
-        }
-    }
-
-    public static function getPostForm()
-    {
-        $postForm = new PostForm;
-        return $postForm->renderForm();
-    }
-
-    /**
      * If getting POST from form, call register() function.
      * Else, display register form
      *

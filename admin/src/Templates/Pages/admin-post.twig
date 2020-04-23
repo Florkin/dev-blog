@@ -1,0 +1,71 @@
+{% extends 'layout.twig' %}
+
+{% block head %}
+    <title>{{ post.title|capitalize }}</title>
+{% endblock %}
+
+{% block content %}
+
+    <section class="post-toolbar mb-5">
+        <div class="container">
+            <div class="post-toolbar-btns text-right">
+                {% if post.active == 1 %}
+                    <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
+                       class="post-activation btn btn-warning">Desactiver</a>
+                {% else %}
+                    <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
+                       class="post-activation btn btn-success">Activer</a>
+                {% endif %}
+                <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}" class="btn btn-secondary">Modifier
+                    l'article</a>
+
+                <button type="button" class="js-confirm-delete btn btn-danger" data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">Supprimer
+                    l'article</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="site-section">
+        <div class="container">
+            <div class="row justify-content-center post-header">
+                <div class="col-lg-6 text-center heading-section mb-5">
+                    <div class="code-icon">
+                        <span class="icon-code"></span>
+                    </div>
+                    <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
+                    <p>{{ post.date_update }}</p>
+                    <p>{{ post.intro|raw }}</p>
+                </div>
+                <div class="col-lg-6 text-right pr-0 pl-0">
+                    <img src="{{ post.img_url }}" alt="post {{ post.id_post }}" class="img-fluid">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="post-content">
+                    {{ post.content|raw }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Supprimer cet article?</h3>
+                </div>
+                <div class="modal-body">
+                    <p>Cette action est définitive</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="#" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 {% for post in posts %}
-<div class="row hover-1-wrap mb-5 mb-lg-5">
+<div id="post-{{ post.id_post }}" class="row hover-1-wrap mb-5 mb-lg-5">
       <div class="col-12">
         <div class="row">
           <div class="mb-4 mb-lg-0 col-lg-6 {% if loop.index is divisible by(2) %} order-lg-2 {% endif %}" data-aos="{% if loop.index is divisible by(2) %}fade-left{% else %}fade-right{% endif %}">

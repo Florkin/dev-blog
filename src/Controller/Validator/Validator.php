@@ -93,6 +93,18 @@ class Validator
         return $this;
     }
 
+    public function author(string $key): self
+    {
+        if (isset($this->params[$key])){
+            $pattern = '/^[a-zA-Z0-9]{4,16}$/';
+            if (!preg_match($pattern, $this->params[$key])) {
+                $this->errors[$key] = "Le username doit contenir entre 4 et 16 caractères";
+            };
+        }
+
+        return $this;
+    }
+
     public function isCleanHtml($key)
     {
         $events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';

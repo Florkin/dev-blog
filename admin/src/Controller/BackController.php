@@ -7,7 +7,7 @@ use Admin\Controller\Form\PostForm;
 use Admin\Model\Manager\AdminPostManager;
 use Admin\Controller\Post\AdminPostsList;
 use App\Config;
-use App\Controller\Post\Post;
+use Admin\Controller\Post\AdminPost;
 use Balambasik\Input;
 
 /**
@@ -19,8 +19,8 @@ class BackController
 
     public static function post(int $id, object $twig)
     {
-        $post = new Post($id);
-        echo $twig->render('pages/admin-post.twig', ['post' => $post->displaypost()]);
+        $post = new AdminPost($id);
+        echo $twig->render('pages/admin-post.twig', ['post' => $post->displayPost()]);
 
     }
 

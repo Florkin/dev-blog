@@ -51,7 +51,45 @@ class CommentManager
     public function getActiveComments($post_id)
     {
         $db = DbManager::openDB();
-        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " WHERE active = 1 ORDER BY date_add DESC";
+        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " AND active = 1 ORDER BY date_add DESC";
+
+        $response = $db->query($sql);
+        if ($response){
+            $comments = [];
+            while ($data = $response->fetch()) {
+                array_push($comments, $data);
+            }
+
+            return $comments;
+        } else {
+            return null;
+        }
+
+    }
+
+    public function getAllInactiveComments($post_id)
+    {
+        $db = DbManager::openDB();
+        $sql = "SELECT * FROM comments WHERE active = 0 ORDER BY date_add DESC";
+
+        $response = $db->query($sql);
+        if ($response){
+            $comments = [];
+            while ($data = $response->fetch()) {
+                array_push($comments, $data);
+            }
+
+            return $comments;
+        } else {
+            return null;
+        }
+
+    }
+
+    public function getAllPostComments($post_id)
+    {
+        $db = DbManager::openDB();
+        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " ORDER BY date_add DESC";
 
         $response = $db->query($sql);
         if ($response){

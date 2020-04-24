@@ -49,12 +49,26 @@ class Comment
         return $comments;
     }
 
+    public function getAllPostComments()
+    {
+        $comment = new CommentManager();
+        $comments = $comment->getAllPostComments($this->post_id);
+        return $comments;
+    }
+
+    public function getAllInactiveComments()
+    {
+        $comment = new CommentManager();
+        $comments = $comment->getAllInactiveComments($this->post_id);
+        return $comments;
+    }
+
     public function getValidator($formData)
     {
         return (new Validator($formData))
             ->required('comment')
             ->length('comment', 1, 1000)
-            ->username('comment_name');
+            ->author('comment_name');
 
     }
 }

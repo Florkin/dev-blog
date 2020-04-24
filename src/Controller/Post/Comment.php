@@ -42,10 +42,10 @@ class Comment
         );
     }
 
-    public function getComments()
+    public function getActiveComments()
     {
         $comment = new CommentManager();
-        $comments = $comment->getComments($this->post_id);
+        $comments = $comment->getActiveComments($this->post_id);
         return $comments;
     }
 
@@ -53,7 +53,7 @@ class Comment
     {
         return (new Validator($formData))
             ->required('comment')
-            ->length('comment', 1, 500)
+            ->length('comment', 1, 1000)
             ->username('comment_name');
 
     }

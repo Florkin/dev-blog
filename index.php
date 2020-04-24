@@ -45,6 +45,7 @@ $url = array(
 );
 
 $twig->addGlobal('url', $url);
+
 // ===================== ROUTING =====================
 $router = Routes::setRoutes($twig);
 

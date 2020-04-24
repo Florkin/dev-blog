@@ -8,6 +8,14 @@ use Delight\Auth\Auth as Auth;
 
 class UserManager
 {
+
+    private $id_user = null;
+
+    public function __construct($id_user = null)
+    {
+        $this->id_user = $id_user;
+    }
+
     /**
      * Create users related table if don't exist
      *
@@ -279,4 +287,27 @@ class UserManager
                 ->password('password');
         }
     }
+
+    public function getUserDataById()
+    {
+        $sql = "SELECT *FROM users WHERE id = " . $this->id_user;
+        $db = DbManager::openDB();
+        $response = $db->query($sql);
+        $data = $response->fetch();
+
+        return $data;
+    }
+
+    public function getEmailById() : string
+    {
+        $data = $this->getUserDataById();
+        return $data['email'];
+    }
+
+    public function getUsernameById() :string
+    {
+        $data = $this->getUserDataById();
+        return $data['username'];
+    }
+
 }

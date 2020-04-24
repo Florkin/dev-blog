@@ -44,14 +44,13 @@
                                         <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
                                            class="post-activation btn btn-success">Activer</a>
                                     {% endif %}
-
-                                    <button type="button" class="js-confirm-delete btn btn-danger"
-                                            data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}"
-                                            data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">
-                                        Supprimer
-                                        l'article
-                                    </button>
                                 {% endif %}
+                                <button type="button" class="js-confirm-delete btn btn-danger"
+                                        data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}"
+                                        data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">
+                                    Supprimer
+                                    l'article
+                                </button>
                             </div>
 
                         </div>

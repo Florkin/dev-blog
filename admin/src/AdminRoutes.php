@@ -4,6 +4,7 @@ namespace Admin;
 
 use Admin\Controller\BackController;
 use Admin\Model\Manager\AdminPostManager;
+use App\Model\Manager\UserManager;
 
 /**
  * Routing class

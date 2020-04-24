@@ -76,6 +76,10 @@ abstract class Routes
             return FrontController::login($twig);
         }, 'login');
 
+        $router->map('POST', '/add-comment/[i:id]', function ($id) {
+            return FrontController::addComment($id);
+        }, 'add-comment');
+
         return $router;
     }
 

@@ -30,6 +30,15 @@
                     {{ post.content|raw }}
                 </div>
             </div>
+
+            <div class="col-12 col-lg-6">
+                <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
+                    {% for field in commentForm %}
+                        <div class="form-group">{{ field|raw }}</div>
+                    {% endfor %}
+                </form>
+            </div>
+
         </div>
     </section>
 

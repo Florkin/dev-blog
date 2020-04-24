@@ -72,6 +72,26 @@
                                     <div class="comment-description">
                                         <p>{{ comment.comment }}</p>
                                     </div>
+                                    {% if is_admin %}
+                                        {% if comment.active == 1 %}
+                                            <a href="{{ admin_url.base_url }}/activation-article/{{ comment.id_comment }}"
+                                               class="mb-2 comment-activation btn btn-warning">Desactiver</a>
+                                        {% else %}
+                                            <a href="{{ admin_url.base_url }}/activation-article/{{ comment.id_comment }}"
+                                               class="mb-2 comment-activation btn btn-success">Activer</a>
+                                        {% endif %}
+                                    {% endif %}
+
+                                    {% if user_id == comment.id_user %}
+                                    <a href="{{ admin_url.base_url }}/modifier-commentaire/{{ comment.id_comment }}" class="mb-2 btn btn-secondary">Modifier
+                                        le commentaire</a>
+
+                                    <button type="button" class="mb-2 js-confirm-delete btn btn-danger"
+                                            data-href="{{ admin_url.base_url }}/supprimer-commentaire/{{ comment.id_comment }}" data-toggle="modal"
+                                            data-target="#confirm-delete" class="btn btn-danger">Supprimer
+                                        le commentaire
+                                    </button>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
@@ -90,7 +110,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3>Supprimer cet article?</h3>
+                    <h3>Supprimer?</h3>
                 </div>
                 <div class="modal-body">
                     <p>Cette action est définitive</p>

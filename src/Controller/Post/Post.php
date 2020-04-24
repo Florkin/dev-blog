@@ -17,6 +17,7 @@ class Post
     private $date_update;
     private $active;
     private $img_url;
+    private $comments;
 
 
     /**
@@ -29,6 +30,7 @@ class Post
         $this->id_post = $id_post;
         $post = new PostManager($id_post);
         $content = $post->getContent($this->id_post);
+        $comments = new Comment($this->id_post);
 
         $this->title = $content['title'];
         $this->intro = $content['intro'];
@@ -38,6 +40,7 @@ class Post
         $this->date_update = $content['date_update'];
         $this->active = $content['active'];
         $this->img_url = $content['img_url'];
+        $this->comments = $comments->getComments();
     }
 
     /**
@@ -58,7 +61,8 @@ class Post
             'date_add' => $this->date_add,
             'date_update' => $this->date_update,
             'img_url' => $this->img_url,
-            "active" => $this->active
+            "active" => $this->active,
+            "comments" => $this->comments
         );
     }
 

@@ -48,4 +48,19 @@ class CommentManager
         header('Location: ' . $_SERVER['HTTP_REFERER'] . '#comments');
     }
 
+    public function getComments($post_id)
+    {
+        $db = DbManager::openDB();
+        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " ORDER BY date_add DESC";
+
+        $response = $db->query($sql);
+
+        $comments = [];
+        while ($data = $response->fetch()){
+            array_push($comments, $data);
+        }
+
+        return $comments;
+    }
+
 }

@@ -13,17 +13,20 @@ class Comment
     private $comment;
     private $post_id;
 
-    public function __construct($id_post, $data)
+    public function __construct($id_post, $data = null)
     {
         $this->post_id = $id_post;
-        if (UserManager::checkIsLogged()) {
-            $this->author = UserManager::getUsername();
-            $this->authorId = UserManager::getUserId();
-        } else {
-            $this->author = $data['comment_name'];
-        }
 
-        $this->comment = $data['comment'];
+        if (isset($data)){
+            if (UserManager::checkIsLogged()) {
+                $this->author = UserManager::getUsername();
+                $this->authorId = UserManager::getUserId();
+            } else {
+                $this->author = $data['comment_name'];
+            }
+
+            $this->comment = $data['comment'];
+        }
     }
 
     public function addComment()
@@ -36,5 +39,12 @@ class Comment
             $this->post_id
 
         );
+    }
+
+    public function getComments()
+    {
+        $comment = new CommentManager();
+        $comments = $comment->getComments($this->post_id);
+        return $comments;
     }
 }

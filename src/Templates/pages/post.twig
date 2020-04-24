@@ -31,15 +31,36 @@
                 </div>
             </div>
 
-            <div id="comments" class="col-12 col-lg-6">
-                <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
-                    {% for field in commentForm %}
-                        <div class="form-group">{{ field|raw }}</div>
+            <div id="comments" class="mt-5 col-12 col-lg-12">
+                <div class="comments-container">
+                    <h2 class="text-black mb-2">Commentaires</h2>
+                    {% for comment in post.comments %}
+                        <div class="row border-bottom">
+                            <div class="comment-author col-6">
+                                {{ comment.author }}
+                            </div>
+                            <div class="comment-author col-6">
+                                {{ comment.date_update }}
+                            </div>
+                            <div class="comment-author col-12">
+                                {{ comment.comment }}
+                            </div>
+                        </div>
                     {% endfor %}
-                </form>
+                </div>
+                <div class="row">
+                    <div class="col-12 col-lg-6">
+                        <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
+                            {% for field in commentForm %}
+                                <div class="form-group">{{ field|raw }}</div>
+                            {% endfor %}
+                        </form>
+                    </div>
+                </div>
             </div>
 
         </div>
     </section>
+
 
 {% endblock %}

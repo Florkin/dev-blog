@@ -10,9 +10,12 @@
           <div class="col-lg-6 align-self-center order-lg-1 {% if loop.index is divisible by(2) %}fade-right text-lg-right {% else %}fade-left{% endif %}"
            data-aos="{% if loop.index is divisible by(2) %}fade-right{% else %}fade-left{% endif %}">
             <h2 class="text-black">{{ post.title }}</h2>
-            <p class="mb-4">{{ post.date_update }}</p>
+            <p class="mb-4">
+              <span class="mr-3">Auteur: {{ post.author }}</span>
+              <span>{{ post.date_update }}</span>
+            </p>
             <p class="mb-4">{{ post.intro|raw }}</p>
-            <p><a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">id = {{ post.id_post }}</a></p>
+            <p><a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a></p>
           </div>
         </div>
       </div>

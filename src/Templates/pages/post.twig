@@ -1,33 +1,36 @@
 {% extends 'layout.twig' %}
 
 {% block head %}
-<title>{{post.title|capitalize}}</title>
+    <title>{{ post.title|capitalize }}</title>
 {% endblock %}
 
 {% block content %}
 
-<section class="site-section">
-  <div class="container">
-    <div class="row justify-content-center post-header" data-aos="fade-up">
-      <div class="col-lg-6 text-center heading-section mb-5">
-        <div class="code-icon">
-          <span class="icon-code"></span>
-        </div>
-        <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
-        <p>{{post.date_update}}</p>
-        <p>{{post.intro|raw}}</p>
-      </div>
-      <div class="col-lg-6 text-right pr-0 pl-0">
-        <img src="{{post.img_url}}" alt="post {{ post.id_post }}" class="img-fluid">
-      </div>
-    </div>
+    <section class="site-section">
+        <div class="container">
+            <div class="row justify-content-center post-header" data-aos="fade-up">
+                <div class="col-lg-6 text-center heading-section mb-5">
+                    <div class="code-icon">
+                        <span class="icon-code"></span>
+                    </div>
+                    <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
+                    <p>
+                        <span class="mr-3">Auteur: {{ post.author }}</span>
+                        <span>{{ post.date_update }}</span>
+                    </p>
+                    <p>{{ post.intro|raw }}</p>
+                </div>
+                <div class="col-lg-6 text-right pr-0 pl-0">
+                    <img src="{{ post.img_url }}" alt="post {{ post.id_post }}" class="img-fluid">
+                </div>
+            </div>
 
-    <div class="row">
-      <div class="post-content">
-        {{post.content|raw}}
-      </div>
-    </div>
-  </div>
-</section>
+            <div class="row">
+                <div class="post-content">
+                    {{ post.content|raw }}
+                </div>
+            </div>
+        </div>
+    </section>
 
 {% endblock %}

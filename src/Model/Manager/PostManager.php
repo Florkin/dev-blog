@@ -30,6 +30,7 @@ class PostManager
                 'title' => $data['title'],
                 'intro' => $data['intro'],
                 'content' => $data['content'],
+                'id_user' => $data['id_user'],
                 'date_add' => $data['date_add'],
                 'date_update' => $data['date_update'],
                 'active' => $data['active'],
@@ -54,15 +55,17 @@ class PostManager
         if (DbManager::tableExists($db, 'posts')) {
 
             if ($quantity !== 0) {
-                $sql = "SELECT id_post, title, intro, date_add, date_update FROM posts WHERE active = 1 LIMIT " . $quantity;
+                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update FROM posts WHERE active = 1 LIMIT " . $quantity;
             } else {
-                $sql = "SELECT id_post, title, intro, date_add, date_update FROM posts WHERE active = 1";
+                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update FROM posts WHERE active = 1";
             }
 
             $response = $db->query($sql);
             if ($response){
                 $list = array();
                 while ($data = $response->fetch()) {
+                    $user = new UserManager($data['id_user']);
+                    $data['author'] = $user->getUsernameById();
                     array_push($list, $data);
                 };
                 $response->closeCursor();

@@ -4,9 +4,18 @@ namespace App\Model\Manager;
 
 use App\Controller\FrontController;
 use App\Controller\Validator\Validator;
+use Delight\Auth\Auth as Auth;
 
 class UserManager
 {
+
+    private $id_user = null;
+
+    public function __construct($id_user = null)
+    {
+        $this->id_user = $id_user;
+    }
+
     /**
      * Create users related table if don't exist
      *
@@ -75,7 +84,7 @@ class UserManager
             KEY `expires_at` (`expires_at`)
           ) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
-          $db->exec($sql);
+        $db->exec($sql);
     }
 
     /**
@@ -83,15 +92,15 @@ class UserManager
      *
      * @return bool
      */
-    public static function checkIsLogged() : bool
+    public static function checkIsLogged(): bool
     {
         $db = DbManager::openDB();
-        if (!DbManager::tableExists($db, 'Users')){
+        if (!DbManager::tableExists($db, 'Users')) {
             Self::createTables($db);
         }
 
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         if ($auth->isLoggedIn()) {
@@ -102,15 +111,39 @@ class UserManager
         return $isLogged;
     }
 
+
+    public static function getUserRole(): array
+    {
+        if (!isset($auth)) {
+            $auth = new Auth(DbManager::openDB(), null, null, false);
+        }
+
+        $roles = $auth->getRoles();
+        return $roles;
+    }
+
+    /**
+     * Get logged user id
+     *
+     * @return integer
+     */
+    public static function getUserId(): string
+    {
+        if (!isset($auth)) {
+            $auth = new Auth(DbManager::openDB(), null, null, false);
+        }
+        return $auth->getUserId();
+    }
+
     /**
      * Get logged user username
      *
      * @return string
      */
-    public static function getUsername() : string
+    public static function getUsername(): string
     {
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
         return $auth->getUsername();
     }
@@ -120,10 +153,10 @@ class UserManager
      *
      * @return string
      */
-    public static function getEmail() : string
+    public static function getEmail(): string
     {
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         return $auth->getEmail();
@@ -140,7 +173,7 @@ class UserManager
     public function register(array $formData, $twig)
     {
         $db = DbManager::openDB();
-        if (!DbManager::tableExists($db, 'Users')){
+        if (!DbManager::tableExists($db, 'Users')) {
             Self::createTables($db);
         }
 
@@ -149,7 +182,7 @@ class UserManager
         $username = $formData['username'];
 
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth($db, null, null, false);
+            $auth = new Auth($db, null, null, false);
         }
 
         try {
@@ -157,7 +190,10 @@ class UserManager
 
             $messages["status"] = "success";
             $messages['message'] = "Votre compte a bien été enregistré. Vous allez recevoir un email pour l'activer.";
+
             echo json_encode($messages);
+
+            $auth->admin()->addRoleForUserById($userId, \Delight\Auth\Role::AUTHOR);
 
         } catch (\Delight\Auth\InvalidEmailException $e) {
             die('Invalid email address');
@@ -191,12 +227,12 @@ class UserManager
         $remember = (empty($formData['remember']) ? 0 : 1);
 
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         if (isset($remember) && $remember == 1) {
             // keep logged in for one year
-            $rememberDuration = (int) (60 * 60 * 24 * 365.25);
+            $rememberDuration = (int)(60 * 60 * 24 * 365.25);
         } else {
             // do not keep logged in after session ends
             $rememberDuration = null;
@@ -237,7 +273,7 @@ class UserManager
     public function logout()
     {
         if (!isset($auth)) {
-            $auth = new \Delight\Auth\Auth(DbManager::openDB(), null, null, false);
+            $auth = new Auth(DbManager::openDB(), null, null, false);
         }
 
         try {
@@ -249,18 +285,42 @@ class UserManager
 
     }
 
-    public function getValidator($action, $formData){
-        if ($action == 'register'){
+    public function getValidator($action, $formData)
+    {
+        if ($action == 'register') {
             return (new Validator($formData))
-            ->required('email', 'username', 'password')
-            ->email('email')
-            ->password('password')
-            ->username('username');
-        } elseif ($action == 'login'){
+                ->required('email', 'username', 'password')
+                ->email('email')
+                ->password('password')
+                ->username('username');
+        } elseif ($action == 'login') {
             return (new Validator($formData))
-            ->required('email', 'password')
-            ->email('email')
-            ->password('password');
-        }        
+                ->required('email', 'password')
+                ->email('email')
+                ->password('password');
+        }
     }
+
+    public function getUserDataById()
+    {
+        $sql = "SELECT *FROM users WHERE id = " . $this->id_user;
+        $db = DbManager::openDB();
+        $response = $db->query($sql);
+        $data = $response->fetch();
+
+        return $data;
+    }
+
+    public function getEmailById() : string
+    {
+        $data = $this->getUserDataById();
+        return $data['email'];
+    }
+
+    public function getUsernameById() :string
+    {
+        $data = $this->getUserDataById();
+        return $data['username'];
+    }
+
 }

@@ -23,7 +23,9 @@
                         </div>
                         <div class="col-lg-9 align-self-center order-lg-1">
                             <h2 class="text-black">{{ post.title }}</h2>
-                            <p class="mb-2">{{ post.date_update }}</p>
+                            <p class="mb-2">
+                                <span class="mr-3">{{ post.author }}</span><span>{{ post.date_update }}</span>
+                            </p>
                             <p class="mb-2">{{ post.intro|raw }}</p>
                         </div>
                     </div>

@@ -28,4 +28,15 @@ $admin_url = array(
 );
 $twig->addGlobal('admin_url', $admin_url);
 
-$router = Routes::setRoutes($twig);
+$islogged = UserManager::checkIsLogged();
+$roles = UserManager::getUserRole();
+
+in_array("ADMIN", $roles) ? $twig->addGlobal('is_admin', true) : $twig->addGlobal('is_admin', false);
+
+if (!$islogged){
+    die("Connectez vous a un compte utilisateur pour pouvoir accèder à l'administration du site.");
+} else {
+    $router = Routes::setRoutes($twig);
+}
+
+

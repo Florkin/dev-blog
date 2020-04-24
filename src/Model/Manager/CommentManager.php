@@ -45,7 +45,7 @@ class CommentManager
             print_r($db->errorInfo());
         };
 
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . $_SERVER['HTTP_REFERER'] . '#comments');
     }
 
 }

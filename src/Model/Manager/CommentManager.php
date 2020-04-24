@@ -32,14 +32,14 @@ class CommentManager
         }
         $active = UserManager::checkIsLogged() && UserManager::isAdmin() ? 1 : 0;
 
-        if (isset($user_id)){
+        if (isset($user_id)) {
             $sql = "INSERT INTO comments (comment, id_user, author, post_id, date_add, date_update, active) VALUES ('" . $comment . "', '" . $user_id . "', '" . $author . "', '" . $post_id . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, " . $active . ")";
         } else {
             $sql = "INSERT INTO comments (comment, author, post_id, date_add, date_update, active) VALUES ('" . $comment . "', '" . $author . "', '" . $post_id . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, " . $active . ")";
         }
 
         try {
-           $db->exec($sql);
+            $db->exec($sql);
         } catch (Error $e) {
             echo "\nPDO::errorInfo():\n";
             print_r($db->errorInfo());
@@ -56,7 +56,7 @@ class CommentManager
         $response = $db->query($sql);
 
         $comments = [];
-        while ($data = $response->fetch()){
+        while ($data = $response->fetch()) {
             array_push($comments, $data);
         }
 

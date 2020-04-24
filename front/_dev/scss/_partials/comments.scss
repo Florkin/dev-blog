@@ -1,0 +1,108 @@
+#comments .card{
+  padding:10px;
+  margin-bottom:10px;
+}
+
+.card-white  .card-heading {
+  color: #333;
+  background-color: #fff;
+}
+.card-white  .card-footer {
+  background-color: #fff;
+  border-color: #ddd;
+}
+.card-white .h5 {
+  font-size:14px;
+  //font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+.card-white .time {
+  font-size:12px;
+  //font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+#comments .post-heading {
+  height: 95px;
+  padding: 20px 15px;
+}
+#comments .post-heading .avatar {
+  width: 60px;
+  height: 60px;
+  display: block;
+  margin-right: 15px;
+}
+#comments .post-heading .meta .title {
+  margin-bottom: 0;
+}
+#comments .post-heading .meta .title a {
+  color: black;
+}
+#comments .post-heading .meta .title a:hover {
+  color: #aaaaaa;
+}
+#comments .post-heading .meta .time {
+  margin-top: 8px;
+  color: #999;
+}
+#comments .post-image .image {
+  width: 100%;
+  height: auto;
+}
+#comments .post-description {
+  padding: 15px;
+}
+#comments .post-description p {
+  font-size: 14px;
+}
+#comments .post-description .stats {
+  margin-top: 20px;
+}
+#comments .post-description .stats .stat-item {
+  display: inline-block;
+  margin-right: 15px;
+}
+#comments .post-description .stats .stat-item .icon {
+  margin-right: 8px;
+}
+#comments .post-footer {
+  border-top: 1px solid #ddd;
+  padding: 15px;
+}
+#comments .post-footer .input-group-addon a {
+  color: #454545;
+}
+#comments .post-footer #comments s-list {
+  padding: 0;
+  margin-top: 20px;
+  list-style-type: none;
+}
+#comments .post-footer #comments s-list #comments  {
+  display: block;
+  width: 100%;
+  margin: 20px 0;
+}
+#comments .post-footer #comments s-list #comments  .avatar {
+  width: 35px;
+  height: 35px;
+}
+#comments .post-footer #comments s-list #comments  #comments -heading {
+  display: block;
+  width: 100%;
+}
+#comments .post-footer #comments s-list #comments  #comments -heading .user {
+  font-size: 14px;
+  font-weight: bold;
+  display: inline;
+  margin-top: 0;
+  margin-right: 10px;
+}
+#comments .post-footer #comments s-list #comments  #comments -heading .time {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 0;
+  display: inline;
+}
+#comments .post-footer #comments s-list #comments  #comments -body {
+  margin-left: 50px;
+}
+#comments .post-footer #comments s-list #comments  > #comments s-list {
+  margin-left: 50px;
+}

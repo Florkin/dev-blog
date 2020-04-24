@@ -87,7 +87,15 @@ abstract class FrontController
     {
         $formData = Input::post();
         $comment = new Comment($id_post, $formData);
-        $comment->addComment();
+        $validator = $comment->getValidator($formData);
+        if ($validator->isValid()) {
+            $comment->addComment();
+        } else {
+            $messages = $validator->getErrors();
+            $messages["status"] = "error";
+            echo json_encode($messages);
+        }
+
     }
 
     public static function getCommentForm($id): array

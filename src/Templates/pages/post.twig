@@ -33,24 +33,31 @@
 
             <div id="comments" class="mt-5 col-12 col-lg-12">
                 <div class="comments-container">
-                    <h2 class="text-black mb-2">Commentaires</h2>
+                    <h2 class="text-black mb-2">Commentaires sur cet article</h2>
                     {% for comment in post.comments %}
-                        <div class="row border-bottom">
-                            <div class="comment-author col-6">
-                                {{ comment.author }}
-                            </div>
-                            <div class="comment-author col-6">
-                                {{ comment.date_update }}
-                            </div>
-                            <div class="comment-author col-12">
-                                {{ comment.comment }}
+                        <div class="row">
+                            <div class="col-lg-8 col-12">
+                                <div class="card card-white comment">
+                                    <div class="comment-heading">
+                                        <div class="float-left meta">
+                                            <div class="title h5">
+                                                <a href="#"><b>{{ comment.author }}</b></a>
+                                                made a comment.
+                                            </div>
+                                            <h6 class="text-muted time">{{ comment.date_update }}</h6>
+                                        </div>
+                                    </div>
+                                    <div class="comment-description">
+                                        <p>{{ comment.comment }}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     {% endfor %}
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-6">
-                        <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
+                        <form method="post" action="{{ actionComment }}" class="form mt-5 pt-3 border-top">
                             {% for field in commentForm %}
                                 <div class="form-group">{{ field|raw }}</div>
                             {% endfor %}

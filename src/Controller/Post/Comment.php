@@ -3,6 +3,7 @@
 namespace App\Controller\Post;
 
 
+use App\Controller\Validator\Validator;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
 
@@ -17,7 +18,7 @@ class Comment
     {
         $this->post_id = $id_post;
 
-        if (isset($data)){
+        if (isset($data)) {
             if (UserManager::checkIsLogged()) {
                 $this->author = UserManager::getUsername();
                 $this->authorId = UserManager::getUserId();
@@ -46,5 +47,14 @@ class Comment
         $comment = new CommentManager();
         $comments = $comment->getComments($this->post_id);
         return $comments;
+    }
+
+    public function getValidator($formData)
+    {
+        return (new Validator($formData))
+            ->required('comment')
+            ->length('comment', 1, 500)
+            ->username('comment_name');
+
     }
 }

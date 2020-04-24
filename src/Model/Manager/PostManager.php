@@ -64,6 +64,8 @@ class PostManager
             if ($response){
                 $list = array();
                 while ($data = $response->fetch()) {
+                    $user = new UserManager($data['id_user']);
+                    $data['author'] = $user->getUsernameById();
                     array_push($list, $data);
                 };
                 $response->closeCursor();

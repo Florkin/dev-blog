@@ -33,7 +33,9 @@
                         <span class="icon-code"></span>
                     </div>
                     <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
-                    <p>{{ post.date_update }}</p>
+                    <p>
+                        <span class="mr-3">{{ post.author }}</span><span>{{ post.date_update }}</span>
+                    </p>
                     <p>{{ post.intro|raw }}</p>
                 </div>
                 <div class="col-lg-6 text-right pr-0 pl-0">

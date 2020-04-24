@@ -6,6 +6,7 @@ use \App\Config;
 use App\Controller\Post\Post;
 use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
+use App\Model\Manager\UserManager;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
@@ -34,6 +35,7 @@ class AdminPostManager
             `title` varchar(70) NOT NULL,
             `intro` text NOT NULL,
             `content` text NOT NULL,
+            `id_user` int(11) NOT NULL,
             `date_add` date DEFAULT NULL,
             `date_update` date DEFAULT NULL,
             `active` tinyint(1) DEFAULT 0,
@@ -97,6 +99,7 @@ class AdminPostManager
         $intro = addslashes(htmlspecialchars($formData['intro']));
         $content = htmlentities($formData['content'], ENT_QUOTES | ENT_HTML5);
         $id_post_to_modify = $formData['modify'];
+        $id_user = UserManager::getUserId();
 
         if ($id_post_to_modify !== "modify") {
 
@@ -110,8 +113,8 @@ class AdminPostManager
 
         } else {
 
-            $sql = "INSERT INTO posts(title, intro, content, date_add, date_update)
-        VALUES('" . $title . "', '" . $intro . "', '" . $content . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+            $sql = "INSERT INTO posts(title, intro, content, id_user, date_add, date_update)
+        VALUES('" . $title . "', '" . $intro . "', '" . $content . "','" . $id_user . "' , CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
 
         }
 
@@ -204,9 +207,9 @@ class AdminPostManager
         if (DbManager::tableExists($db, 'posts')) {
 
             if ($quantity !== 0) {
-                $sql = "SELECT id_post, title, intro, date_add, date_update, active FROM posts LIMIT" . $quantity;
+                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts LIMIT" . $quantity;
             } else {
-                $sql = "SELECT id_post, title, intro, date_add, date_update, active FROM posts";
+                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts";
             }
 
             $response = $db->query($sql);
@@ -215,6 +218,8 @@ class AdminPostManager
                 $list = array();
 
                 while ($data = $response->fetch()) {
+                    $user = new UserManager($data['id_user']);
+                    $data['author'] = $user->getUsernameById();
                     array_push($list, $data);
                 };
 

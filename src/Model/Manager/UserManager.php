@@ -123,6 +123,19 @@ class UserManager
     }
 
     /**
+     * Get logged user id
+     *
+     * @return integer
+     */
+    public static function getUserId(): string
+    {
+        if (!isset($auth)) {
+            $auth = new Auth(DbManager::openDB(), null, null, false);
+        }
+        return $auth->getUserId();
+    }
+
+    /**
      * Get logged user username
      *
      * @return string

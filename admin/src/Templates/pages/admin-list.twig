@@ -12,7 +12,7 @@
             </div>
         </div>
         {% for post in posts %}
-{#            {% if is_admin or user_id == post.id_user %}#}
+            {#            {% if is_admin or user_id == post.id_user %}#}
             <div id="post-{{ post.id_post }}" class="border-bottom row hover-1-wrap mb-5 mb-lg-5">
                 <div class="col-12">
                     <div class="row">
@@ -33,9 +33,6 @@
                     <div class="row mt-3 mb-3 post-toolbar">
                         <div class="col-12 text-right">
                             <div class="post-toolbar-btns">
-                                <a href="articles/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
-                                    <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}"
-                                       class="btn btn-secondary">Modifier l'article</a>
                                 {% if is_admin %}
                                     {% if post.active == 1 %}
                                         <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
@@ -44,6 +41,12 @@
                                         <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
                                            class="post-activation btn btn-success">Activer</a>
                                     {% endif %}
+                                {% else %}
+                                    {% if post.active == 1 %}
+                                        <span class="px-4 py-2 alert-success">Activé</span>
+                                    {% else %}
+                                        <span class="px-4 py-2 alert-warning">En attente de validation</span>
+                                    {% endif %}
                                 {% endif %}
                                 <button type="button" class="js-confirm-delete btn btn-danger"
                                         data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}"
@@ -51,13 +54,17 @@
                                     Supprimer
                                     l'article
                                 </button>
+                                <a href="articles/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
+                                <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}"
+                                   class="btn btn-secondary">Modifier l'article</a>
+
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
-{#            {% endif %}#}
+            {#            {% endif %}#}
         {% endfor %}
     </div>
 

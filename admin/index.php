@@ -31,7 +31,9 @@ $twig->addGlobal('admin_url', $admin_url);
 $islogged = UserManager::checkIsLogged();
 $roles = UserManager::getUserRole();
 
-in_array("ADMIN", $roles) ? $twig->addGlobal('is_admin', true) : $twig->addGlobal('is_admin', false);
+UserManager::isAdmin() ? $twig->addGlobal('is_admin', true) : $twig->addGlobal('is_admin', false);
+$twig->addGlobal('user_id', UserManager::getUserId());
+
 
 if (!$islogged){
     die("Connectez vous a un compte utilisateur pour pouvoir accèder à l'administration du site.");

@@ -12,6 +12,7 @@
             </div>
         </div>
         {% for post in posts %}
+{#            {% if is_admin or user_id == post.id_user %}#}
             <div id="post-{{ post.id_post }}" class="border-bottom row hover-1-wrap mb-5 mb-lg-5">
                 <div class="col-12">
                     <div class="row">
@@ -33,28 +34,36 @@
                         <div class="col-12 text-right">
                             <div class="post-toolbar-btns">
                                 <a href="articles/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
-                                <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}"
-                                   class="btn btn-secondary">Modifier l'article</a>
-                                {% if post.active == 1 %}
-                                    <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
-                                       class="post-activation btn btn-warning">Desactiver</a>
-                                {% else %}
-                                    <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
-                                       class="post-activation btn btn-success">Activer</a>
-                                {% endif %}
+                                    <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}"
+                                       class="btn btn-secondary">Modifier l'article</a>
+                                {% if is_admin %}
+                                    {% if post.active == 1 %}
+                                        <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
+                                           class="post-activation btn btn-warning">Desactiver</a>
+                                    {% else %}
+                                        <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
+                                           class="post-activation btn btn-success">Activer</a>
+                                    {% endif %}
 
-                                <button type="button" class="js-confirm-delete btn btn-danger" data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}" data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">Supprimer
-                                    l'article</button>
+                                    <button type="button" class="js-confirm-delete btn btn-danger"
+                                            data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}"
+                                            data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">
+                                        Supprimer
+                                        l'article
+                                    </button>
+                                {% endif %}
                             </div>
 
                         </div>
                     </div>
                 </div>
             </div>
+{#            {% endif %}#}
         {% endfor %}
     </div>
 
-    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

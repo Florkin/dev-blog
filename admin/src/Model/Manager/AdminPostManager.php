@@ -205,12 +205,12 @@ class AdminPostManager
             $db = DbManager::openDB();
         }
         if (DbManager::tableExists($db, 'posts')) {
-
-            if ($quantity !== 0) {
-                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts LIMIT" . $quantity;
-            } else {
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts";
+            } else {
+                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts WHERE id_user = " . UserManager::getUserId();
             }
+
 
             $response = $db->query($sql);
 

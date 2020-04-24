@@ -111,15 +111,31 @@ class UserManager
         return $isLogged;
     }
 
-
-    public static function getUserRole(): array
+    public static function isAdmin(): ?bool
     {
-        if (!isset($auth)) {
-            $auth = new Auth(DbManager::openDB(), null, null, false);
+        if (Self::checkIsLogged()) {
+            $roles = Self::getUserRole();
+            if (in_array("ADMIN", $roles)) {
+                return true;
+            }
+            return false;
+        } else {
+            return null;
         }
+    }
 
-        $roles = $auth->getRoles();
-        return $roles;
+    public static function getUserRole(): ?array
+    {
+        if (Self::checkIsLogged()) {
+            if (!isset($auth)) {
+                $auth = new Auth(DbManager::openDB(), null, null, false);
+            }
+
+            $roles = $auth->getRoles();
+            return $roles;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -127,12 +143,17 @@ class UserManager
      *
      * @return integer
      */
-    public static function getUserId(): string
+    public static function getUserId(): ?string
     {
-        if (!isset($auth)) {
-            $auth = new Auth(DbManager::openDB(), null, null, false);
+        if (Self::checkIsLogged()) {
+            if (!isset($auth)) {
+                $auth = new Auth(DbManager::openDB(), null, null, false);
+            }
+            return $auth->getUserId();
+        } else {
+            return null;
         }
-        return $auth->getUserId();
+
     }
 
     /**
@@ -140,12 +161,16 @@ class UserManager
      *
      * @return string
      */
-    public static function getUsername(): string
+    public static function getUsername(): ?string
     {
-        if (!isset($auth)) {
-            $auth = new Auth(DbManager::openDB(), null, null, false);
+        if (Self::checkIsLogged()) {
+            if (!isset($auth)) {
+                $auth = new Auth(DbManager::openDB(), null, null, false);
+            }
+            return $auth->getUsername();
+        } else {
+            return null;
         }
-        return $auth->getUsername();
     }
 
     /**
@@ -153,13 +178,17 @@ class UserManager
      *
      * @return string
      */
-    public static function getEmail(): string
+    public static function getEmail(): ?string
     {
-        if (!isset($auth)) {
-            $auth = new Auth(DbManager::openDB(), null, null, false);
-        }
+        if (Self::checkIsLogged()) {
+            if (!isset($auth)) {
+                $auth = new Auth(DbManager::openDB(), null, null, false);
+            }
 
-        return $auth->getEmail();
+            return $auth->getEmail();
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -311,13 +340,13 @@ class UserManager
         return $data;
     }
 
-    public function getEmailById() : string
+    public function getEmailById(): string
     {
         $data = $this->getUserDataById();
         return $data['email'];
     }
 
-    public function getUsernameById() :string
+    public function getUsernameById(): string
     {
         $data = $this->getUserDataById();
         return $data['username'];

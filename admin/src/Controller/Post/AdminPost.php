@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Controller\Post;
+namespace Admin\Controller\Post;
 
 use App\Controller\User\User;
 use App\Model\Manager\PostManager;
 use App\Model\Manager\UserManager;
+use App\Controller\Post\Comment;
 
-class Post
+class AdminPost
 {
     private $id_post;
     private $title;
@@ -40,7 +41,11 @@ class Post
         $this->date_update = $content['date_update'];
         $this->active = $content['active'];
         $this->img_url = $content['img_url'];
-        $this->comments = $comments->getActiveComments();
+        if (UserManager::isAdmin()){
+            $this->comments = $comments->getAllPostComments();
+        } else {
+            $this->comments = $comments->getActiveComments();
+        }
     }
 
     /**

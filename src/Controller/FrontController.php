@@ -8,6 +8,7 @@ use App\Controller\Form\CommentForm;
 use App\Controller\Post\Comment;
 use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
+use App\Controller\Validator\FlashMessages;
 use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
@@ -63,12 +64,15 @@ abstract class FrontController
             $user = new UserManager;
             $validator = $user->getValidator('register', $formData);
             if ($validator->isValid()) {
-                $user->register($formData, $twig);
+                $messages = $user->register($formData, $twig);
             } else {
                 $messages = $validator->getErrors();
                 $messages["status"] = "error";
-                echo json_encode($messages);
             }
+
+            $flash = new FlashMessages($messages);
+            $flash->setMessages();
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
 
         } else {
             // case: Display user registration form
@@ -119,12 +123,14 @@ abstract class FrontController
 
         $validator = $user->getValidator('login', $formData);
         if ($validator->isValid()) {
-            $user->login($formData, $twig);
+            $messages = $user->login($formData, $twig);
         } else {
             $messages = $validator->getErrors();
             $messages["status"] = "error";
-            echo json_encode($messages);
         }
+        $flash = new FlashMessages($messages);
+        $flash->setMessages();
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
     /**
@@ -136,6 +142,8 @@ abstract class FrontController
     {
         $user = new UserManager;
         $user->logout();
+        header('Location: ' . $_SERVER['HTTP_REFERER']);
+
 
     }
 

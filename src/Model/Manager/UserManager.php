@@ -238,6 +238,8 @@ class UserManager
             $messages["status"] = "error";
             $messages['message'] = "Trop de requètes";
         }
+
+        return $messages;
     }
 
     /**
@@ -290,7 +292,7 @@ class UserManager
             $messages['message'] = "Trop de requètes";
             echo json_encode($messages);
         }
-
+        return $messages;
     }
 
     /**

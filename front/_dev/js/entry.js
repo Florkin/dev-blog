@@ -11,5 +11,6 @@ import './vendors/jquery.sticky.js';
 import './vendors/isotope.pkgd.min.js';
 import './components/main.js';
 import './components/ajaxForm.js';
+import './components/flash.js';
 
 

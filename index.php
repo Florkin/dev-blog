@@ -28,6 +28,10 @@ if (UserManager::checkIsLogged()) {
     $twig->addGlobal('userEmail', UserManager::getEmail());
 };
 
+$flash = new \App\Controller\Validator\FlashMessages();
+$twig->addGlobal('messages', $flash->getMessages());
+$flash->deleteMessages();
+
 // ======================== LOGIN FORM =============================
 $loginForm = new \App\Controller\Form\LoginForm;
 $loginForm = $loginForm->renderForm($twig);

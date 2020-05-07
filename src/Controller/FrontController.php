@@ -8,7 +8,7 @@ use App\Controller\Form\CommentForm;
 use App\Controller\Post\Comment;
 use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
-use App\Controller\Validator\FlashMessages;
+use App\Controller\Validator\Session;
 use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
@@ -70,7 +70,7 @@ abstract class FrontController
                 $messages["status"] = "error";
             }
 
-            $flash = new FlashMessages($messages);
+            $flash = new Session($messages);
             $flash->setMessages();
             header('Location: ' . $_SERVER['HTTP_REFERER']);
 
@@ -128,7 +128,7 @@ abstract class FrontController
             $messages = $validator->getErrors();
             $messages["status"] = "error";
         }
-        $flash = new FlashMessages($messages);
+        $flash = new Session($messages);
         $flash->setMessages();
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }

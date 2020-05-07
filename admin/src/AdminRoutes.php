@@ -23,7 +23,7 @@ abstract class AdminRoutes
         $router = new \AltoRouter;
 
         Self::setGetRoutes($twig, $router);
-        Self::setPostRoutes($router);
+        Self::setPostRoutes($twig, $router);
         Self::MatchesRoutes($twig, $router);
 
         return $router;
@@ -72,10 +72,10 @@ abstract class AdminRoutes
      * @param object $router
      * @return object|object
      */
-    public static function setPostRoutes(object $router)
+    public static function setPostRoutes(object $twig, object $router)
     {
-        $router->map('POST', '/admin/ecrire-un-article', function () {
-            return BackController::writePost();
+        $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
+            return BackController::writePost($twig);
         }, 'ajouter-article');
 
         return $router;

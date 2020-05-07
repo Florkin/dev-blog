@@ -28,7 +28,7 @@ if (UserManager::checkIsLogged()) {
     $twig->addGlobal('userEmail', UserManager::getEmail());
 };
 
-$flash = new \App\Controller\Validator\FlashMessages();
+$flash = new \App\Controller\Validator\Session();
 $twig->addGlobal('messages', $flash->getMessages());
 $flash->deleteMessages();
 

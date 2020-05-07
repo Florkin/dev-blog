@@ -2,6 +2,7 @@
 
 namespace Admin\Controller\Form;
 
+use App\Controller\Validator\Session;
 use FormManager\Factory as F;
 use \App\Config;
 
@@ -21,6 +22,10 @@ class PostForm
      */
     public function setFormFields($post = null): array
     {
+        $formDataGetter = new Session();
+        $formData = $formDataGetter->getFormdata();
+        isset($formData) ? $post = $formData : null;
+
         $this->postContent =
             F::textarea('Contenu', [
                 'class' => 'tiny-mce',
@@ -69,6 +74,9 @@ class PostForm
             ]);
 
         $this->actionLink = Config::BASE_ADMIN_URL . "/ecrire-un-article?action=add";
+
+        $formDataGetter->deleteFormdata();
+
         return array(
             'action' => $this->actionLink,
             'form' => array(

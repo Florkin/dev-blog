@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 require '../vendor/autoload.php';
 
 use Symfony\Component\ErrorHandler\Debug;
@@ -21,12 +23,18 @@ $twig = new \Twig\Environment($loader, [
 
 $twig->addExtension(new \Twig\Extension\DebugExtension());
 
-// ===================== URL VARIABLES TO TWIG GLOBALS ===============
+// =============== URL VARIABLES TO TWIG GLOBALS ===============
 
 $admin_url = array(
     "base_url" => Config::BASE_ADMIN_URL,
 );
+
 $twig->addGlobal('admin_url', $admin_url);
+
+$flash = new \App\Controller\Validator\Session;
+
+$twig->addGlobal('messages', $flash->getMessages());
+$flash->deleteMessages();
 
 $islogged = UserManager::checkIsLogged();
 $roles = UserManager::getUserRole();
@@ -35,7 +43,7 @@ UserManager::isAdmin() ? $twig->addGlobal('is_admin', true) : $twig->addGlobal('
 $twig->addGlobal('user_id', UserManager::getUserId());
 
 
-if (!$islogged){
+if (!$islogged) {
     die("Connectez vous a un compte utilisateur pour pouvoir accèder à l'administration du site.");
 } else {
     $router = Routes::setRoutes($twig);

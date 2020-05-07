@@ -44,6 +44,7 @@ class Validator
                 $this->errors[$key] = "Le champs $key ne peut être vide";
             }
         }
+        return $this;
     }
 
     public function email(string $key): self
@@ -98,7 +99,7 @@ class Validator
         if (isset($this->params[$key])){
             $pattern = '/^[a-zA-Z0-9]{4,16}$/';
             if (!preg_match($pattern, $this->params[$key])) {
-                $this->errors[$key] = "Le username doit contenir entre 4 et 16 caractères";
+                $this->errors[$key] = "Le nom doit contenir entre 4 et 16 caractères";
             };
         }
 
@@ -114,7 +115,9 @@ class Validator
         $events .= '|ondragleave|ondragover|ondragstart|ondrop|onerrorupdate|onfilterchange|onfinish|onfocusin|onfocusout|onhashchange|onhelp|oninput|onlosecapture|onmessage|onmouseup|onmovestart';
         $events .= '|onoffline|ononline|onpaste|onpropertychange|onreadystatechange|onresizeend|onresizestart|onrowenter|onrowexit|onrowsdelete|onrowsinserted|onscroll|onsearch|onselectionchange';
         $events .= '|onselectstart|onstart|onstop';
-        if (preg_match('/<[\s]*script/ims', $this->params[$key]) || preg_match('/(' . $events . ')[\s]*=/ims', $this->params[$key]) || preg_match('/.*script\:/ims', $this->params[$key])) {
+        if (preg_match('/<[\s]*script/ims', $this->params[$key]) ||
+            preg_match('/(' . $events . ')[\s]*=/ims', $this->params[$key])
+            || preg_match('/.*script\:/ims', $this->params[$key])) {
             $this->errors[$key] = "Le texte de l'article n'est pas valide, le javascript est interdit.";
         };
 

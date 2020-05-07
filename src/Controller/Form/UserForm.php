@@ -2,6 +2,7 @@
 
 namespace App\Controller\Form;
 
+use App\Controller\Validator\Session;
 use FormManager\Factory as F;
 use \App\Config;
 
@@ -21,12 +22,17 @@ class UserForm
      */
     public function setFormFields(): array
     {
+        $formDataGetter = new Session();
+        $formData = $formDataGetter->getFormdata();
+        isset($formData) ? $post = $formData : null;
+
         $this->usernameField =
         F::text('Votre Pseudo', [
             'class' => 'username form-control',
             'name' => 'username',
             'required' => 'required',
             'autocomplete' => 'username',
+            'value' => $post["username"] ?? null
         ]);
 
         $this->emailField =
@@ -35,6 +41,7 @@ class UserForm
             'name' => 'email',
             'required' => 'required',
             'autocomplete' => 'email',
+            'value' => $post["email"] ?? null
         ]);
 
         $this->passwordField =
@@ -61,6 +68,8 @@ class UserForm
             'class' => 'btn btn-dark btn-md text-white',
             'id' => 'submitButton',
         ]);
+
+        $formDataGetter->deleteFormdata();
 
         // Create fields array for Twig
 

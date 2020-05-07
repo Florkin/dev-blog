@@ -33,13 +33,13 @@ class Comment
     public function addComment()
     {
         $comment = new CommentManager();
-        $comment->addComment(
+        $messages = $comment->addComment(
             $this->comment,
             $this->authorId,
             $this->author,
             $this->post_id
-
         );
+        return $messages;
     }
 
     public function getActiveComments()
@@ -67,7 +67,7 @@ class Comment
     {
         return (new Validator($formData))
             ->required('comment')
-            ->length('comment', 1, 1000)
+            ->length('comment', 2, 1000)
             ->author('comment_name');
 
     }

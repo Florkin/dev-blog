@@ -129,18 +129,17 @@ class AdminPostManager
             if ($this->uploadImg($id_post)) {
                 $messages["status"] = "success";
                 $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
-                echo json_encode($messages);
             } else {
                 $messages["status"] = "error";
                 $messages['message'] = "Il y a eu un problème d'upload avec l'image";
-                echo json_encode($messages);
             }
 
         } else {
             $messages["status"] = "error";
             $messages['message'] = $db->errorInfo();
-            echo json_encode($messages);
         }
+
+        return $messages;
     }
 
     /**

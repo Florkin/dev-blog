@@ -3,6 +3,7 @@
 namespace App\Controller\Form;
 
 use \App\Config;
+use App\Controller\Validator\Session;
 use FormManager\Factory as F;
 
 class LoginForm
@@ -20,12 +21,17 @@ class LoginForm
      */
     public function setFormFields() : array
     {
+        $formDataGetter = new Session();
+        $formData = $formDataGetter->getFormdata();
+        isset($formData) ? $post = $formData : null;
+
         $this->emailField =
         F::email('Votre Email', [
             'class' => 'email form-control',
             'name' => 'email',
             'required' => 'required',
             'autocomplete' => 'username',
+            'value' => $post["email"] ?? null
         ]);
 
         $this->passwordField =
@@ -52,6 +58,9 @@ class LoginForm
         $this->rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
 
         $this->actionLink = Config::BASE_URL . "/login";
+
+//        $formDataGetter->deleteFormdata();
+
         return array(
             'action' => $this->actionLink,
             'form' => array(

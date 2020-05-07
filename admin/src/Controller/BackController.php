@@ -8,6 +8,7 @@ use Admin\Model\Manager\AdminPostManager;
 use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
+use App\Controller\Validator\Session;
 use Balambasik\Input;
 
 /**
@@ -37,40 +38,52 @@ class BackController
             // add post according to form data
             $post = new AdminPostManager;
             $formData = Input::post();
+
             $validator = $post->getValidator($formData);
-            if ($validator->isValid()){
-                $post->addpost($formData, $twig);
+
+            if ($validator->isValid()) {
+                $messages = $post->addpost($formData, $twig);
             } else {
                 $messages = $validator->getErrors();
                 $messages["status"] = "error";
-                echo json_encode($messages);
             }
+
+            $flash = new Session($messages);
+            $flash->setMessages();
+
+            // If error, get form data to refill form
+            if ($messages["status"] == "error") {
+                $formDataGetter = new Session($formData);
+                $formDataGetter->setFormdata();
+            }
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
 
         } else {
             // display post form
             $postForm = Self::getPostForm($id_post);
-            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']], $messages);
+            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
         }
     }
 
     /**
      * @param int $id_post
      */
-    public function deletePost(int $id_post){
+    public function deletePost(int $id_post)
+    {
         $post = new AdminPostManager($id_post);
-        if ($post->deletePost()){
+        if ($post->deletePost()) {
             header('Location: ' . Config::BASE_ADMIN_URL);
         }
     }
 
     public static function getPostForm($id_post)
     {
-        if ($id_post){
+        $postForm = new PostForm;
+
+        if (isset($id_post)) {
             $post = new AdminPostManager();
-            $postForm = new PostForm;
             return $postForm->renderForm($post->getContent($id_post));
         }
-        $postForm = new PostForm;
         return $postForm->renderForm();
     }
 

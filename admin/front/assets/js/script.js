@@ -109,7 +109,9 @@ __webpack_require__(6);
 
 __webpack_require__(5);
 
-__webpack_require__(3);
+// import './components/ajaxForm';
+
+__webpack_require__(20);
 
 __webpack_require__(4);
 
@@ -120,61 +122,7 @@ __webpack_require__(4);
 // removed by extract-text-webpack-plugin
 
 /***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-$('.form').on('submit', function (event) {
-    // Remove all messages
-    $(".messages .message").remove();
-    event.preventDefault();
-    var formData = new FormData(this);
-
-    $.ajax({
-        type: "POST",
-        url: $(this).attr('action'),
-        data: formData,
-        enctype: 'multipart/form-data',
-        processData: false,
-        contentType: false,
-
-        beforeSend: function beforeSend() {
-            // loader
-        },
-        success: function success(result) {
-            var messages = JSON.parse(result);
-
-            if (messages["status"] == 'error') {
-                $.each(messages, function (key, value) {
-                    if (key != null && key != 'status') {
-                        $('.messages').append('<p class="message alert alert-danger">\n' + value + '        <span class="close">X</span>\n' + '    </p>');
-                    }
-                });
-            } else {
-                $.each(messages, function (key, value) {
-                    if (key != null && key != 'status') {
-                        $('.messages').append('<p class="message alert alert-success">\n' + value + '        <span class="close">X</span>\n' + '    </p>');
-                    }
-                });
-
-                // Clear form
-                if (typeof tinymce !== "undefined") {
-                    tinymce.editors[0].setContent("");
-                }
-
-                $('form').find("input[type=text],input[type=file], input[type=password], input[type=email], textarea").val("");
-            }
-            $(".messages .message").on('click', function () {
-                $(this).remove();
-            });
-        },
-        error: function error(e) {}
-    });
-});
-
-/***/ }),
+/* 3 */,
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6215,6 +6163,29 @@ module.exports = jQuery;
 __webpack_require__(1);
 module.exports = __webpack_require__(2);
 
+
+/***/ }),
+/* 12 */,
+/* 13 */,
+/* 14 */,
+/* 15 */,
+/* 16 */,
+/* 17 */,
+/* 18 */,
+/* 19 */,
+/* 20 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+setTimeout(function () {
+    $(".messages").hide('slow');
+}, 8000);
+
+$(".messages .message").on('click', function () {
+    $(this).remove();
+});
 
 /***/ })
 /******/ ]);

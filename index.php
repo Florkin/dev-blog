@@ -1,5 +1,9 @@
 <?php
 
+if ('session_status' == PHP_SESSION_NONE) {
+    session_start();
+}
+
 require './vendor/autoload.php';
 
 use Symfony\Component\ErrorHandler\Debug;
@@ -28,7 +32,7 @@ if (UserManager::checkIsLogged()) {
     $twig->addGlobal('userEmail', UserManager::getEmail());
 };
 
-$flash = new \App\Controller\Validator\FlashMessages();
+$flash = new \App\Controller\Validator\Session();
 $twig->addGlobal('messages', $flash->getMessages());
 $flash->deleteMessages();
 

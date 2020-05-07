@@ -309,9 +309,13 @@ class UserManager
 
         try {
             $auth->logOutEverywhere();
-            die('Logged out');
+            $messages['status'] = 'success';
+            $messages['message'] = 'Vous êtes déconnecté de votre compte. A bientôt';
+            return $messages;
         } catch (\Delight\Auth\NotLoggedInException $e) {
-            die('Not logged in');
+            $messages['status'] = 'error';
+            $messages['message'] = 'Vous n\'êtes pas connecté a un compte utilisateur';
+            return $messages;
         }
 
     }

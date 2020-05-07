@@ -40,12 +40,14 @@ class CommentManager
 
         try {
             $db->exec($sql);
+            $messages["status"] = "success";
+            $messages['message'] = "Votre commentaire a bien été envoyé et soumis a validation";
         } catch (Error $e) {
-            echo "\nPDO::errorInfo():\n";
-            print_r($db->errorInfo());
+            $messages["status"] = "error";
+            $messages['message'] = $db->errorInfo();
         };
 
-        header('Location: ' . $_SERVER['HTTP_REFERER'] . '#comments');
+        return $messages;
     }
 
     public function getActiveComments($post_id)

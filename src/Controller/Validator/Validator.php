@@ -44,6 +44,7 @@ class Validator
                 $this->errors[$key] = "Le champs $key ne peut être vide";
             }
         }
+        return $this;
     }
 
     public function email(string $key): self
@@ -98,7 +99,7 @@ class Validator
         if (isset($this->params[$key])){
             $pattern = '/^[a-zA-Z0-9]{4,16}$/';
             if (!preg_match($pattern, $this->params[$key])) {
-                $this->errors[$key] = "Le username doit contenir entre 4 et 16 caractères";
+                $this->errors[$key] = "Le nom doit contenir entre 4 et 16 caractères";
             };
         }
 

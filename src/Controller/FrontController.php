@@ -72,6 +72,13 @@ abstract class FrontController
 
             $flash = new Session($messages);
             $flash->setMessages();
+
+            // If error, get form data to refill form
+            if ($messages["status"] == "error") {
+                unset($formData['password']);
+                $formDataGetter = new Session($formData);
+                $formDataGetter->setFormdata();
+            }
             header('Location: ' . $_SERVER['HTTP_REFERER']);
 
         } else {
@@ -93,12 +100,21 @@ abstract class FrontController
         $comment = new Comment($id_post, $formData);
         $validator = $comment->getValidator($formData);
         if ($validator->isValid()) {
-            $comment->addComment();
+            $messages = $comment->addComment();
         } else {
             $messages = $validator->getErrors();
             $messages["status"] = "error";
-            echo json_encode($messages);
         }
+
+        $flash = new Session($messages);
+        $flash->setMessages();
+
+        // If error, get form data to refill form
+        if ($messages["status"] == "error") {
+            $formDataGetter = new Session($formData);
+            $formDataGetter->setFormdata();
+        }
+        header('Location: ' . $_SERVER['HTTP_REFERER'] . "#comments");
 
     }
 
@@ -128,8 +144,16 @@ abstract class FrontController
             $messages = $validator->getErrors();
             $messages["status"] = "error";
         }
+
         $flash = new Session($messages);
         $flash->setMessages();
+
+        // If error, get form data to refill form
+        if ($messages["status"] == "error") {
+            unset($formData['password']);
+            $formDataGetter = new Session($formData);
+            $formDataGetter->setFormdata();
+        }
         header('Location: ' . $_SERVER['HTTP_REFERER']);
     }
 
@@ -141,7 +165,10 @@ abstract class FrontController
     public static function logout()
     {
         $user = new UserManager;
-        $user->logout();
+        $messages = $user->logout();
+        $flash = new Session($messages);
+        $flash->setMessages();
+
         header('Location: ' . $_SERVER['HTTP_REFERER']);
 
 

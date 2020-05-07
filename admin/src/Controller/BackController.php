@@ -48,21 +48,15 @@ class BackController
                 $messages["status"] = "error";
             }
 
-            if ($messages["status"] == "success"){
-                $flash = new Session($messages);
-                $flash->setMessages();
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
-            } else {
-                $flash = new Session($messages);
-                $flash->setMessages();
+            $flash = new Session($messages);
+            $flash->setMessages();
 
-                // Get form data to reset them after validator error
+            // If error, get form data to refill form
+            if ($messages["status"] == "error") {
                 $formDataGetter = new Session($formData);
                 $formDataGetter->setFormdata();
-                header('Location: ' . $_SERVER['HTTP_REFERER']);
             }
-
-
+            header('Location: ' . $_SERVER['HTTP_REFERER']);
 
         } else {
             // display post form

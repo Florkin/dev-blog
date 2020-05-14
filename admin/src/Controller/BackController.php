@@ -9,6 +9,8 @@ use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
 use App\Controller\Validator\Session;
+use App\Model\Manager\CommentManager;
+use App\Model\Manager\UserManager;
 use Balambasik\Input;
 
 /**
@@ -21,7 +23,14 @@ class BackController
     public static function post(int $id, object $twig)
     {
         $post = new AdminPost($id);
-        echo $twig->render('pages/admin-post.twig', ['post' => $post->displayPost()]);
+        $getComments = new CommentManager();
+        if(UserManager::isAdmin()){
+            $comments = $getComments->getAllCommentsByPostId($id);
+        } else{
+            $comments = $getComments->getActiveCommentsByPostId($id);
+        }
+
+        echo $twig->render('pages/admin-post.twig', ['post' => $post->displayPost(), 'comments' => $comments]);
 
     }
 

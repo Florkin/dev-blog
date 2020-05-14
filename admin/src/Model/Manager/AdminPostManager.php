@@ -242,41 +242,27 @@ class AdminPostManager
     {
         $post = new Post($id_post);
         if ($post->isActive()) {
-            Self::setActive('post',$id_post, 0);
+            Self::setActive($id_post, 0);
         } else {
-            Self::setActive('post',$id_post, 1);
+            Self::setActive($id_post, 1);
         }
 
         header('Location: ' . _CURRENT_URL_ . "#post-" . $id_post);
     }
 
-    public static function commentToggleActivation(int $id_comment): void
-    {
-        $comment = new Comment($id_comment);
-        if ($comment->isActive()) {
-            Self::setActive('comment', $id_comment, 0);
-        } else {
-            Self::setActive('comment', $id_comment, 1);
-        }
-
-        header('Location: ' . _CURRENT_URL_ . "#post-" . $id_comment);
-    }
 
     /**
      * @param $id_post
      * @param $active
      */
-    public function setActive(string $type, int $id, int $active): void
+    public static function setActive(int $id, int $active): void
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
 
-        if ($type="post"){
-            $sql = "UPDATE posts SET active = " . $active . " WHERE id_post = " . $id;
-        } else if ($type="comment"){
-            $sql = "UPDATE comments SET active = " . $active . " WHERE id_comment = " . $id;
-        }
+        $sql = "UPDATE posts SET active = " . $active . " WHERE id_post = " . $id;
+
         $response = $db->query($sql);
     }
 

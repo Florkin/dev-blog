@@ -4,6 +4,7 @@
 namespace App\Model\Manager;
 
 
+use App\Controller\Post\Comment;
 use App\Controller\Validator\Validator;
 
 class CommentManager
@@ -82,6 +83,49 @@ class CommentManager
         } else {
             return null;
         }
+    }
+
+    public function getAllCommentsByPostId(int $post_id)
+    {
+        $db = DbManager::openDB();
+        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " ORDER BY date_add DESC";
+
+        $response = $db->query($sql);
+        if ($response){
+            $comments = [];
+            while ($data = $response->fetch()) {
+                array_push($comments, $data);
+            }
+
+            return $comments;
+        } else {
+            return null;
+        }
+    }
+
+    public static function commentToggleActivation(int $id_comment): void
+    {
+        $comment = new Comment($id_comment);
+        $post_id = $comment->getPostId();
+        if ($comment->isActive()) {
+            Self::setActive($id_comment, 0);
+        } else {
+            Self::setActive($id_comment, 1);
+        }
+
+
+        header('Location: ' . _ADMIN_URL_ . '/articles/' . $post_id . "#comment-" . $id_comment);
+    }
+
+    public static function setActive(int $id, int $active): void
+    {
+        if (!isset($db) || $db == null) {
+            $db = DbManager::openDB();
+        }
+
+        $sql = "UPDATE comments SET active = " . $active . " WHERE id_comment = " . $id;
+
+        $response = $db->query($sql);
     }
 
     public function getContent($id_comment)

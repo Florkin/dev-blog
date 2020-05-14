@@ -4,6 +4,7 @@ namespace Admin;
 
 use Admin\Controller\BackController;
 use Admin\Model\Manager\AdminPostManager;
+use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
 
 /**
@@ -59,7 +60,7 @@ abstract class AdminRoutes
         }, 'activation-article');
 
         $router->map('GET', '/admin/activation-commentaire/[i:id]', function ($id) {
-            return AdminPostManager::commentToggleActivation($id);
+            return CommentManager::commentToggleActivation($id);
         }, 'activation-commentaire');
 
         $router->map('GET', '/admin/articles/[i:id]', function ($id, $twig) {

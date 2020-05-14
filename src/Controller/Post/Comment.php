@@ -50,6 +50,11 @@ class Comment
 
     public function isActive()
     {
-        return $this->active;
+        return $this->isActive;
+    }
+
+    public function getPostId()
+    {
+        return $this->id_post;
     }
 }

@@ -55,7 +55,7 @@ class CommentForm
                 'class' => 'btn btn-dark btn-md text-white',
             ]);
 
-        $this->actionLink = Config::BASE_URL . "/add-comment/" . $this->post_id;
+        $this->actionLink = _BASE_URL_ . "/add-comment/" . $this->post_id;
 
         $formDataGetter->deleteFormdata();
 

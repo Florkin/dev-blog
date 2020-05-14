@@ -28,7 +28,7 @@ $twig->addExtension(new \Twig\Extension\DebugExtension());
 // =============== URL VARIABLES TO TWIG GLOBALS ===============
 
 $admin_url = array(
-    "base_url" => Config::BASE_ADMIN_URL,
+    "base_url" => _ADMIN_URL_,
 );
 
 $twig->addGlobal('admin_url', $admin_url);

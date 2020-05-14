@@ -145,7 +145,7 @@ class AdminPostManager
     /**
      * @return bool
      */
-    public function deletePost() : bool
+    public function deletePost(): bool
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -153,7 +153,7 @@ class AdminPostManager
 
         $id = $this->id_post;
         $sql = "DELETE FROM `posts` WHERE id_post = " . $id;
-        if ($db->exec($sql)){
+        if ($db->exec($sql)) {
             return true;
         };
 
@@ -185,7 +185,7 @@ class AdminPostManager
                 'date_add' => $data['date_add'],
                 'date_update' => $data['date_update'],
                 'active' => $data['active'],
-                'img_url' => Config::BASE_URL . '/img/posts_headers/post_' . $data['id_post'] . '.jpg',
+                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.jpg',
             );
         } else {
             return false;
@@ -204,7 +204,7 @@ class AdminPostManager
             $db = DbManager::openDB();
         }
         if (DbManager::tableExists($db, 'posts')) {
-            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()) {
                 $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts";
             } else {
                 $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts WHERE id_user = " . UserManager::getUserId();
@@ -213,7 +213,7 @@ class AdminPostManager
 
             $response = $db->query($sql);
 
-            if ($response){
+            if ($response) {
                 $list = array();
 
                 while ($data = $response->fetch()) {
@@ -246,7 +246,7 @@ class AdminPostManager
             Self::setActive($id_post, 1);
         }
 
-        header('Location: ' . $_SERVER['HTTP_REFERER'] . "#post-" . $id_post);
+        header('Location: ' . _CURRENT_URL_ . "#post-" . $id_post);
     }
 
     /**

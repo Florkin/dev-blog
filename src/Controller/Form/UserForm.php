@@ -73,7 +73,7 @@ class UserForm
 
         // Create fields array for Twig
 
-        $this->actionLink = Config::BASE_URL . "/inscription?action=register";
+        $this->actionLink = _BASE_URL_ . "/inscription?action=register";
         return array(
             'action' => $this->actionLink,
             'form' => array(

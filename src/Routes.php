@@ -16,7 +16,7 @@ abstract class Routes
      * @return object
      * @throws \Exception
      */
-    public static function setRoutes(object $twig) : object
+    public static function setRoutes(object $twig): object
     {
         $router = new \AltoRouter;
 

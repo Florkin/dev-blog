@@ -57,7 +57,7 @@ class LoginForm
         $this->rememberCheck->setTemplate('{{ input }} {{ label }}');
         $this->rememberCheck->setTemplate('<div class="custom-control custom-checkbox">{{ template }}</div>');
 
-        $this->actionLink = Config::BASE_URL . "/login";
+        $this->actionLink = _BASE_URL_ . "/login";
 
 //        $formDataGetter->deleteFormdata();
 

@@ -73,7 +73,7 @@ class PostForm
                 'class' => 'btn btn-dark btn-md text-white',
             ]);
 
-        $this->actionLink = Config::BASE_ADMIN_URL . "/ecrire-un-article?action=add";
+        $this->actionLink = _ADMIN_URL_ . "/ecrire-un-article?action=add";
 
         $formDataGetter->deleteFormdata();
 

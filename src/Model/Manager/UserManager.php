@@ -346,13 +346,13 @@ class UserManager
         return $data;
     }
 
-    public function getEmailById(): string
+    public function getEmailById(): ?string
     {
         $data = $this->getUserDataById();
         return $data['email'];
     }
 
-    public function getUsernameById(): string
+    public function getUsernameById(): ?string
     {
         $data = $this->getUserDataById();
         return $data['username'];

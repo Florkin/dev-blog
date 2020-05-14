@@ -72,7 +72,7 @@ class BackController
     {
         $post = new AdminPostManager($id_post);
         if ($post->deletePost()) {
-            header('Location: ' . Config::BASE_ADMIN_URL);
+            header('Location: ' . _ADMIN_URL_);
         }
     }
 

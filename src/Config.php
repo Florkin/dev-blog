@@ -11,8 +11,8 @@ abstract class Config {
     const DB_USER = "root";
     const DB_PASSWORD = "";
     const DB_HOST = "localhost";
-    const BASE_URL = "http://dev-blog.tristan-florin.fr";
-    const BASE_ADMIN_URL = Self::BASE_URL . "/admin";
+//    const BASE_URL = "http://dev-blog.tristan-florin.fr";
+//    const BASE_ADMIN_URL = Self::BASE_URL . "/admin";
     const DEBUG = true;
 
 }

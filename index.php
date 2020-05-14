@@ -15,6 +15,10 @@ if (Config::DEBUG) {
     Debug::enable();
 }
 
+define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
+define("_ADMIN_URL_", _BASE_URL_ . "/admin");
+define("_CURRENT_URL_", _BASE_URL_ . $_SERVER['REQUEST_URI']);
+
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [
@@ -45,15 +49,17 @@ $twig->addGlobal('actionLogin', $loginForm['action']);
 // ===================== URL VARIABLES TO TWIG GLOBALS ===============
 
 $url = array(
-    "base_url" => Config::BASE_URL,
-    "post_form" => Config::BASE_URL . "/ajouter-un-article",
-    "posts_list" => Config::BASE_URL . "/articles",
-    "register_form" => Config::BASE_URL . "/inscription",
-    "logout" => Config::BASE_URL . "/logout",
+    "base_url" => _BASE_URL_,
+    "post_form" => _BASE_URL_ . "/ajouter-un-article",
+    "posts_list" => _BASE_URL_ . "/articles",
+    "register_form" => _BASE_URL_ . "/inscription",
+    "logout" => _BASE_URL_ . "/logout",
 );
 
 $twig->addGlobal('url', $url);
 
 // ===================== ROUTING =====================
 $router = Routes::setRoutes($twig);
+
+
 

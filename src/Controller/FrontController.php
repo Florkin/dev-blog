@@ -82,9 +82,6 @@ abstract class FrontController
             header('Location: ' . $_SERVER['HTTP_REFERER']);
 
         } else {
-            dump(_BASE_URL_);
-            dump(_ADMIN_URL_);
-            dump(_CURRENT_URL_);die;
             // case: Display user registration form
             $registerForm = Self::getRegisterForm();
             echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);

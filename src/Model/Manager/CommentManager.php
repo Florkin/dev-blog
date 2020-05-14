@@ -117,6 +117,19 @@ class CommentManager
         header('Location: ' . _ADMIN_URL_ . '/articles/' . $post_id . "#comment-" . $id_comment);
     }
 
+    public static function deleteComment(int $id_comment): void
+    {
+        if (!isset($db) || $db == null) {
+            $db = DbManager::openDB();
+        }
+        $comment = new Comment($id_comment);
+        $id_post = $comment->getPostId();
+        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
+        if ($db->exec($sql)) {
+            header('Location: ' . _ADMIN_URL_ . '/articles/' . $id_post . "#comments");
+        };
+    }
+
     public static function setActive(int $id, int $active): void
     {
         if (!isset($db) || $db == null) {

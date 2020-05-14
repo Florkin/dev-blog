@@ -85,6 +85,12 @@ class BackController
         }
     }
 
+    public function deleteComment(int $id_comment)
+    {
+        $post = new CommentManager();
+        $post->deleteComment($id_comment);
+    }
+
     public static function getPostForm($id_post)
     {
         $postForm = new PostForm;

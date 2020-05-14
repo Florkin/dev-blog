@@ -55,6 +55,10 @@ abstract class AdminRoutes
             return BackController::deletePost($id);
         }, 'delete-post');
 
+        $router->map('GET', '/admin/supprimer-commentaire/[i:id]', function ($id) {
+            return BackController::deleteComment($id);
+        }, 'delete-comment');
+
         $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
             return AdminPostManager::postToggleActivation($id);
         }, 'activation-article');

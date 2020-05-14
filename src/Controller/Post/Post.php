@@ -3,6 +3,7 @@
 namespace App\Controller\Post;
 
 use App\Controller\User\User;
+use App\Model\Manager\CommentManager;
 use App\Model\Manager\PostManager;
 use App\Model\Manager\UserManager;
 
@@ -30,7 +31,7 @@ class Post
         $this->id_post = $id_post;
         $post = new PostManager($id_post);
         $content = $post->getContent($this->id_post);
-        $comments = new Comment($this->id_post);
+        $comments = new CommentManager($this->id_post);
 
         $this->title = $content['title'];
         $this->intro = $content['intro'];
@@ -62,7 +63,7 @@ class Post
             'date_update' => $this->date_update,
             'img_url' => $this->img_url,
             "active" => $this->active,
-            "comments" => $this->comments
+//            "comments" => $this->comments
         );
     }
 

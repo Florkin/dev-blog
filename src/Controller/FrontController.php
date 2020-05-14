@@ -30,7 +30,9 @@ abstract class FrontController
     {
         $post = new Post($id);
         $commentForm = Self::getCommentForm($id);
-        echo $twig->render('pages/post.twig', ['post' => $post->displaypost(), 'commentForm' => $commentForm['form'], 'actionComment' => $commentForm['action']]);
+        $getComments = new CommentManager();
+        $comments = $getComments->getActiveCommentsByPostId($id);
+        echo $twig->render('pages/post.twig', ['post' => $post->displaypost(), 'comments' => $comments, 'commentForm' => $commentForm['form'], 'actionComment' => $commentForm['action']]);
 
     }
 

@@ -66,6 +66,24 @@ class CommentManager
 
     }
 
+    public function getActiveCommentsByPostId(int $post_id)
+    {
+        $db = DbManager::openDB();
+        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " AND active = 1 ORDER BY date_add DESC";
+
+        $response = $db->query($sql);
+        if ($response){
+            $comments = [];
+            while ($data = $response->fetch()) {
+                array_push($comments, $data);
+            }
+
+            return $comments;
+        } else {
+            return null;
+        }
+    }
+
     public function getContent($id_comment)
     {
         if (!isset($db) || $db == null) {

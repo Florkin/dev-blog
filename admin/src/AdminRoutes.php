@@ -59,6 +59,14 @@ abstract class AdminRoutes
             return BackController::deleteComment($id);
         }, 'delete-comment');
 
+        $router->map('GET', '/admin/commentaires-a-valider', function ($twig) {
+            return BackController::inactiveCommentsList($twig);
+        }, 'inactive-comments-list');
+
+        $router->map('GET', '/admin/articles-a-valider', function ($twig) {
+            return BackController::inactivePostList($twig);
+        }, 'inactive-posts-list');
+
         $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
             return AdminPostManager::postToggleActivation($id);
         }, 'activation-article');

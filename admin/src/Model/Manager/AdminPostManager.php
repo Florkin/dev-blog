@@ -235,6 +235,41 @@ class AdminPostManager
         }
     }
 
+    public function getInactivePostsList(): ?array
+    {
+        if (!isset($db) || $db == null) {
+            $db = DbManager::openDB();
+        }
+        if (DbManager::tableExists($db, 'posts')) {
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()) {
+                $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts WHERE active = 0";
+            } else {
+                die ('Vous n\'êtes pas administrateur, Vous n\'avez rien a faire ici');
+            }
+
+            $response = $db->query($sql);
+
+            if ($response) {
+                $list = array();
+
+                while ($data = $response->fetch()) {
+                    $user = new UserManager($data['id_user']);
+                    $data['author'] = $user->getUsernameById();
+                    array_push($list, $data);
+                };
+
+                $response->closeCursor();
+                return $list;
+            } else {
+                return null;
+            }
+
+
+        } else {
+            return null;
+        }
+    }
+
     /**
      * @param int $id_post
      */

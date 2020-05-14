@@ -141,6 +141,24 @@ class CommentManager
         $response = $db->query($sql);
     }
 
+    public function getAllInactiveComments()
+    {
+        $db = DbManager::openDB();
+        $sql = "SELECT * FROM comments WHERE active = 0 ORDER BY date_add DESC";
+
+        $response = $db->query($sql);
+        if ($response){
+            $comments = [];
+            while ($data = $response->fetch()) {
+                array_push($comments, $data);
+            }
+
+            return $comments;
+        } else {
+            return null;
+        }
+    }
+
     public function getContent($id_comment)
     {
         if (!isset($db) || $db == null) {

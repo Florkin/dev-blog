@@ -87,8 +87,21 @@ class BackController
 
     public function deleteComment(int $id_comment)
     {
-        $post = new CommentManager();
-        $post->deleteComment($id_comment);
+        $comment = new CommentManager();
+        $comment->deleteComment($id_comment);
+    }
+
+    public function inactiveCommentsList($twig){
+        $comment = new CommentManager();
+        $comments = $comment->getAllInactiveComments();
+
+        echo $twig->render('pages/admin-comments-list.twig', ['comments' => $comments]);
+    }
+
+    public function inactivePostList($twig){
+        $postslist = new AdminPostsList();
+        $posts = $postslist->getInactivePosts();
+        echo $twig->render('pages/admin-inactive-list.twig', ['posts' => $posts]);
     }
 
     public static function getPostForm($id_post)

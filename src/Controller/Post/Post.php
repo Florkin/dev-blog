@@ -40,7 +40,7 @@ class Post
         $this->date_update = $content['date_update'];
         $this->active = $content['active'];
         $this->img_url = $content['img_url'];
-        $this->comments = $comments->getActiveComments();
+//        $this->comments = $comments->getActiveComments();
     }
 
     /**

@@ -4,9 +4,10 @@
 namespace App\Model\Manager;
 
 
+use App\Controller\Validator\Validator;
+
 class CommentManager
 {
-
     public function createTable(object $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `comments` (
@@ -24,87 +25,80 @@ class CommentManager
         $db->exec($sql);
     }
 
-    public function addComment($comment, $user_id, $author, $post_id)
+    public function addComment(array $formData, int $post_id)
     {
-        $db = DbManager::openDB();
+        if (!isset($db) || $db == null) {
+            $db = DbManager::openDB();
+        }
+
         if (!DbManager::tableExists($db, 'comments')) {
-            $this->createTable($db);
+            Self::createTable($db);
         }
-        $active = UserManager::checkIsLogged() && UserManager::isAdmin() ? 1 : 0;
 
-        if (isset($user_id)) {
-            $sql = "INSERT INTO comments (comment, id_user, author, post_id, date_add, date_update, active) VALUES ('" . $comment . "', '" . $user_id . "', '" . $author . "', '" . $post_id . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, " . $active . ")";
+        $comment = addslashes(htmlspecialchars($formData['comment']));
+        if (isset($formData['guest_author']) && $formData['guest_author'] != null) {
+            $author = addslashes(htmlspecialchars($formData['guest_author']));
+            $id_user = 0;
         } else {
-            $sql = "INSERT INTO comments (comment, author, post_id, date_add, date_update, active) VALUES ('" . $comment . "', '" . $author . "', '" . $post_id . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP, " . $active . ")";
+            $id_user = UserManager::getUserId();
+            $author = UserManager::getUserName();
         }
 
-        try {
-            $db->exec($sql);
+        if (UserManager::isAdmin()){
+            $active = 1;
+        } else {
+            $active = 0;
+    }
+
+        $sql = "INSERT INTO comments(comment, id_user, author, post_id, active, date_add, date_update)
+        VALUES('" . $comment . "', " . $id_user . ", '" . $author . "', '" . $post_id . "' ,'" . $active . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+
+        if ($db->exec($sql)) {
             $messages["status"] = "success";
             $messages['message'] = "Votre commentaire a bien été envoyé et soumis a validation";
-        } catch (Error $e) {
+
+        } else {
             $messages["status"] = "error";
-            $messages['message'] = $db->errorInfo();
-        };
+            $messages['message'] = "Il y a eu un problème lors de l'ajout du commentaire";
+        }
 
         return $messages;
+
     }
 
-    public function getActiveComments($post_id)
+    public function getContent($id_comment)
     {
-        $db = DbManager::openDB();
-        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " AND active = 1 ORDER BY date_add DESC";
-
-        $response = $db->query($sql);
-        if ($response){
-            $comments = [];
-            while ($data = $response->fetch()) {
-                array_push($comments, $data);
-            }
-
-            return $comments;
-        } else {
-            return null;
+        if (!isset($db) || $db == null) {
+            $db = DbManager::openDB();
         }
 
-    }
+        if (DbManager::tableExists($db, 'comments')) {
+            $sql = "SELECT * FROM comments WHERE id_comment = " . $id_comment;
+            $response = $db->query($sql);
+            $data = $response->fetch();
+            $response->closeCursor();
 
-    public function getAllInactiveComments($post_id)
-    {
-        $db = DbManager::openDB();
-        $sql = "SELECT * FROM comments WHERE active = 0 ORDER BY date_add DESC";
-
-        $response = $db->query($sql);
-        if ($response){
-            $comments = [];
-            while ($data = $response->fetch()) {
-                array_push($comments, $data);
-            }
-
-            return $comments;
+            return array(
+                'id_comment' => $data['id_comment'],
+                'id_post' => $data['post_id'],
+                'id_user' => $data['id_user'],
+                'author' => $data['author'],
+                'comment' => $data['comment'],
+                'date_add' => $data['date_add'],
+                'date_update' => $data['date_update'],
+                'active' => $data['active'],
+            );
         } else {
-            return null;
+            return false;
         }
-
     }
 
-    public function getAllPostComments($post_id)
+    public function getValidator($formData)
     {
-        $db = DbManager::openDB();
-        $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " ORDER BY date_add DESC";
-
-        $response = $db->query($sql);
-        if ($response){
-            $comments = [];
-            while ($data = $response->fetch()) {
-                array_push($comments, $data);
-            }
-
-            return $comments;
-        } else {
-            return null;
-        }
+        return (new Validator($formData))
+            ->required('comment')
+            ->length('comment', 2, 1000)
+            ->author('comment_name');
 
     }
-
 }

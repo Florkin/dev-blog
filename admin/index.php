@@ -15,6 +15,10 @@ if (Config::DEBUG) {
     Debug::enable();
 }
 
+define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
+define("_ADMIN_URL_", _BASE_URL_ . "/admin");
+define("_CURRENT_URL_", _BASE_URL_ . $_SERVER['REQUEST_URI']);
+
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 $twig = new \Twig\Environment($loader, [

@@ -42,9 +42,9 @@ class AdminPost
         $this->active = $content['active'];
         $this->img_url = $content['img_url'];
         if (UserManager::isAdmin()){
-            $this->comments = $comments->getAllPostComments();
+//            $this->comments = $comments->getAllPostComments();
         } else {
-            $this->comments = $comments->getActiveComments();
+//            $this->comments = $comments->getActiveComments();
         }
     }
 

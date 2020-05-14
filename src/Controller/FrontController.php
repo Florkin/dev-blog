@@ -9,6 +9,7 @@ use App\Controller\Post\Comment;
 use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
 use App\Controller\Validator\Session;
+use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
@@ -94,13 +95,14 @@ abstract class FrontController
         return $registerForm->renderForm();
     }
 
-    public function addComment($id_post)
+    public function addComment(int $id_post)
     {
         $formData = Input::post();
-        $comment = new Comment($id_post, $formData);
+        $comment = new CommentManager();
+
         $validator = $comment->getValidator($formData);
         if ($validator->isValid()) {
-            $messages = $comment->addComment();
+            $messages = $comment->addComment($formData, $id_post);
         } else {
             $messages = $validator->getErrors();
             $messages["status"] = "error";

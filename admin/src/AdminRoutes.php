@@ -58,6 +58,10 @@ abstract class AdminRoutes
             return AdminPostManager::postToggleActivation($id);
         }, 'activation-article');
 
+        $router->map('GET', '/admin/activation-commentaire/[i:id]', function ($id) {
+            return AdminPostManager::commentToggleActivation($id);
+        }, 'activation-commentaire');
+
         $router->map('GET', '/admin/articles/[i:id]', function ($id, $twig) {
             return BackController::post($id, $twig);
         }, 'article');

@@ -18,8 +18,8 @@ if (Config::DEBUG) {
 define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
 define("_ADMIN_URL_", _BASE_URL_ . "/admin");
 
-if (isset ($_SERVER['HTTP_REFERER'])){
-    define("_CURRENT_URL_",$_SERVER['HTTP_REFERER']);
+if (isset ($_SERVER['HTTP_REFERER'])) {
+    define("_CURRENT_URL_", $_SERVER['HTTP_REFERER']);
 } else {
     define("_CURRENT_URL_", _BASE_URL_);
 }
@@ -32,7 +32,20 @@ $twig = new \Twig\Environment($loader, [
     'debug' => true,
 ]);
 
-$twig->addExtension(new \Twig\Extension\DebugExtension());
+
+if (Config::DEBUG) {
+    $twig = new \Twig\Environment($loader, [
+        'cache' => false,
+        'debug' => true,
+    ]);
+
+    $twig->addExtension(new \Twig\Extension\DebugExtension());
+} else {
+    $twig = new \Twig\Environment($loader, [
+        'cache' => ('./cache'),
+        'debug' => true,
+    ]);
+}
 
 // ========================= GLOBAL VARIABLES =======================
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());

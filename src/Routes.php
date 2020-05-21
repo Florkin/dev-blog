@@ -2,7 +2,10 @@
 
 namespace App;
 
+use Admin\Controller\BackController;
+use Admin\Model\Manager\AdminPostManager;
 use \App\Controller\FrontController;
+use App\Model\Manager\CommentManager;
 
 /**
  * Routing class
@@ -16,7 +19,7 @@ abstract class Routes
      * @return object
      * @throws \Exception
      */
-    public static function setRoutes(object $twig): object
+    public static function setRoutes(object $twig = null): object
     {
         $router = new \AltoRouter;
 
@@ -34,7 +37,7 @@ abstract class Routes
      * @param object $router
      * @return object|object
      */
-    public static function setGetRoutes(object $twig, object $router)
+    public static function setGetRoutes(object $twig = null, object $router)
     {
 
         $router->map('GET', '/', function ($twig) {
@@ -56,6 +59,47 @@ abstract class Routes
         $router->map('GET', '/logout', function () {
             return FrontController::logout();
         }, 'logout');
+
+        // =======================ADMIN ROUTES =======================
+        $router->map('GET', '/admin/', function ($twig) {
+            return BackController::adminList($twig);
+        }, 'Administration');
+
+        $router->map('GET', '/admin/ecrire-un-article', function ($twig) {
+            return BackController::writePost($twig);
+        }, 'write-post');
+
+        $router->map('GET', '/admin/modifier-article/[i:id]', function ($id, $twig) {
+            return BackController::writePost($twig, $id);
+        }, 'modify-post');
+
+        $router->map('GET', '/admin/supprimer-article/[i:id]', function ($id) {
+            return BackController::deletePost($id);
+        }, 'delete-post');
+
+        $router->map('GET', '/admin/supprimer-commentaire/[i:id]', function ($id) {
+            return BackController::deleteComment($id);
+        }, 'delete-comment');
+
+        $router->map('GET', '/admin/commentaires-a-valider', function ($twig) {
+            return BackController::inactiveCommentsList($twig);
+        }, 'inactive-comments-list');
+
+        $router->map('GET', '/admin/articles-a-valider', function ($twig) {
+            return BackController::inactivePostList($twig);
+        }, 'inactive-posts-list');
+
+        $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
+            return AdminPostManager::postToggleActivation($id);
+        }, 'activation-article');
+
+        $router->map('GET', '/admin/activation-commentaire/[i:id]', function ($id) {
+            return CommentManager::commentToggleActivation($id);
+        }, 'activation-commentaire');
+
+        $router->map('GET', '/admin/articles/[i:id]', function ($id, $twig) {
+            return BackController::post($id, $twig);
+        }, 'admin-article');
 
         return $router;
     }
@@ -80,6 +124,11 @@ abstract class Routes
             return FrontController::addComment($id);
         }, 'add-comment');
 
+        // =======================ADMIN ROUTES =======================
+        $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
+            return BackController::writePost($twig);
+        }, 'ajouter-article');
+
         return $router;
     }
 
@@ -90,7 +139,7 @@ abstract class Routes
      * @param object $router
      * @return void
      */
-    public static function MatchesRoutes(object $twig, object $router)
+    public static function MatchesRoutes(object $twig = null, object $router)
     {
         $match = $router->match();
 

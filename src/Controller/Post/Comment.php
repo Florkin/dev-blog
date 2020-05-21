@@ -9,66 +9,52 @@ use App\Model\Manager\UserManager;
 
 class Comment
 {
+    private $isActive;
+    private $id_comment;
     private $author;
-    private $authorId;
+    private $id_user;
     private $comment;
-    private $post_id;
+    private $id_post;
+    private $date_add;
+    private $date_update;
 
-    public function __construct($id_post, $data = null)
+    public function __construct(int $id_comment)
     {
-        $this->post_id = $id_post;
+        $this->id_comment = $id_comment;
+        $comment = new CommentManager();
+        $content = $comment->getContent($id_comment);
 
-        if (isset($data)) {
-            if (UserManager::checkIsLogged()) {
-                $this->author = UserManager::getUsername();
-                $this->authorId = UserManager::getUserId();
-            } else {
-                $this->author = $data['comment_name'];
-            }
-
-            $this->comment = $data['comment'];
-        }
+        $this->isActive = $content['active'];
+        $this->id_comment = $content['id_comment'];
+        $this->author = $content['author'];
+        $this->id_user = $content['id_user'];
+        $this->comment = $content['comment'];
+        $this->id_post = $content['id_post'];
+        $this->date_add = $content['date_add'];
+        $this->date_update = $content['date_update'];
     }
 
-    public function addComment()
+    public function displayComment() : array
     {
-        $comment = new CommentManager();
-        $messages = $comment->addComment(
-            $this->comment,
-            $this->authorId,
-            $this->author,
-            $this->post_id
+        return array(
+            'isActive' => $this->isActive,
+            'id_comment' => $this->id_comment,
+            'author' => $this->author,
+            'id_user' => $this->id_user,
+            'comment' => $this->comment,
+            'date_add' => $this->date_add,
+            'date_update' => $this->date_update,
+            'id_post' => $this->id_post,
         );
-        return $messages;
     }
 
-    public function getActiveComments()
+    public function isActive()
     {
-        $comment = new CommentManager();
-        $comments = $comment->getActiveComments($this->post_id);
-        return $comments;
+        return $this->isActive;
     }
 
-    public function getAllPostComments()
+    public function getPostId()
     {
-        $comment = new CommentManager();
-        $comments = $comment->getAllPostComments($this->post_id);
-        return $comments;
-    }
-
-    public function getAllInactiveComments()
-    {
-        $comment = new CommentManager();
-        $comments = $comment->getAllInactiveComments($this->post_id);
-        return $comments;
-    }
-
-    public function getValidator($formData)
-    {
-        return (new Validator($formData))
-            ->required('comment')
-            ->length('comment', 2, 1000)
-            ->author('comment_name');
-
+        return $this->id_post;
     }
 }

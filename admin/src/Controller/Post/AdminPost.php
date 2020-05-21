@@ -41,11 +41,6 @@ class AdminPost
         $this->date_update = $content['date_update'];
         $this->active = $content['active'];
         $this->img_url = $content['img_url'];
-        if (UserManager::isAdmin()){
-            $this->comments = $comments->getAllPostComments();
-        } else {
-            $this->comments = $comments->getActiveComments();
-        }
     }
 
     /**

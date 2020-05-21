@@ -1,4 +1,4 @@
-{% extends 'layout.twig' %}
+{% extends 'admin/layout.twig' %}
 
 {% block head %}
     <title>{{ post.title|capitalize }}</title>
@@ -56,46 +56,13 @@
             <div id="comments" class="mt-5 col-12 col-lg-12">
                 <div class="comments-container">
                     <h2 class="text-black mb-2">Commentaires sur cet article</h2>
-                    {% for comment in post.comments %}
-                        <div class="row">
-                            <div class="col-lg-8 col-12">
-                                <div class="card card-white comment">
-                                    <div class="comment-heading">
-                                        <div class="float-left meta">
-                                            <div class="title h5">
-                                                <a href="#"><b>{{ comment.author }}</b></a>
-                                                made a comment.
-                                            </div>
-                                            <h6 class="text-muted time">{{ comment.date_update }}</h6>
-                                        </div>
-                                    </div>
-                                    <div class="comment-description">
-                                        <p>{{ comment.comment }}</p>
-                                    </div>
-                                    {% if is_admin %}
-                                        {% if comment.active == 1 %}
-                                            <a href="{{ admin_url.base_url }}/activation-article/{{ comment.id_comment }}"
-                                               class="mb-2 comment-activation btn btn-warning">Desactiver</a>
-                                        {% else %}
-                                            <a href="{{ admin_url.base_url }}/activation-article/{{ comment.id_comment }}"
-                                               class="mb-2 comment-activation btn btn-success">Activer</a>
-                                        {% endif %}
-                                    {% endif %}
-
-                                    {% if user_id == comment.id_user %}
-                                    <a href="{{ admin_url.base_url }}/modifier-commentaire/{{ comment.id_comment }}" class="mb-2 btn btn-secondary">Modifier
-                                        le commentaire</a>
-
-                                    <button type="button" class="mb-2 js-confirm-delete btn btn-danger"
-                                            data-href="{{ admin_url.base_url }}/supprimer-commentaire/{{ comment.id_comment }}" data-toggle="modal"
-                                            data-target="#confirm-delete" class="btn btn-danger">Supprimer
-                                        le commentaire
-                                    </button>
-                                    {% endif %}
-                                </div>
+                    <div class="row">
+                        {% for comment in comments %}
+                            <div class="col-12 col-lg-8 mb-3">
+                                {% include 'admin/_partials/comments.twig' %}
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
         </div>

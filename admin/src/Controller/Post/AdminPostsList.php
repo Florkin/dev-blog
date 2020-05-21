@@ -13,7 +13,7 @@ class AdminPostsList
      */
     private $quantity;
 
-    public function __construct($quantity)
+    public function __construct($quantity = null)
     {
         $this->quantity = $quantity;
     }
@@ -27,6 +27,12 @@ class AdminPostsList
     {
         $postsList = new AdminPostManager;
         return $postsList->getPostsList($this->quantity);
+    }
+
+    public function getInactivePosts(): ?array
+    {
+        $postsList = new AdminPostManager;
+        return $postsList->getInactivePostsList();
     }
 
 }

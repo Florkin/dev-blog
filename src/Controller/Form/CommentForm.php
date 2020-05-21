@@ -34,10 +34,11 @@ class CommentForm
         $this->nameField =
             F::text('Votre nom', [
                 'class' => 'comment-name form-control',
-                'name' => 'comment_name',
+                'name' => 'guest_author',
                 'required' => 'required',
                 'value' => $post["comment_name"] ?? null
             ]);
+
 
         $this->commentField =
             F::textarea('Ajouter un commentaire', [

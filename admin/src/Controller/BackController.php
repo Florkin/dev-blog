@@ -9,6 +9,8 @@ use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
 use App\Controller\Validator\Session;
+use App\Model\Manager\CommentManager;
+use App\Model\Manager\UserManager;
 use Balambasik\Input;
 
 /**
@@ -21,7 +23,14 @@ class BackController
     public static function post(int $id, object $twig)
     {
         $post = new AdminPost($id);
-        echo $twig->render('pages/admin-post.twig', ['post' => $post->displayPost()]);
+        $getComments = new CommentManager();
+        if(UserManager::isAdmin()){
+            $comments = $getComments->getAllCommentsByPostId($id);
+        } else{
+            $comments = $getComments->getActiveCommentsByPostId($id);
+        }
+
+        echo $twig->render('admin/pages/admin-post.twig', ['post' => $post->displayPost(), 'comments' => $comments]);
 
     }
 
@@ -29,7 +38,7 @@ class BackController
     {
         $postslist = new AdminPostsList(0);
         $posts = $postslist->getPosts();
-        echo $twig->render('pages/admin-list.twig', ['posts' => $posts]);
+        echo $twig->render('admin/pages/admin-list.twig', ['posts' => $posts]);
     }
 
     public static function writePost(object $twig = null, int $id_post = null, array $messages = null)
@@ -56,12 +65,12 @@ class BackController
                 $formDataGetter = new Session($formData);
                 $formDataGetter->setFormdata();
             }
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . _CURRENT_URL_);
 
         } else {
             // display post form
             $postForm = Self::getPostForm($id_post);
-            echo $twig->render('pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
+            echo $twig->render('admin/pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
         }
     }
 
@@ -72,8 +81,27 @@ class BackController
     {
         $post = new AdminPostManager($id_post);
         if ($post->deletePost()) {
-            header('Location: ' . _ADMIN_URL_);
+            header('Location: ' . _CURRENT_URL_);
         }
+    }
+
+    public function deleteComment(int $id_comment)
+    {
+        $comment = new CommentManager();
+        $comment->deleteComment($id_comment);
+    }
+
+    public function inactiveCommentsList($twig){
+        $comment = new CommentManager();
+        $comments = $comment->getAllInactiveComments();
+
+        echo $twig->render('admin/pages/admin-comments-list.twig', ['comments' => $comments]);
+    }
+
+    public function inactivePostList($twig){
+        $postslist = new AdminPostsList();
+        $posts = $postslist->getInactivePosts();
+        echo $twig->render('admin/pages/admin-inactive-list.twig', ['posts' => $posts]);
     }
 
     public static function getPostForm($id_post)

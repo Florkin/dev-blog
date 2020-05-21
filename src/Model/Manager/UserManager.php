@@ -220,7 +220,7 @@ class UserManager
             $messages["status"] = "success";
             $messages['message'] = "Votre compte a bien été enregistré. Vous allez recevoir un email pour l'activer.";
 
-            echo json_encode($messages);
+//            echo json_encode($messages);
 
             $auth->admin()->addRoleForUserById($userId, \Delight\Auth\Role::AUTHOR);
 
@@ -232,7 +232,7 @@ class UserManager
             $registerForm = FrontController::getRegisterForm();
             $messages["status"] = "error";
             $messages['message'] = "Cette adresse email a déjà été enregistrée sur le site";
-            echo json_encode($messages);
+//            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
             $registerForm = FrontController::getRegisterForm();
             $messages["status"] = "error";
@@ -274,23 +274,23 @@ class UserManager
 
             $messages["status"] = "success";
             $messages['message'] = "Vous êtes maintenant connectés à votre compte";
-            echo json_encode($messages);
+//            echo json_encode($messages);
         } catch (\Delight\Auth\InvalidEmailException $e) {
             $messages["status"] = "error";
             $messages['message'] = "Cet email n'existe pas";
-            echo json_encode($messages);
+//            echo json_encode($messages);
         } catch (\Delight\Auth\InvalidPasswordException $e) {
             $messages["status"] = "error";
             $messages['message'] = "Ce mot de passe est faux";
-            echo json_encode($messages);
+//            echo json_encode($messages);
         } catch (\Delight\Auth\EmailNotVerifiedException $e) {
             $messages["status"] = "error";
             $messages['message'] = "Cette adresse mail n'est pas vérifiée";
-            echo json_encode($messages);
+//            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
             $messages["status"] = "error";
             $messages['message'] = "Trop de requètes";
-            echo json_encode($messages);
+//            echo json_encode($messages);
         }
         return $messages;
     }

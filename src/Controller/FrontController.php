@@ -82,7 +82,7 @@ abstract class FrontController
                 $formDataGetter = new Session($formData);
                 $formDataGetter->setFormdata();
             }
-            header('Location: ' . $_SERVER['HTTP_REFERER']);
+            header('Location: ' . _CURRENT_URL_);
 
         } else {
             // case: Display user registration form
@@ -118,7 +118,7 @@ abstract class FrontController
             $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
         }
-        header('Location: ' . $_SERVER['HTTP_REFERER'] . "#comments");
+        header('Location: ' . _CURRENT_URL_ . "#comments");
 
     }
 
@@ -158,7 +158,7 @@ abstract class FrontController
             $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
         }
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . _CURRENT_URL_);
     }
 
     /**
@@ -173,7 +173,7 @@ abstract class FrontController
         $flash = new Session($messages);
         $flash->setMessages();
 
-        header('Location: ' . $_SERVER['HTTP_REFERER']);
+        header('Location: ' . _CURRENT_URL_);
 
 
     }

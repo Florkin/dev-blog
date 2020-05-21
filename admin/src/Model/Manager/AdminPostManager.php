@@ -5,9 +5,11 @@ namespace Admin\Model\Manager;
 use \App\Config;
 use App\Controller\Post\Comment;
 use App\Controller\Post\Post;
+use App\Controller\Validator\Session;
 use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
 use App\Model\Manager\UserManager;
+use App\Routes;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
@@ -278,11 +280,19 @@ class AdminPostManager
         $post = new Post($id_post);
         if ($post->isActive()) {
             Self::setActive($id_post, 0);
+            $messages["message"] = "L'article a été desactivé";
         } else {
             Self::setActive($id_post, 1);
-        }
+            $messages["message"] = "L'article a été activé";
+        };
 
-        header('Location: ' . _CURRENT_URL_ . "#post-" . $id_post);
+        $messages["status"] = "success";
+
+        $flash = new Session($messages);
+        $flash->setMessages();
+
+        header('Location: ' . _CURRENT_URL_);
+
     }
 
 

@@ -5,6 +5,7 @@ namespace App\Model\Manager;
 
 
 use App\Controller\Post\Comment;
+use App\Controller\Validator\Session;
 use App\Controller\Validator\Validator;
 
 class CommentManager
@@ -109,12 +110,18 @@ class CommentManager
         $post_id = $comment->getPostId();
         if ($comment->isActive()) {
             Self::setActive($id_comment, 0);
+            $messages["messages"] = "Le commentaire a été désactivé";
         } else {
             Self::setActive($id_comment, 1);
+            $messages["messages"] = "Le commentaire a été activé";
         }
 
+        $messages["status"] = "success";
 
-        header('Location: ' . _ADMIN_URL_ . '/articles/' . $post_id . "#comment-" . $id_comment);
+        $flash = new Session($messages);
+        $flash->setMessages();
+
+        header('Location: ' . _CURRENT_URL_ . "#comment-" . $id_comment);
     }
 
     public static function deleteComment(int $id_comment): void
@@ -122,12 +129,12 @@ class CommentManager
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
-        $comment = new Comment($id_comment);
-        $id_post = $comment->getPostId();
-        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
-        if ($db->exec($sql)) {
-            header('Location: ' . _ADMIN_URL_ . '/articles/' . $id_post . "#comments");
-        };
+//        $comment = new Comment($id_comment);
+//        $id_post = $comment->getPostId();
+//        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
+//        if ($db->exec($sql)) {
+            header('Location: ' . _CURRENT_URL_ . "#comments");
+//        };
     }
 
     public static function setActive(int $id, int $active): void

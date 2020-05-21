@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-    {% include "_partials/head.twig" %}
+    {% include "admin/_partials/head.twig" %}
     {% block head %}{% endblock %}
 </head>
 
 <body id="admin">
 
     <div class="site-wrap">
-        {% include "_partials/header.twig" %}
-        {% include "_partials/messages.twig" %}
+        {% include "admin/_partials/header.twig" %}
+        {% include "admin/_partials/messages.twig" %}
         {% block content %}{% endblock %}
 
 {#        {% include "_partials/footer.twig" %}#}
 
     </div>
 
-    {% include "_partials/scripts.twig" %}
+    {% include "admin/_partials/scripts.twig" %}
 
 </body>
 

@@ -1,4 +1,4 @@
-{% extends 'layout.twig' %}
+{% extends 'admin/layout.twig' %}
 
 {% block head %}
     <title>Commentaires</title>
@@ -14,7 +14,7 @@
         <div class="row">
             {% for comment in comments %}
                 <div class="col-lg-6 col-12 mb-3">
-                    {% include '_partials/comments.twig' %}
+                    {% include 'admin/_partials/comments.twig' %}
                 </div>
             {% endfor %}
         </div>

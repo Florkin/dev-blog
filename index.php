@@ -17,7 +17,12 @@ if (Config::DEBUG) {
 
 define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
 define("_ADMIN_URL_", _BASE_URL_ . "/admin");
-define("_CURRENT_URL_", _BASE_URL_ . $_SERVER['REQUEST_URI']);
+
+if (isset ($_SERVER['HTTP_REFERER'])){
+    define("_CURRENT_URL_",$_SERVER['HTTP_REFERER']);
+} else {
+    define("_CURRENT_URL_", _BASE_URL_);
+}
 
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
@@ -35,6 +40,9 @@ if (UserManager::checkIsLogged()) {
     $twig->addGlobal('username', UserManager::getUsername());
     $twig->addGlobal('userEmail', UserManager::getEmail());
 };
+
+UserManager::isAdmin() ? $twig->addGlobal('is_admin', true) : $twig->addGlobal('is_admin', false);
+$twig->addGlobal('user_id', UserManager::getUserId());
 
 $flash = new \App\Controller\Validator\Session();
 $twig->addGlobal('messages', $flash->getMessages());
@@ -55,11 +63,17 @@ $url = array(
     "register_form" => _BASE_URL_ . "/inscription",
     "logout" => _BASE_URL_ . "/logout",
 );
+$admin_url = array(
+    "base_url" => _ADMIN_URL_,
+);
 
 $twig->addGlobal('url', $url);
+$twig->addGlobal('admin_url', $admin_url);
 
 // ===================== ROUTING =====================
+
 $router = Routes::setRoutes($twig);
+
 
 
 

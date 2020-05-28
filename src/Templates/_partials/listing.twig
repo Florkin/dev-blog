@@ -1,23 +1,29 @@
-{% for post in posts %}
-<div id="post-{{ post.id_post }}" class="row hover-1-wrap mb-5 mb-lg-5">
-      <div class="col-12">
-        <div class="row">
-          <div class="mb-4 mb-lg-0 col-lg-6 {% if loop.index is divisible by(2) %} order-lg-2 {% endif %}" data-aos="{% if loop.index is divisible by(2) %}fade-left{% else %}fade-right{% endif %}">
-            <a href="#" class="hover-1">
-              <img src="./img/posts_headers/post_{{ post.id_post }}.jpg" alt="Image" class="img-fluid">
-            </a>
-          </div>
-          <div class="col-lg-6 align-self-center order-lg-1 {% if loop.index is divisible by(2) %}fade-right text-lg-right {% else %}fade-left{% endif %}"
-           data-aos="{% if loop.index is divisible by(2) %}fade-right{% else %}fade-left{% endif %}">
-            <h2 class="text-black">{{ post.title }}</h2>
-            <p class="mb-4">
-              <span class="mr-3">Auteur: {{ post.author }}</span>
-              <span>{{ post.date_update|date("d/m/Y") }}</span>
-            </p>
-            <p class="mb-4">{{ post.intro|raw }}</p>
-            <p><a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a></p>
-          </div>
+{% if posts != null %}
+    {% for post in posts %}
+        <div id="post-{{ post.id_post }}" class="row hover-1-wrap mb-5 mb-lg-5">
+            <div class="col-12">
+                <div class="row">
+                    <div class="mb-4 mb-lg-0 col-lg-6 {% if loop.index is divisible by(2) %} order-lg-2 {% endif %}"
+                         data-aos="{% if loop.index is divisible by(2) %}fade-left{% else %}fade-right{% endif %}">
+                        <a href="#" class="hover-1">
+                            <img src="./img/posts_headers/post_{{ post.id_post }}.jpg" alt="Image" class="img-fluid">
+                        </a>
+                    </div>
+                    <div class="col-lg-6 align-self-center order-lg-1 {% if loop.index is divisible by(2) %}fade-right text-lg-right {% else %}fade-left{% endif %}"
+                         data-aos="{% if loop.index is divisible by(2) %}fade-right{% else %}fade-left{% endif %}">
+                        <h2 class="text-black">{{ post.title }}</h2>
+                        <p class="mb-4">
+                            <span class="mr-3">Auteur: {{ post.author }}</span>
+                            <span>{{ post.date_update|date("d/m/Y") }}</span>
+                        </p>
+                        <p class="mb-4">{{ post.intro|raw }}</p>
+                        <p><a href="{{ url.posts_list }}/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-{% endfor %}
+    {% endfor %}
+{% else %}
+  <p class="text-center alert alert-warning">Il n'y a a pas encore d'articles</p>
+{% endif %}

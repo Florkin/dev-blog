@@ -11,13 +11,17 @@
                 <h1 class="display-4">Commentaires à valider</h1>
             </div>
         </div>
-        <div class="row">
-            {% for comment in comments %}
-                <div class="col-lg-6 col-12 mb-3">
-                    {% include 'admin/_partials/comments.twig' %}
-                </div>
-            {% endfor %}
-        </div>
+        {% if comments != null %}
+            <div class="row">
+                {% for comment in comments %}
+                    <div class="col-lg-6 col-12 mb-3">
+                        {% include 'admin/_partials/comments.twig' %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="text-center alert alert-warning">Il n'y a a pas de commentaires à valider</p>
+        {% endif %}
     </div>
 
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

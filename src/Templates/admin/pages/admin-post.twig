@@ -53,23 +53,22 @@
                     {{ post.content|raw }}
                 </div>
             </div>
-            <div id="comments" class="mt-5 col-12 col-lg-12">
-                <div class="comments-container">
-                    <h2 class="text-black mb-2">Commentaires sur cet article</h2>
-                    <div class="row">
-                        {% for comment in comments %}
-                            <div class="col-12 col-lg-8 mb-3">
-                                {% include 'admin/_partials/comments.twig' %}
-                            </div>
-                        {% endfor %}
+            {% if comments is not empty %}
+                <div id="comments" class="mt-5 col-12 col-lg-12">
+                    <div class="comments-container">
+                        <h2 class="text-black mb-2">Commentaires sur cet article</h2>
+                        <div class="row">
+                            {% for comment in comments %}
+                                <div class="col-12 col-lg-8 mb-3">
+                                    {% include 'admin/_partials/comments.twig' %}
+                                </div>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
-
-
     </section>
-
 
 
     <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"

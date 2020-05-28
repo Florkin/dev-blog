@@ -16,7 +16,7 @@
                     <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
                     <p>
                         <span class="mr-3">Auteur: {{ post.author }}</span>
-                        <span>{{ post.date_update }}</span>
+                        <span>{{ post.date_update|date("d/m/Y") }}</span>
                     </p>
                     <p>{{ post.intro|raw }}</p>
                 </div>
@@ -44,7 +44,7 @@
                                                 <a href="#"><b>{{ comment.author }}</b></a>
                                                 made a comment.
                                             </div>
-                                            <h6 class="text-muted time">{{ comment.date_update }}</h6>
+                                            <h6 class="text-muted time">{{ comment.date_update|date("d/m/Y") }}</h6>
                                         </div>
                                     </div>
                                     <div class="comment-description">

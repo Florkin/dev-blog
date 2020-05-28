@@ -26,12 +26,6 @@ if (isset ($_SERVER['HTTP_REFERER'])) {
 
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
-$twig = new \Twig\Environment($loader, [
-    // 'cache' => ('./cache'),
-    'cache' => false,
-    'debug' => true,
-]);
-
 
 if (Config::DEBUG) {
     $twig = new \Twig\Environment($loader, [

@@ -39,7 +39,7 @@
                     </div>
                     <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
                     <p>
-                        <span class="mr-3">{{ post.author }}</span><span>{{ post.date_update }}</span>
+                        <span class="mr-3">{{ post.author }}</span><span>{{ post.date_update|date("d/m/Y") }}</span>
                     </p>
                     <p>{{ post.intro|raw }}</p>
                 </div>

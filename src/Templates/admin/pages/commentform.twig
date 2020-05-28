@@ -1,0 +1,33 @@
+
+{% extends 'admin/layout.twig' %}
+
+{% block head %}
+    <title>Modifier un commentaire</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="jumbotron jumbotron-fluid mt-5">
+        <div class="container">
+            <h1 class="display-4">Modifier un commentaire</h1>
+            <p class="lead">Veuillez remplir le formulaire</p>
+        </div>
+    </div>
+
+{#    {{ dump(comment) }}#}
+    {% if comment.id_user is defined%}
+        <p class="text-center">Commentaire de <a href="#"><b>{{ comment.author }}</b></a></p>
+    {% else %}
+        <p class="text-center">Commentaire de <b>{{ comment.author }}</b> (invité)</p>
+    {% endif %}
+    <form class="form" method="post" action="{{ actionAddComment }}" enctype="multipart/form-data">
+        {% for formfield in commentForm %}
+            <div class="form-group">
+                <div>{{ formfield|raw }}</div>
+            </div>
+        {% endfor %}
+    </form>
+</div>
+
+{% endblock %}

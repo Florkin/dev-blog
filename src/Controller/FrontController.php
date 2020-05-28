@@ -97,14 +97,14 @@ abstract class FrontController
         return $registerForm->renderForm();
     }
 
-    public function addComment(int $id_post)
+    public function addComment(int $id, bool $modify = false)
     {
         $formData = Input::post();
         $comment = new CommentManager();
 
         $validator = $comment->getValidator($formData);
         if ($validator->isValid()) {
-            $messages = $comment->addComment($formData, $id_post);
+            $messages = $comment->addComment($formData, $id, $modify);
         } else {
             $messages = $validator->getErrors();
             $messages["status"] = "error";
@@ -114,9 +114,11 @@ abstract class FrontController
         $flash->setMessages();
 
         // If error, get form data to refill form
+        $formDataGetter = new Session($formData);
         if ($messages["status"] == "error") {
-            $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
+        } else {
+            $formDataGetter->deleteFormdata();
         }
         header('Location: ' . _CURRENT_URL_ . "#comments");
 

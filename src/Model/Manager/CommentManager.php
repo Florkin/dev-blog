@@ -27,7 +27,7 @@ class CommentManager
         $db->exec($sql);
     }
 
-    public function addComment(array $formData, int $post_id)
+    public function addComment(array $formData, int $id,  bool $modify = false)
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -38,12 +38,14 @@ class CommentManager
         }
 
         $comment = addslashes(htmlspecialchars($formData['comment']));
-        if (isset($formData['guest_author']) && $formData['guest_author'] != null) {
-            $author = addslashes(htmlspecialchars($formData['guest_author']));
-            $id_user = 0;
-        } else {
-            $id_user = UserManager::getUserId();
-            $author = UserManager::getUserName();
+        if (!$modify){
+            if (isset($formData['guest_author']) && $formData['guest_author'] != null) {
+                $author = addslashes(htmlspecialchars($formData['guest_author']));
+                $id_user = 0;
+            } else {
+                $id_user = UserManager::getUserId();
+                $author = UserManager::getUserName();
+            }
         }
 
         if (UserManager::isAdmin()){
@@ -52,8 +54,15 @@ class CommentManager
             $active = 0;
     }
 
-        $sql = "INSERT INTO comments(comment, id_user, author, post_id, active, date_add, date_update)
-        VALUES('" . $comment . "', " . $id_user . ", '" . $author . "', '" . $post_id . "' ,'" . $active . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        if (!$modify){
+            $sql = "INSERT INTO comments(comment, id_user, author, post_id, active, date_add, date_update)
+        VALUES('" . $comment . "', " . $id_user . ", '" . $author . "', '" . $id . "' ,'" . $active . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
+        } else {
+            $sql = "UPDATE comments
+            SET comment = '" . $comment . "', date_update = CURRENT_TIMESTAMP
+            WHERE id_comment = $id";
+        }
+
 
         if ($db->exec($sql)) {
             $messages["status"] = "success";

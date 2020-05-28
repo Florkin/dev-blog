@@ -8,6 +8,7 @@ use Admin\Model\Manager\AdminPostManager;
 use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
+use App\Controller\Form\CommentForm;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
@@ -113,6 +114,28 @@ class BackController
             return $postForm->renderForm($post->getContent($id_post));
         }
         return $postForm->renderForm();
+    }
+
+    public function modifyComment(int $id, object $twig)
+    {
+        $commentForm = Self::getCommentForm($id);
+        $comment = new CommentManager();
+        echo $twig->render('admin/pages/commentForm.twig', [
+            'commentForm' => $commentForm['form'],
+            'actionAddComment' => $commentForm['action'],
+            'comment' => $comment->getContent($id)]);
+
+    }
+
+    public static function getCommentForm($id_comment)
+    {
+        $commentForm = new CommentForm;
+
+        if (isset($id_comment)) {
+            $comment = new CommentManager();
+            return $commentForm->renderForm($comment->getContent($id_comment));
+        }
+        return $commentForm->renderForm();
     }
 
 }

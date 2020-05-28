@@ -101,6 +101,10 @@ abstract class Routes
             return BackController::post($id, $twig);
         }, 'admin-article');
 
+        $router->map('GET', '/admin/modifier-commentaire/[i:id]', function ($id, $twig) {
+            return BackController::modifyComment($id, $twig);
+        }, 'modification-commentaire');
+
         return $router;
     }
 
@@ -120,9 +124,13 @@ abstract class Routes
             return FrontController::login($twig);
         }, 'login');
 
-        $router->map('POST', '/add-comment/[i:id]', function ($id) {
+        $router->map('POST', '/ajouter-commentaire/[i:id]', function ($id) {
             return FrontController::addComment($id);
-        }, 'add-comment');
+        }, 'ajouter-commentaire');
+
+        $router->map('POST', '/modifier-commentaire/[i:id]', function ($id) {
+            return FrontController::addComment($id, true);
+        }, 'modifier-commentaire');
 
         // =======================ADMIN ROUTES =======================
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {

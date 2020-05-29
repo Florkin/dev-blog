@@ -3,17 +3,22 @@
 namespace App\Model\Manager;
 
 use App\Controller\FrontController;
+use App\Controller\User\User;
 use App\Controller\Validator\Validator;
+use Delight\Auth\Administration;
 use Delight\Auth\Auth as Auth;
+use App\Tools;
 
 class UserManager
 {
 
     private $id_user = null;
+    private $user_data = null;
 
     public function __construct($id_user = null)
     {
         $this->id_user = $id_user;
+        $this->user_data = $this->getUserDataById();
     }
 
     /**
@@ -338,7 +343,7 @@ class UserManager
 
     public function getUserDataById()
     {
-        $sql = "SELECT *FROM users WHERE id = " . $this->id_user;
+        $sql = "SELECT * FROM users WHERE id = " . $this->id_user;
         $db = DbManager::openDB();
         $response = $db->query($sql);
         $data = $response->fetch();
@@ -348,14 +353,72 @@ class UserManager
 
     public function getEmailById(): ?string
     {
-        $data = $this->getUserDataById();
+        $data = $this->user_data;
         return $data['email'];
     }
 
     public function getUsernameById(): ?string
     {
-        $data = $this->getUserDataById();
+        $data = $this->user_data;
         return $data['username'];
     }
 
+    public function getRoleById(): ?string
+    {
+        $db = DbManager::openDB();
+        $user = new Administration($db);
+        $role = $user->getRolesForUserById($this->id_user);
+        if (in_array('ADMIN', $role)) {
+            return 'ADMIN';
+        } else {
+            return 'AUTHOR';
+        }
+    }
+
+    public function getLastLoginById()
+    {
+        $data = $this->user_data;
+        if ($data['last_login']){
+            return date('d/m/Y', $data['last_login']);
+        }
+    }
+
+    public function getRegisteredDateById()
+    {
+        $data = $this->user_data;
+        if ($data['registered']){
+            return date('d/m/Y', $data['registered']);
+        }
+    }
+
+    public function getVerifiedById()
+    {
+        $data = $this->user_data;
+        if ($data['verified'] == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+    public static function getUsersList(): ?array
+    {
+        $db = DbManager::openDB();
+        $auth = new Auth($db);
+
+        if (DbManager::tableExists($db, 'users')) {
+            $query = "SELECT id FROM users";
+            $response = $db->query($query);
+            $users = [];
+            while ($data = $response->fetch()) {
+                $user = new User($data['id']);
+                $users[$data['id']] = Tools::objectToArray($user);
+            }
+
+            return $users;
+
+        }
+    }
 }

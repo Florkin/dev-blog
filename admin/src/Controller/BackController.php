@@ -138,4 +138,10 @@ class BackController
         return $commentForm->renderForm();
     }
 
+    public function usersList($twig)
+    {
+        $users= UserManager::getUsersList();
+        echo $twig->render('admin/pages/usersList.twig', ['users' => $users]);
+    }
+
 }

@@ -105,6 +105,10 @@ abstract class Routes
             return BackController::modifyComment($id, $twig);
         }, 'modification-commentaire');
 
+        $router->map('GET', '/admin/utilisateurs', function ($twig) {
+            return BackController::usersList($twig);
+        }, 'utilisateurs');
+
         return $router;
     }
 

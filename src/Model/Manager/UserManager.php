@@ -3,17 +3,22 @@
 namespace App\Model\Manager;
 
 use App\Controller\FrontController;
+use App\Controller\User\User;
 use App\Controller\Validator\Validator;
+use Delight\Auth\Administration;
 use Delight\Auth\Auth as Auth;
+use App\Tools;
 
 class UserManager
 {
 
     private $id_user = null;
+    private $user_data = null;
 
     public function __construct($id_user = null)
     {
         $this->id_user = $id_user;
+        $this->user_data = $this->getUserDataById();
     }
 
     /**
@@ -242,6 +247,60 @@ class UserManager
         return $messages;
     }
 
+    public function modify(array $formData, $twig = null)
+    {
+        $db = DbManager::openDB();
+        if (!DbManager::tableExists($db, 'Users')) {
+            Self::createTables($db);
+        }
+
+        $password = $formData['password'];
+        $email = $formData['email'];
+        $username = $formData['username'];
+
+        if (!isset($auth)) {
+            $auth = new Auth($db, null, null, false);
+        }
+
+        if ($formData['role'] == "admin"){
+            try {
+                $auth->admin()->addRoleForUserById($this->id_user, \Delight\Auth\Role::ADMIN);
+            }
+            catch (\Delight\Auth\UnknownIdException $e) {
+                $messages['message'] = 'Unknown user ID';
+            }
+        } else {
+            try {
+                $auth->admin()->removeRoleForUserById($this->id_user, \Delight\Auth\Role::ADMIN);
+            }
+            catch (\Delight\Auth\UnknownIdException $e) {
+                $messages['message'] = 'Unknown user ID';
+            }
+        }
+
+        if (isset($password) && $password !== null && $password !== "") {
+            try {
+                $auth->admin()->changePasswordForUserById($this->id_user, $password);
+            } catch (\Delight\Auth\UnknownIdException $e) {
+                die('Unknown ID');
+            } catch (\Delight\Auth\InvalidPasswordException $e) {
+                die('Invalid password');
+            }
+        }
+
+        $query = "UPDATE users SET email = '" . $email . "', username = '" . $username . "' WHERE id = " . $this->id_user;
+
+        if ($db->exec($query) || (int)$db->errorInfo()[0] == 0) {
+            $messages['status'] = "success";
+            $messages['message'] = "Utilisateur correctement mis a jour";
+        } else {
+            $messages['status'] = "error";
+            $messages['message'] = "Problème lors de la mise a jour";
+        }
+
+        return $messages;
+    }
+
     /**
      * User Login function
      *
@@ -333,29 +392,111 @@ class UserManager
                 ->required('email', 'password')
                 ->email('email')
                 ->password('password');
+        } elseif ($action == 'modify') {
+            return (new Validator($formData))
+                ->required('email', 'username')
+                ->email('email')
+//                ->password('password')
+                ->username('username');
+
         }
     }
 
     public function getUserDataById()
     {
-        $sql = "SELECT *FROM users WHERE id = " . $this->id_user;
-        $db = DbManager::openDB();
-        $response = $db->query($sql);
-        $data = $response->fetch();
+        if (isset($this->id_user)){
+            $sql = "SELECT * FROM users WHERE id = " . $this->id_user;
+            $db = DbManager::openDB();
+            $response = $db->query($sql);
+            $data = $response->fetch();
 
-        return $data;
+            return $data;
+        }
     }
 
     public function getEmailById(): ?string
     {
-        $data = $this->getUserDataById();
+        $data = $this->user_data;
         return $data['email'];
     }
 
     public function getUsernameById(): ?string
     {
-        $data = $this->getUserDataById();
+        $data = $this->user_data;
         return $data['username'];
     }
 
+    public function getRoleById(): ?string
+    {
+        $db = DbManager::openDB();
+        $user = new Administration($db);
+        $role = $user->getRolesForUserById($this->id_user);
+        if (in_array('ADMIN', $role)) {
+            return 'ADMIN';
+        } else {
+            return 'AUTHOR';
+        }
+    }
+
+    public function getLastLoginById()
+    {
+        $data = $this->user_data;
+        if ($data['last_login']) {
+            return date('d/m/Y', $data['last_login']);
+        }
+    }
+
+    public function getRegisteredDateById()
+    {
+        $data = $this->user_data;
+        if ($data['registered']) {
+            return date('d/m/Y', $data['registered']);
+        }
+    }
+
+    public function getVerifiedById()
+    {
+        $data = $this->user_data;
+        if ($data['verified'] == 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public static function getUsersList(): ?array
+    {
+        $db = DbManager::openDB();
+        $auth = new Auth($db);
+
+        if (DbManager::tableExists($db, 'users')) {
+            $query = "SELECT id FROM users";
+            $response = $db->query($query);
+            $users = [];
+            while ($data = $response->fetch()) {
+                $user = new User($data['id']);
+                $users[$data['id']] = Tools::objectToArray($user);
+            }
+
+            return $users;
+
+        }
+    }
+
+    public function deleteUserById()
+    {
+        $db = DbManager::openDB();
+        $auth = new Auth($db);
+        try {
+            $auth->admin()->deleteUserById($this->id_user);
+            $messages['status'] = 'success';
+            $messages['message'] = 'l\'utilisateur a bien été supprimé';
+        } catch (\Delight\Auth\UnknownIdException $e) {
+            $messages['status'] = 'error';
+            $messages['message'] = 'Unknown ID';
+        }
+
+        return $messages;
+    }
 }

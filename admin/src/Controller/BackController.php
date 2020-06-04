@@ -9,9 +9,13 @@ use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
 use App\Controller\Form\CommentForm;
+use App\Controller\Form\UserForm;
+use App\Controller\FrontController;
+use App\Controller\User\User;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
+use App\Tools;
 use Balambasik\Input;
 
 /**
@@ -25,9 +29,9 @@ class BackController
     {
         $post = new AdminPost($id);
         $getComments = new CommentManager();
-        if(UserManager::isAdmin()){
+        if (UserManager::isAdmin()) {
             $comments = $getComments->getAllCommentsByPostId($id);
-        } else{
+        } else {
             $comments = $getComments->getActiveCommentsByPostId($id);
         }
 
@@ -92,14 +96,16 @@ class BackController
         $comment->deleteComment($id_comment);
     }
 
-    public function inactiveCommentsList($twig){
+    public function inactiveCommentsList($twig)
+    {
         $comment = new CommentManager();
         $comments = $comment->getAllInactiveComments();
 
         echo $twig->render('admin/pages/admin-comments-list.twig', ['comments' => $comments]);
     }
 
-    public function inactivePostList($twig){
+    public function inactivePostList($twig)
+    {
         $postslist = new AdminPostsList();
         $posts = $postslist->getInactivePosts();
         echo $twig->render('admin/pages/admin-inactive-list.twig', ['posts' => $posts]);
@@ -136,6 +142,65 @@ class BackController
             return $commentForm->renderForm($comment->getContent($id_comment));
         }
         return $commentForm->renderForm();
+    }
+
+    public function usersList($twig)
+    {
+        $users = UserManager::getUsersList();
+        echo $twig->render('admin/pages/usersList.twig', ['users' => $users]);
+    }
+
+    public function userProfile($id, $twig)
+    {
+        $user = new User($id);
+        $userData = Tools::objectToArray($user);
+        echo $twig->render('admin/pages/user.twig', ['user' => $userData]);
+    }
+
+    public function userModify($id, $twig)
+    {
+        $post = Input::post();
+
+        if (isset($post) && $post !== null && $post !== []) {
+            // change password
+            $user = new UserManager($id);
+
+            $validator = $user->getValidator('modify', $post);
+
+            if ($validator->isValid()) {
+                $messages = $user->modify($post);
+            } else {
+                $messages = $validator->getErrors();
+            }
+
+            $flash = new Session($messages);
+            $flash->setMessages();
+
+            header('Location: ' . _CURRENT_URL_);
+
+        } else {
+            $user = new User($id);
+            $values = Tools::objectToArray($user);
+            $userForm = Self::getUserForm($values);
+            echo $twig->render('admin/pages/userForm.twig', ['userForm' => $userForm['form'], 'actionUser' => $userForm['action']]);
+        }
+    }
+
+    public function getUserForm($values)
+    {
+        $userForm = new UserForm();
+        return $userForm->renderForm($values, true);
+    }
+
+    public function userDelete($id)
+    {
+        $user = new UserManager($id);
+        $messages = $user->deleteUserById();
+
+        $flash = new Session($messages);
+        $flash->setMessages();
+
+        header('Location: ' . _ADMIN_URL_ . '/utilisateurs');
     }
 
 }

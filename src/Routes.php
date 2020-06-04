@@ -105,6 +105,22 @@ abstract class Routes
             return BackController::modifyComment($id, $twig);
         }, 'modification-commentaire');
 
+        $router->map('GET', '/admin/utilisateurs', function ($twig) {
+            return BackController::usersList($twig);
+        }, 'utilisateurs');
+
+        $router->map('GET', '/admin/utilisateurs/[i:id]', function ($id, $twig) {
+            return BackController::userProfile($id, $twig);
+        }, 'utilisateur');
+
+        $router->map('GET', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {
+            return BackController::userModify($id, $twig);
+        }, 'modifier-utilisateur');
+
+        $router->map('GET', '/admin/supprimer-utilisateur/[i:id]', function ($id, $twig) {
+            return BackController::userDelete($id, $twig);
+        }, 'supprimer-utilisateur');
+
         return $router;
     }
 
@@ -136,6 +152,10 @@ abstract class Routes
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
             return BackController::writePost($twig);
         }, 'ajouter-article');
+
+        $router->map('POST', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {
+            return BackController::userModify($id, $twig);
+        }, 'modifier-utilisateur-post');
 
         return $router;
     }

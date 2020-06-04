@@ -82,7 +82,8 @@ class UserForm
 
         // Create fields array for Twig
         if ($modify) {
-            $this->actionLink = _BASE_URL_ . "/inscription?action=register";
+            $this->passwordField->required = false;
+            $this->actionLink = _ADMIN_URL_ . "/modifier-utilisateur/" . $values['id_user'];
             return array(
                 'action' => $this->actionLink,
                 'form' => array(
@@ -94,7 +95,7 @@ class UserForm
                 ),
             );
         } else {
-            $this->actionLink = _ADMIN_URL_ . "/modifier-utilisateur?action=modify";
+            $this->actionLink = _BASE_URL_ . "/inscription?action=register";
             return array(
                 'action' => $this->actionLink,
                 'form' => array(

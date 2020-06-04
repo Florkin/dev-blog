@@ -153,6 +153,10 @@ abstract class Routes
             return BackController::writePost($twig);
         }, 'ajouter-article');
 
+        $router->map('POST', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {
+            return BackController::userModify($id, $twig);
+        }, 'modifier-utilisateur-post');
+
         return $router;
     }
 

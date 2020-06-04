@@ -9,9 +9,11 @@ use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
 use App\Controller\Form\CommentForm;
+use App\Controller\User\User;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
+use App\Tools;
 use Balambasik\Input;
 
 /**
@@ -142,6 +144,29 @@ class BackController
     {
         $users= UserManager::getUsersList();
         echo $twig->render('admin/pages/usersList.twig', ['users' => $users]);
+    }
+
+    public function userProfile($id, $twig)
+    {
+        $user = new User($id);
+        $userData = Tools::objectToArray($user);
+        echo $twig->render('admin/pages/user.twig', ['user' => $userData]);
+    }
+
+    public function userModify($id, $twig)
+    {
+        die('modify');
+    }
+
+    public function userDelete($id)
+    {
+        $user = new UserManager($id);
+        $messages = $user->deleteUserById();
+
+        $flash = new Session($messages);
+        $flash->setMessages();
+
+        header('Location: ' . _ADMIN_URL_ . '/utilisateurs');
     }
 
 }

@@ -421,4 +421,21 @@ class UserManager
 
         }
     }
+
+    public function deleteUserById()
+    {
+        $db = DbManager::openDB();
+        $auth = new Auth($db);
+        try {
+            $auth->admin()->deleteUserById($this->id_user);
+            $messages['status'] = 'success';
+            $messages['message'] = 'l\'utilisateur a bien été supprimé';
+        }
+        catch (\Delight\Auth\UnknownIdException $e) {
+            $messages['status'] = 'error';
+            $messages['message'] = 'Unknown ID';
+        }
+
+        return $messages;
+    }
 }

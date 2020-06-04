@@ -24,6 +24,7 @@ if (isset ($_SERVER['HTTP_REFERER'])) {
     define("_CURRENT_URL_", _BASE_URL_);
 }
 
+//dump($_SESSION);die;
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 

@@ -109,6 +109,18 @@ abstract class Routes
             return BackController::usersList($twig);
         }, 'utilisateurs');
 
+        $router->map('GET', '/admin/utilisateurs/[i:id]', function ($id, $twig) {
+            return BackController::userProfile($id, $twig);
+        }, 'utilisateur');
+
+        $router->map('GET', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {
+            return BackController::userModify($id, $twig);
+        }, 'modifier-utilisateur');
+
+        $router->map('GET', '/admin/supprimer-utilisateur/[i:id]', function ($id, $twig) {
+            return BackController::userDelete($id, $twig);
+        }, 'supprimer-utilisateur');
+
         return $router;
     }
 

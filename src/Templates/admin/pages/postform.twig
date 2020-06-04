@@ -8,13 +8,7 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="jumbotron jumbotron-fluid mt-5">
-        <div class="container">
-            <h1 class="display-4">Ajouter un article</h1>
-            <p class="lead">Veuillez remplir le formulaire</p>
-        </div>
-    </div>
+
 
     <form class="form" method="post" action="{{ actionAddpost }}" enctype="multipart/form-data">
         {% for formfield in postForm %}

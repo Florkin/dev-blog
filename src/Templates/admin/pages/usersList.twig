@@ -30,17 +30,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-
+{#                                    {{ dump(users) }}#}
                                     {% for user in users %}
                                         <tr>
                                             <td>
-{#                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">#}
-                                                <a href="#" class="user-link">{{ user.username }}</a>
-                                                <span class="user-subhead">{{ user.role | lower}}</span>
+                                                {#                                                <img src="https://bootdey.com/img/Content/user_1.jpg" alt="">#}
+                                                <a href="{{ admin_url.base_url }}/utilisateurs/{{ user.id_user }}"
+                                                   class="user-link">{{ user.username }}</a>
+                                                <span class="user-subhead">{{ user.role | lower }}</span>
                                             </td>
                                             <td>2013/08/12</td>
                                             <td class="text-center">
-                                                <span class="label label-default">{% if user.verified == 1 %} <span class="text-success">verified</span> {% else %} <span class="text-danger">not verified</span> {% endif %}</span>
+                                                <span class="label label-default">{% if user.verified == 1 %} <span
+                                                            class="text-success">verified</span> {% else %} <span
+                                                            class="text-danger">not verified</span> {% endif %}</span>
                                             </td>
                                             <td>
                                                 <a href="mailto:{{ user.email }}">{{ user.email }}</a>

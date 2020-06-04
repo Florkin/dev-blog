@@ -75,5 +75,4 @@ class User
         return $this->verified;
     }
 
-
 }

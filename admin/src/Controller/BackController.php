@@ -9,6 +9,8 @@ use Admin\Controller\Post\AdminPostsList;
 use App\Config;
 use Admin\Controller\Post\AdminPost;
 use App\Controller\Form\CommentForm;
+use App\Controller\Form\UserForm;
+use App\Controller\FrontController;
 use App\Controller\User\User;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
@@ -155,7 +157,16 @@ class BackController
 
     public function userModify($id, $twig)
     {
-        die('modify');
+        $user = new User($id);
+        $values = Tools::objectToArray($user);
+        $userForm = Self::getUserForm($values);
+        echo $twig->render('admin/pages/userForm.twig', ['userForm' => $userForm['form'], 'actionUser' => $userForm['action']]);
+    }
+
+    public function getUserForm($values)
+    {
+        $userForm = new UserForm();
+        return $userForm->renderForm($values, true);
     }
 
     public function userDelete($id)

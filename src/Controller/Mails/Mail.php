@@ -9,7 +9,27 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
-    public static function sendMail(array $to, array $cc = null, array $cci = null, string $subject, string $body, string $altbody = null, array $attachements = null, string $replyTo = null)
+
+    /**
+     * @param array $to associative array: name => mail address
+     * @param array|null $cc associative array: name => mail address
+     * @param array|null $cci associative array: name => mail address
+     * @param string $subject Mail subject
+     * @param string $body Mail body HTML
+     * @param string|null $altbody Mail body text
+     * @param array|null $attachements associative array: name => path
+     * @param string|null $replyTo mail address to reply to
+     * @return string
+     */
+    public static function sendMail(array $to,
+                                    array $cc = null,
+                                    array $cci = null,
+                                    string $subject,
+                                    string $body,
+                                    string $altbody = null,
+                                    array $attachements = null,
+                                    string $replyTo = null
+    ): string
     {
         $mail = new PHPMailer(true);
 

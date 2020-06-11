@@ -65,7 +65,7 @@ class UserForm
                 'author' => 'Author',
             ]);
         $this->role->setName('role');
-        $this->role->setValue(strtolower($values['role']));
+        isset($values['role']) ? $this->role->setValue(strtolower($values['role'])) : null;
 
 
         $this->rgpdCheck->label->setAttribute('class', 'custom-control-label');

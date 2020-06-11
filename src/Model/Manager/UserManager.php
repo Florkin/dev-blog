@@ -3,6 +3,7 @@
 namespace App\Model\Manager;
 
 use App\Controller\FrontController;
+use App\Controller\Mails\Mail;
 use App\Controller\User\User;
 use App\Controller\Validator\Validator;
 use Delight\Auth\Administration;
@@ -220,7 +221,18 @@ class UserManager
         }
 
         try {
-            $userId = $auth->register($email, $password, $username);
+            $userId = $auth->registerWithUniqueUsername($email, $password, $username, function($selector, $token) use ($email, $username){
+                $url = _BASE_URL_ . '/verify_email?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
+                Mail::sendMail(
+                    [$username => $email],
+                    null,
+                    null,
+                    "[Dev-Blog] Confirmez votre email",
+                    "<h1>Bonjour " . $username . " </h1>"
+                    . "<p>Veuillez confirmer votre email en cliquant sur <a href='".$url."'>ce lien</a></p>",
+                    "Bonjour ". $username . ", Veuillez copier ce lien pour activer votre compte: ". $url
+                );
+            });
 
             $messages["status"] = "success";
             $messages['message'] = "Votre compte a bien été enregistré. Vous allez recevoir un email pour l'activer.";
@@ -242,6 +254,10 @@ class UserManager
             $registerForm = FrontController::getRegisterForm();
             $messages["status"] = "error";
             $messages['message'] = "Trop de requètes";
+        } catch (\Delight\Auth\DuplicateUsernameException $e) {
+            $registerForm = FrontController::getRegisterForm();
+            $messages["status"] = "error";
+            $messages['message'] = "Ce nom d'utilisateur existe déjà.";
         }
 
         return $messages;

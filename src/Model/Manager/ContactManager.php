@@ -13,7 +13,9 @@ class ContactManager
 
     public function __construct($formData)
     {
-        $this->formData = $formData;
+        foreach($formData as $key => $data){
+            $this->formData[$key] = htmlentities($data, ENT_QUOTES, 'ISO-8859-1');
+        }
     }
 
     public function getValidator()
@@ -32,7 +34,6 @@ class ContactManager
      */
     public function sendMessage()
     {
-
         $result = Mail::sendMail(
             ['Contact dev-blog' => Config::EMAIL_CONTACT],
             null,

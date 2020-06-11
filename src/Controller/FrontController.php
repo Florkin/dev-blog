@@ -203,6 +203,14 @@ abstract class FrontController
         header('Location: ' . _CURRENT_URL_);
     }
 
+    public function verifyEmail($selector, $token)
+    {
+        $messages = UserManager::verifyEmail($selector, $token);
+        $flash = new Session($messages);
+        $flash->setMessages();
+        header('Location: ' . _CURRENT_URL_);
+    }
+
     /**
      * Display Home page with $quantity of last articles (PostList($quantity))
      *

@@ -60,6 +60,10 @@ abstract class Routes
             return FrontController::logout();
         }, 'logout');
 
+        $router->map('GET', '/verify_email/[:selector]/[:token]', function ($selector, $token) {
+            return FrontController::verifyEmail($selector, $token);
+        }, 'verify_email');
+
         // =======================ADMIN ROUTES =======================
         $router->map('GET', '/admin/', function ($twig) {
             return BackController::adminList($twig);

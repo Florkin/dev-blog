@@ -222,7 +222,7 @@ class UserManager
 
         try {
             $userId = $auth->registerWithUniqueUsername($email, $password, $username, function($selector, $token) use ($email, $username){
-                $url = _BASE_URL_ . '/verify_email?selector=' . \urlencode($selector) . '&token=' . \urlencode($token);
+                $url = _BASE_URL_ . '/verify_email/'.urlencode($selector) . '/' . urlencode($token);
                 Mail::sendMail(
                     [$username => $email],
                     null,
@@ -511,6 +511,38 @@ class UserManager
         } catch (\Delight\Auth\UnknownIdException $e) {
             $messages['status'] = 'error';
             $messages['message'] = 'Unknown ID';
+        }
+
+        return $messages;
+    }
+
+    public static function verifyEmail($selector, $token)
+    {
+        $rememberDuration = (int)(60 * 60 * 24 * 365.25);
+        $db = DbManager::openDB();
+        $auth = new Auth($db);
+
+        try {
+            $auth->confirmEmailAndSignIn($selector, $token, $rememberDuration);
+
+            $messages['status'] = 'success';
+            $messages['messages'] = 'Votre compte a bien été activé';
+        }
+        catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
+            $messages['status'] = 'error';
+            $messages['messages'] = 'Token invalide';
+        }
+        catch (\Delight\Auth\TokenExpiredException $e) {
+            $messages['status'] = 'error';
+            $messages['messages'] = 'Token expiré';
+        }
+        catch (\Delight\Auth\UserAlreadyExistsException $e) {
+            $messages['status'] = 'error';
+            $messages['messages'] = 'L\'email existe déjà';
+        }
+        catch (\Delight\Auth\TooManyRequestsException $e) {
+            $messages['status'] = 'error';
+            $messages['messages'] = 'Trop de requètes';
         }
 
         return $messages;

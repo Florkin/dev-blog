@@ -5,6 +5,7 @@ namespace App;
 use Admin\Controller\BackController;
 use Admin\Model\Manager\AdminPostManager;
 use \App\Controller\FrontController;
+use App\Controller\Mails\Mail;
 use App\Model\Manager\CommentManager;
 
 /**
@@ -59,6 +60,10 @@ abstract class Routes
         $router->map('GET', '/logout', function () {
             return FrontController::logout();
         }, 'logout');
+
+        $router->map('GET', '/mailtest', function () {
+            return Mail::sendMail();
+        }, 'mailtest');
 
         // =======================ADMIN ROUTES =======================
         $router->map('GET', '/admin/', function ($twig) {

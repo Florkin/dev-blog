@@ -1,6 +1,7 @@
 node_modules/
 assets/
 src/Config.php
+src/ConfigOnline.php
 vendor/
 composer.lock
 cache/

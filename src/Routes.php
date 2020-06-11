@@ -148,6 +148,10 @@ abstract class Routes
             return FrontController::addComment($id, true);
         }, 'modifier-commentaire');
 
+        $router->map('POST', '/envoyer-message', function () {
+            return FrontController::sendMessage();
+        }, 'envoyer-message');
+
         // =======================ADMIN ROUTES =======================
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
             return BackController::writePost($twig);

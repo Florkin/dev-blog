@@ -5,7 +5,6 @@ namespace App;
 use Admin\Controller\BackController;
 use Admin\Model\Manager\AdminPostManager;
 use \App\Controller\FrontController;
-use App\Controller\Mails\Mail;
 use App\Model\Manager\CommentManager;
 
 /**
@@ -60,25 +59,6 @@ abstract class Routes
         $router->map('GET', '/logout', function () {
             return FrontController::logout();
         }, 'logout');
-
-        $router->map('GET', '/mailtest', function () {
-            $to = [
-                'Tristan' => 'tristan.florin@gmail.com',
-                'TristanDiabolo' => 'tristan@diabolo-web.com',
-            ];
-            $cc = [
-                'Rati' => 'ratiana.ma@gmail.com',
-            ];
-            $subject = "sujet test";
-            $body = "
-<h1>MAIL TEST</h1>
-<p>Paragraphe pour un test de mail</p>
-";
-            $altBody = "Mail test
-            Paragraphe pour un mail test" ;
-
-            return Mail::sendMail($to, $cc, null, $subject, $body, $altBody);
-        }, 'mailtest');
 
         // =======================ADMIN ROUTES =======================
         $router->map('GET', '/admin/', function ($twig) {
@@ -167,6 +147,10 @@ abstract class Routes
         $router->map('POST', '/modifier-commentaire/[i:id]', function ($id) {
             return FrontController::addComment($id, true);
         }, 'modifier-commentaire');
+
+        $router->map('POST', '/envoyer-message', function () {
+            return FrontController::sendMessage();
+        }, 'envoyer-message');
 
         // =======================ADMIN ROUTES =======================
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {

@@ -16,5 +16,6 @@ abstract class Config {
     const EMAIL_FROM = "p3kitoad@gmail.com";
     const EMAIL_PASSWORD = "uNi?max3310gmailFlorkin";
     const EMAIL_USERNAME = "p3kitoad@gmail.com";
+    const EMAIL_CONTACT = "tristan.florin@gmail.com";
 
 }

@@ -19,7 +19,7 @@ class Mail
      * @param string|null $altbody Mail body text
      * @param array|null $attachements associative array: name => path
      * @param string|null $replyTo mail address to reply to
-     * @return string
+     * @return array
      */
     public static function sendMail(array $to,
                                     array $cc = null,
@@ -29,7 +29,7 @@ class Mail
                                     string $altbody = null,
                                     array $attachements = null,
                                     string $replyTo = null
-    ): string
+    ): array
     {
         $mail = new PHPMailer(true);
 
@@ -79,9 +79,15 @@ class Mail
             }
 
             $mail->send();
-            return 'Le message a bien été envoyé';
+            return [
+                'status' => 'success',
+                'message' => 'Le message a bien été envoyé'
+            ];
         } catch (Exception $e) {
-            return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            return [
+                'status' => 'error',
+                'message' => "Message could not be sent. Mailer Error: {$mail->ErrorInfo}"
+            ];
         }
     }
 }

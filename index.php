@@ -62,6 +62,7 @@ $loginForm = $loginForm->renderForm($twig);
 $twig->addGlobal('loginForm', $loginForm['form']);
 $twig->addGlobal('actionLogin', $loginForm['action']);
 
+
 // ===================== URL VARIABLES TO TWIG GLOBALS ===============
 
 $url = array(

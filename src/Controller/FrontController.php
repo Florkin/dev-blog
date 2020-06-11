@@ -10,6 +10,7 @@ use App\Controller\Post\Post;
 use App\Controller\Post\PostsList;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
+use App\Model\Manager\ContactManager;
 use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
@@ -176,8 +177,30 @@ abstract class FrontController
         $flash->setMessages();
 
         header('Location: ' . _CURRENT_URL_);
+    }
 
+    public static function sendMessage()
+    {
+        $formData = Input::post();
+        $contact = new ContactManager($formData);
+        $validator = $contact->getValidator();
 
+        if ($validator->isValid()) {
+            $messages = $contact->sendMessage();
+        } else {
+            $messages = $validator->getErrors();
+            $messages["status"] = "error";
+        }
+
+        $flash = new Session($messages);
+        $flash->setMessages();
+
+        // If error, get form data to refill form
+        if ($messages["status"] == "error") {
+            $formDataGetter = new Session($formData);
+            $formDataGetter->setFormdata();
+        }
+        header('Location: ' . _CURRENT_URL_);
     }
 
     /**
@@ -190,8 +213,12 @@ abstract class FrontController
     {
         $postslist = new PostsList(3);
         $posts = $postslist->getPosts();
-        echo $twig->render('pages/home.twig', ['posts' => $posts]);
 
+        // ======================== CONTACT FORM =============================
+        $contactForm = new \App\Controller\Form\ContactForm;
+        $contactForm = $contactForm->renderForm();
+
+        echo $twig->render('pages/home.twig', ['posts' => $posts, 'contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]);
     }
 
 }

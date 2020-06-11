@@ -62,7 +62,22 @@ abstract class Routes
         }, 'logout');
 
         $router->map('GET', '/mailtest', function () {
-            return Mail::sendMail();
+            $to = [
+                'Tristan' => 'tristan.florin@gmail.com',
+                'TristanDiabolo' => 'tristan@diabolo-web.com',
+            ];
+            $cc = [
+                'Rati' => 'ratiana.ma@gmail.com',
+            ];
+            $subject = "sujet test";
+            $body = "
+<h1>MAIL TEST</h1>
+<p>Paragraphe pour un test de mail</p>
+";
+            $altBody = "Mail test
+            Paragraphe pour un mail test" ;
+
+            return Mail::sendMail($to, $cc, null, $subject, $body, $altBody);
         }, 'mailtest');
 
         // =======================ADMIN ROUTES =======================

@@ -9,43 +9,59 @@ use PHPMailer\PHPMailer\Exception;
 
 class Mail
 {
-    public static function sendMail()
+    public static function sendMail(array $to, array $cc = null, array $cci = null, string $subject, string $body, string $altbody = null, array $attachements = null, string $replyTo = null)
     {
         $mail = new PHPMailer(true);
 
         try {
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      // Enable verbose debug output
-            $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = Config::EMAIL_HOST;                    // Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = Config::EMAIL_HOST;                     // SMTP username
-            $mail->Password   = Config::EMAIL_PASSWORD;           // SMTP password
+            // $mail->isSMTP();                                            // Send using SMTP
+            $mail->Host = Config::EMAIL_HOST;                    // Set the SMTP server to send through
+            $mail->SMTPAuth = true;                                   // Enable SMTP authentication
+            $mail->Username = Config::EMAIL_USERNAME;                     // SMTP username
+            $mail->Password = Config::EMAIL_PASSWORD;           // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $mail->Port       = 465;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+            $mail->Port = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
             //Recipients
-            $mail->setFrom('p3kitoad@gmail.com', 'Tristan');
-            $mail->addAddress('tristan.florin@gmail.com', 'Joe User');     // Add a recipient
-//            $mail->addAddress('ellen@example.com');               // Name is optional
-//            $mail->addReplyTo('info@example.com', 'Information');
-//            $mail->addCC('cc@example.com');
-//            $mail->addBCC('bcc@example.com');
+            $mail->setFrom(Config::EMAIL_FROM, Config::EMAIL_USERNAME);
+            foreach ($to as $key => $address) {
+                $mail->addAddress($address, $key);     // Add a recipient
+            }
+            if (isset($cc) && !empty($cc)) {
+                foreach ($cc as $key => $address) {
+                    $mail->addCC($address, $key);     // Add a recipient
+                }
+            }
 
-            // Attachments
-//            $mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
-//            $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+            if (isset($cci) && !empty($cci)) {
+                foreach ($cci as $key => $address) {
+                    $mail->addBCC($address, $key);     // Add a recipient
+                }
+            }
+            if (isset($attachements) && !empty($attachements)) {
+                foreach ($attachements as $key => $path) {
+                    $mail->addAttachment($path, $key);     // Add a recipient
+                }
+            }
+
+            if (isset($replyTo) && !empty($replyTo)) {
+                $mail->addReplyTo($replyTo);
+            }
 
             // Content
             $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = 'Here is the subject';
-            $mail->Body    = 'This is the HTML message body <b>in bold!</b>';
-            $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
+            $mail->Subject = $subject;
+            $mail->Body = $body;
+            if (isset($altbody) && !empty($altbody)) {
+                $mail->AltBody = $altbody;
+            }
 
             $mail->send();
-            echo 'Message has been sent';
+            return 'Le message a bien été envoyé';
         } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+            return "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
         }
     }
 }

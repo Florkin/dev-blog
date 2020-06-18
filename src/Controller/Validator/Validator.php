@@ -108,6 +108,15 @@ class Validator
         return $this;
     }
 
+    public function isChecked(string $key): self
+    {
+        if (!(isset($this->params[$key]) && $this->params[$key] == "on")){
+            $this->errors[$key] = "Vous devez accepter la politique de confidentialité";
+        }
+
+        return $this;
+    }
+
     public function isCleanHtml($key)
     {
         $events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';

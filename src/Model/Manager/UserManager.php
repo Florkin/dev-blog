@@ -417,7 +417,8 @@ class UserManager
                 ->required('email', 'username', 'password')
                 ->email('email')
                 ->password('password')
-                ->username('username');
+                ->username('username')
+                ->isChecked('remember');
         } elseif ($action == 'login') {
             return (new Validator($formData))
                 ->required('email', 'password')
@@ -489,8 +490,7 @@ class UserManager
             $role = $user->getRolesForUserById($this->id_user);
         } else if (isset($this->user_email) and $this->user_email != null) {
             $role = $user->getRolesForUserById($this->getIdByEmail());
-        }
-        else{
+        } else {
             return null;
         }
         if (in_array('ADMIN', $role)) {

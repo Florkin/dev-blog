@@ -119,7 +119,7 @@ class Validator
 
     public function isCheckbox(string $key): self
     {
-        if ($this->params[$key] != "on" && isset($this->params[$key])){
+        if (isset($this->params[$key]) && $this->params[$key] != "on"){
             $this->errors[$key] = "Bien tenté, mais ce n'est vraiment pas très gentil.";
         }
 

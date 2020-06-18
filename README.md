@@ -9,7 +9,7 @@ No CMS, No framework.
 
 -> Execute command: "composer install".
 
-Install dependencies
+This will install required libraries
 
 
 -> Go to "front/\_dev" and execute command "npm install", then "npm run build".

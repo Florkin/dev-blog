@@ -19,7 +19,6 @@ class Validator
         foreach($params as $key => $param){
             $this->params[$key] = trim($param);
         }
-        dump($this->params);die;
     }
 
     /**

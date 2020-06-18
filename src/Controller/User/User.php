@@ -14,17 +14,23 @@ class User
     private $registered;
     private $verified;
 
-    function __construct($id_user)
+    function __construct($id_user = null, $user_email = null)
     {
-        $user = new UserManager($id_user);
 
-        $this->id_user = $id_user;
+        if (isset($id_user) && $id_user != null){
+            $user = new UserManager($id_user);
+        } else if (isset($user_email) && $user_email != null){
+            $user = new UserManager(null, $user_email);
+        }
+
+        $this->id_user = isset($id_user) && $id_user != null ? $id_user : $user->getIdByEmail();
         $this->username = $user->getUsernameById();
-        $this->email = $user->getEmailById();
+        $this->email =  isset($user_email) && $user_email != null ? $user_email : $user->getEmailById();
         $this->role = $user->getRoleById();
         $this->last_login = $user->getLastLoginById();
         $this->registered = $user->getRegisteredDateById();
         $this->verified = $user->getVerifiedById();
+
     }
 
     /**

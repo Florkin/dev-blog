@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Form\PasswordResetForm;
 use App\Controller\Form\PostForm;
 use App\Controller\Form\UserForm;
 use App\Controller\Form\CommentForm;
@@ -11,6 +12,7 @@ use App\Controller\Post\PostsList;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\ContactManager;
+use App\Model\Manager\PasswordManager;
 use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
@@ -209,6 +211,79 @@ abstract class FrontController
         $flash = new Session($messages);
         $flash->setMessages();
         header('Location: ' . _CURRENT_URL_);
+    }
+
+    public function resetPasswordSendEmail($post = false, $twig = null)
+    {
+        if ($post) {
+            $formData = Input::post();
+            $password = new PasswordManager;
+            $validator = $password->getValidator('email', $formData);
+            if ($validator->isValid()) {
+                $messages = $password->sendResetPasswordEmail(Input::post('email'));
+
+            } else {
+                $messages = $validator->getErrors();
+                $messages["status"] = "error";
+            }
+
+            $flash = new Session($messages);
+            $flash->setMessages();
+            header('Location: ' . _BASE_URL_);
+
+        } else {
+            $passwordResetForm = Self::getPasswordResetForm(false);
+            echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+        }
+    }
+
+
+    public function newPassword(string $selector = null, string $token = null, $post = false, object $twig = null)
+    {
+        $password = new PasswordManager;
+
+        if ($post) {
+            $formData = Input::post();
+            $validator = $password->getValidator('password', $formData);
+            if ($validator->isValid()) {
+                if ($formData['password'] === $formData['password-confirm']){
+                    $messages = $password->changePassword($formData);
+                } else {
+                    $messages["status"] = "error";
+                    $messages["message"] = "Les mots de passe ne sont pas identiques";
+                }
+            } else {
+                $messages = $validator->getErrors();
+                $messages["status"] = "error";
+            }
+
+            $flash = new Session($messages);
+            $flash->setMessages();
+
+            if ($messages["status"] == "error"){
+                header('Location: ' . _CURRENT_URL_);
+            } else {
+                header('Location: ' . _BASE_URL_);
+
+            }
+
+        } else {
+            if ($password->canResetPassword($selector, $token) == true) {
+                $passwordResetForm = Self::getPasswordResetForm(true, $selector, $token);
+                echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+            } else {
+                $messages = $password->canResetPassword($selector, $token);
+                $flash = new Session($messages);
+                $flash->setMessages();
+                header('Location: ' . _CURRENT_URL_);
+            }
+        }
+    }
+
+    public function getPasswordResetForm(bool $password = false, string $selector = null, string $token = null)
+    {
+        $passwordResetForm = new PasswordResetForm();
+        return $passwordResetForm->renderForm($password, $selector, $token);
     }
 
     /**

@@ -64,6 +64,14 @@ abstract class Routes
             return FrontController::verifyEmail($selector, $token);
         }, 'verify_email');
 
+        $router->map('GET', '/mot-de-passe-oublie', function ($twig) {
+            return FrontController::resetPasswordSendEmail(false, $twig);
+        }, 'mot-de-passe-oublie');
+
+        $router->map('GET', '/nouveau-mot-de-passe/[:selector]/[:token]', function ($selector, $token, $twig) {
+            return FrontController::newPassword($selector, $token, false, $twig);
+        }, 'nouveau-mot-de-passe');
+
         // =======================ADMIN ROUTES =======================
         $router->map('GET', '/admin/', function ($twig) {
             return BackController::adminList($twig);
@@ -155,6 +163,14 @@ abstract class Routes
         $router->map('POST', '/envoyer-message', function () {
             return FrontController::sendMessage();
         }, 'envoyer-message');
+
+        $router->map('POST', '/reset-password-send-email', function () {
+            return FrontController::resetPasswordSendEmail(true);
+        }, 'reset-password-send-email');
+
+        $router->map('POST', '/reset-password-send-password', function ($twig) {
+            return FrontController::newPassword(null, null, true);
+        }, 'reset-password-send-password');
 
         // =======================ADMIN ROUTES =======================
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {

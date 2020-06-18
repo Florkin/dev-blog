@@ -160,6 +160,10 @@ abstract class Routes
             return FrontController::sendMessage();
         }, 'envoyer-message');
 
+        $router->map('POST', '/reset-password', function ($twig) {
+            return FrontController::resetPassword($twig, true);
+        }, 'reset-password');
+
         // =======================ADMIN ROUTES =======================
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
             return BackController::writePost($twig);

@@ -14,12 +14,18 @@ class UserManager
 {
 
     private $id_user = null;
+    private $user_email = null;
     private $user_data = null;
 
-    public function __construct($id_user = null)
+    public function __construct($id_user = null, $user_email = null)
     {
-        $this->id_user = $id_user;
-        $this->user_data = $this->getUserDataById();
+        if (isset($id_user) and $id_user != null) {
+            $this->id_user = $id_user;
+            $this->user_data = $this->getUserDataById();
+        } else if (isset($user_email) and $user_email != null) {
+            $this->user_email = $user_email;
+            $this->user_data = $this->getUserDataByEmail();
+        }
     }
 
     /**
@@ -28,7 +34,8 @@ class UserManager
      * @param object $db
      * @return void
      */
-    public static function createTables(object $db)
+    public
+    static function createTables(object $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `users` (
             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -98,7 +105,8 @@ class UserManager
      *
      * @return bool
      */
-    public static function checkIsLogged(): bool
+    public
+    static function checkIsLogged(): bool
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')) {
@@ -117,7 +125,8 @@ class UserManager
         return $isLogged;
     }
 
-    public static function isAdmin(): ?bool
+    public
+    static function isAdmin(): ?bool
     {
         if (Self::checkIsLogged()) {
             $roles = Self::getUserRole();
@@ -130,7 +139,8 @@ class UserManager
         }
     }
 
-    public static function getUserRole(): ?array
+    public
+    static function getUserRole(): ?array
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -149,7 +159,8 @@ class UserManager
      *
      * @return integer
      */
-    public static function getUserId(): ?string
+    public
+    static function getUserId(): ?string
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -167,7 +178,8 @@ class UserManager
      *
      * @return string
      */
-    public static function getUsername(): ?string
+    public
+    static function getUsername(): ?string
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -184,7 +196,8 @@ class UserManager
      *
      * @return string
      */
-    public static function getEmail(): ?string
+    public
+    static function getEmail(): ?string
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -221,16 +234,16 @@ class UserManager
         }
 
         try {
-            $userId = $auth->registerWithUniqueUsername($email, $password, $username, function($selector, $token) use ($email, $username){
-                $url = _BASE_URL_ . '/verify_email/'.urlencode($selector) . '/' . urlencode($token);
+            $userId = $auth->registerWithUniqueUsername($email, $password, $username, function ($selector, $token) use ($email, $username) {
+                $url = _BASE_URL_ . '/verify_email/' . urlencode($selector) . '/' . urlencode($token);
                 Mail::sendMail(
                     [$username => $email],
                     null,
                     null,
                     "[Dev-Blog] Confirmez votre email",
                     "<h1>Bonjour " . $username . " </h1>"
-                    . "<p>Veuillez confirmer votre email en cliquant sur <a href='".$url."'>ce lien</a></p>",
-                    "Bonjour ". $username . ", Veuillez copier ce lien pour activer votre compte: ". $url
+                    . "<p>Veuillez confirmer votre email en cliquant sur <a href='" . $url . "'>ce lien</a></p>",
+                    "Bonjour " . $username . ", Veuillez copier ce lien pour activer votre compte: " . $url
                 );
             });
 
@@ -242,20 +255,22 @@ class UserManager
             $auth->admin()->addRoleForUserById($userId, \Delight\Auth\Role::AUTHOR);
 
         } catch (\Delight\Auth\InvalidEmailException $e) {
-            die('Invalid email address');
+            $messages["status"] = "error";
+            $messages['message'] = "Cette adresse email n'est pas valide";
         } catch (\Delight\Auth\InvalidPasswordException $e) {
-            die('Invalid password');
+            $messages["status"] = "error";
+            $messages['message'] = "Ce mot de passe n'est pas valide";
         } catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            $registerForm = FrontController::getRegisterForm();
+//            $registerForm = FrontController::getRegisterForm();
             $messages["status"] = "error";
             $messages['message'] = "Cette adresse email a déjà été enregistrée sur le site";
 //            echo json_encode($messages);
         } catch (\Delight\Auth\TooManyRequestsException $e) {
-            $registerForm = FrontController::getRegisterForm();
+//            $registerForm = FrontController::getRegisterForm();
             $messages["status"] = "error";
             $messages['message'] = "Trop de requètes";
         } catch (\Delight\Auth\DuplicateUsernameException $e) {
-            $registerForm = FrontController::getRegisterForm();
+//            $registerForm = FrontController::getRegisterForm();
             $messages["status"] = "error";
             $messages['message'] = "Ce nom d'utilisateur existe déjà.";
         }
@@ -278,18 +293,16 @@ class UserManager
             $auth = new Auth($db, null, null, false);
         }
 
-        if ($formData['role'] == "admin"){
+        if ($formData['role'] == "admin") {
             try {
                 $auth->admin()->addRoleForUserById($this->id_user, \Delight\Auth\Role::ADMIN);
-            }
-            catch (\Delight\Auth\UnknownIdException $e) {
+            } catch (\Delight\Auth\UnknownIdException $e) {
                 $messages['message'] = 'Unknown user ID';
             }
         } else {
             try {
                 $auth->admin()->removeRoleForUserById($this->id_user, \Delight\Auth\Role::ADMIN);
-            }
-            catch (\Delight\Auth\UnknownIdException $e) {
+            } catch (\Delight\Auth\UnknownIdException $e) {
                 $messages['message'] = 'Unknown user ID';
             }
         }
@@ -326,7 +339,8 @@ class UserManager
      * @throws \Delight\Auth\AttemptCancelledException
      * @throws \Delight\Auth\AuthError
      */
-    public function login(array $formData, $twig)
+    public
+    function login(array $formData, $twig)
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -376,7 +390,8 @@ class UserManager
      * @return void
      * @throws \Delight\Auth\AuthError
      */
-    public function logout()
+    public
+    function logout()
     {
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);
@@ -418,9 +433,10 @@ class UserManager
         }
     }
 
-    public function getUserDataById()
+    public
+    function getUserDataById()
     {
-        if (isset($this->id_user)){
+        if (isset($this->id_user)) {
             $sql = "SELECT * FROM users WHERE id = " . $this->id_user;
             $db = DbManager::openDB();
             $response = $db->query($sql);
@@ -430,23 +446,53 @@ class UserManager
         }
     }
 
-    public function getEmailById(): ?string
+    public function getUserDataByEmail()
+    {
+        if (isset($this->user_email) && $this->user_email != null) {
+            $sql = "SELECT * FROM users WHERE email = '" . $this->user_email . "'";
+            $db = DbManager::openDB();
+            $response = $db->query($sql);
+            $data = $response->fetch();
+
+            return $data;
+        }
+    }
+
+    public
+    function getEmailById(): ?string
     {
         $data = $this->user_data;
         return $data['email'];
     }
 
-    public function getUsernameById(): ?string
+    public
+    function getIdByEmail(): ?string
+    {
+        $data = $this->user_data;
+        return $data['id'];
+    }
+
+    public
+    function getUsernameById(): ?string
     {
         $data = $this->user_data;
         return $data['username'];
     }
 
-    public function getRoleById(): ?string
+    public
+    function getRoleById(): ?string
     {
         $db = DbManager::openDB();
         $user = new Administration($db);
-        $role = $user->getRolesForUserById($this->id_user);
+
+        if (isset($this->id_user) and $this->id_user != null) {
+            $role = $user->getRolesForUserById($this->id_user);
+        } else if (isset($this->user_email) and $this->user_email != null) {
+            $role = $user->getRolesForUserById($this->getIdByEmail());
+        }
+        else{
+            return null;
+        }
         if (in_array('ADMIN', $role)) {
             return 'ADMIN';
         } else {
@@ -454,7 +500,8 @@ class UserManager
         }
     }
 
-    public function getLastLoginById()
+    public
+    function getLastLoginById()
     {
         $data = $this->user_data;
         if ($data['last_login']) {
@@ -462,7 +509,8 @@ class UserManager
         }
     }
 
-    public function getRegisteredDateById()
+    public
+    function getRegisteredDateById()
     {
         $data = $this->user_data;
         if ($data['registered']) {
@@ -470,7 +518,8 @@ class UserManager
         }
     }
 
-    public function getVerifiedById()
+    public
+    function getVerifiedById()
     {
         $data = $this->user_data;
         if ($data['verified'] == 1) {
@@ -481,7 +530,8 @@ class UserManager
     }
 
 
-    public static function getUsersList(): ?array
+    public
+    static function getUsersList(): ?array
     {
         $db = DbManager::openDB();
         $auth = new Auth($db);
@@ -500,7 +550,8 @@ class UserManager
         }
     }
 
-    public function deleteUserById()
+    public
+    function deleteUserById()
     {
         $db = DbManager::openDB();
         $auth = new Auth($db);
@@ -516,7 +567,8 @@ class UserManager
         return $messages;
     }
 
-    public static function verifyEmail($selector, $token)
+    public
+    static function verifyEmail($selector, $token)
     {
         $rememberDuration = (int)(60 * 60 * 24 * 365.25);
         $db = DbManager::openDB();
@@ -527,20 +579,16 @@ class UserManager
 
             $messages['status'] = 'success';
             $messages['messages'] = 'Votre compte a bien été activé';
-        }
-        catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
+        } catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
             $messages['status'] = 'error';
             $messages['messages'] = 'Token invalide';
-        }
-        catch (\Delight\Auth\TokenExpiredException $e) {
+        } catch (\Delight\Auth\TokenExpiredException $e) {
             $messages['status'] = 'error';
             $messages['messages'] = 'Token expiré';
-        }
-        catch (\Delight\Auth\UserAlreadyExistsException $e) {
+        } catch (\Delight\Auth\UserAlreadyExistsException $e) {
             $messages['status'] = 'error';
             $messages['messages'] = 'L\'email existe déjà';
-        }
-        catch (\Delight\Auth\TooManyRequestsException $e) {
+        } catch (\Delight\Auth\TooManyRequestsException $e) {
             $messages['status'] = 'error';
             $messages['messages'] = 'Trop de requètes';
         }

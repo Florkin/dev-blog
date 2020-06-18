@@ -12,6 +12,7 @@ use App\Controller\Post\PostsList;
 use App\Controller\Validator\Session;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\ContactManager;
+use App\Model\Manager\PasswordManager;
 use App\Model\Manager\UserManager;
 use \Balambasik\Input;
 
@@ -212,10 +213,28 @@ abstract class FrontController
         header('Location: ' . _CURRENT_URL_);
     }
 
-    public function resetPassword($twig)
+    public function resetPassword($twig, $post = false)
     {
-        $passwordResetForm = Self::getPasswordResetForm();
-        echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+        if ($post) {
+            $formData = Input::post();
+            $password = new PasswordManager;
+            $validator = $password->getValidator('email', $formData);
+            if ($validator->isValid()) {
+                $messages = $password->sendResetPasswordEmail(Input::post('email'));
+
+            } else {
+                $messages = $validator->getErrors();
+                $messages["status"] = "error";
+            }
+
+            $flash = new Session($messages);
+            $flash->setMessages();
+            header('Location: ' . _CURRENT_URL_);
+
+        } else {
+            $passwordResetForm = Self::getPasswordResetForm();
+            echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+        }
     }
 
     public function getPasswordResetForm()

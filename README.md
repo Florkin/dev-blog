@@ -23,6 +23,8 @@ This will build scss and js assets in front/assets
 
 Fill the file with your database and email config, and rename the file to "Config.php".
 
+-> Unzip img.zip
+
 
 
 No need for database model, all tables will be created automatically when needed.

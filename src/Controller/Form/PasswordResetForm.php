@@ -9,41 +9,85 @@ use FormManager\Factory as F;
 class PasswordResetForm
 {
     private $emailField;
+    private $passwordField;
+    private $passwordConfirmField;
+    private $selectorField;
+    private $tokenField;
     private $submitButton;
     private $actionLink;
 
-    public function setFormFields() : array
+    public function setFormFields(bool $password, string $selector = null, string $token = null): array
     {
-        $formDataGetter = new Session();
-        $formData = $formDataGetter->getFormdata();
-        isset($formData) ? $post = $formData : null;
-
         $this->emailField =
             F::email('Votre Email', [
                 'class' => 'email form-control',
                 'name' => 'email',
                 'required' => 'required',
                 'autocomplete' => 'username',
-                'value' => $post["email"] ?? null
             ]);
+
+        $this->passwordField =
+            F::password('Nouveau mot de passe', [
+            'class' => 'password form-control',
+            'name' => 'password',
+            'required' => 'required',
+            'autocomplete' => 'username',
+        ]);
+
+        $this->passwordConfirmField =
+            F::password('Confirmez votre mot de passe', [
+            'class' => 'password form-control',
+            'name' => 'password-confirm',
+            'required' => 'required',
+            'autocomplete' => 'username',
+        ]);
+
+        $this->selectorField =
+            F::hidden('selector', [
+                'class' => 'selector form-control',
+                'name' => 'selector',
+                'required' => 'required',
+            ]);
+        $this->selectorField->setValue($selector);
+
+        $this->tokenField =
+            F::hidden('token', [
+                'class' => 'token form-control',
+                'name' => 'token',
+                'required' => 'required',
+                'value' => $token,
+            ]);
+        $this->tokenField->setValue($token);
+
+
 
         $this->submitButton =
             F::submit('Réinitiliser le mot de passe', [
                 'class' => 'btn btn-dark btn-md text-white',
             ]);
 
-        $this->actionLink = _BASE_URL_ . "/reset-password";
+        $this->actionLink = $password == true ? _BASE_URL_ . "/reset-password-send-password" : _BASE_URL_ . "/reset-password-send-email";
 
-        $formDataGetter->deleteFormdata();
-
-        return array(
-            'action' => $this->actionLink,
-            'form' => array(
-                $this->emailField,
-                $this->submitButton,
-            ),
-        );
-
+        if ($password == true){
+            return array(
+                'action' => $this->actionLink,
+                'form' => array(
+                    $this->passwordField,
+                    $this->passwordConfirmField,
+                    $this->selectorField,
+                    $this->tokenField,
+                    $this->submitButton,
+                ),
+            );
+        } else {
+            return array(
+                'action' => $this->actionLink,
+                'form' => array(
+                    $this->emailField,
+                    $this->submitButton,
+                ),
+            );
+        }
     }
 
     /**
@@ -51,9 +95,9 @@ class PasswordResetForm
      *
      * @return array
      */
-    public function renderForm() : array
+    public function renderForm(bool $password,  string $selector = null, string $token = null): array
     {
-        $form = $this->setFormFields();
+        $form = $this->setFormFields($password, $selector, $token);
         return $form;
     }
 

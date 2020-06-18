@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Controller\Form\PasswordResetForm;
 use App\Controller\Form\PostForm;
 use App\Controller\Form\UserForm;
 use App\Controller\Form\CommentForm;
@@ -209,6 +210,18 @@ abstract class FrontController
         $flash = new Session($messages);
         $flash->setMessages();
         header('Location: ' . _CURRENT_URL_);
+    }
+
+    public function resetPassword($twig)
+    {
+        $passwordResetForm = Self::getPasswordResetForm();
+        echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+    }
+
+    public function getPasswordResetForm()
+    {
+        $passwordResetForm = new PasswordResetForm();
+        return $passwordResetForm->renderForm();
     }
 
     /**

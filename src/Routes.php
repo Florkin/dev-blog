@@ -64,6 +64,10 @@ abstract class Routes
             return FrontController::verifyEmail($selector, $token);
         }, 'verify_email');
 
+        $router->map('GET', '/mot-de-passe-oublie', function ($twig) {
+            return FrontController::resetPassword($twig);
+        }, 'mot-de-passe-oublie');
+
         // =======================ADMIN ROUTES =======================
         $router->map('GET', '/admin/', function ($twig) {
             return BackController::adminList($twig);

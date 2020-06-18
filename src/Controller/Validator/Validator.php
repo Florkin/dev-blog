@@ -117,6 +117,15 @@ class Validator
         return $this;
     }
 
+    public function isCheckbox(string $key): self
+    {
+        if ($this->params[$key] != "on" && isset($this->params[$key])){
+            $this->errors[$key] = "Bien tenté, mais ce n'est vraiment pas très gentil.";
+        }
+
+        return $this;
+    }
+
     public function isCleanHtml($key)
     {
         $events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';

@@ -418,19 +418,20 @@ class UserManager
                 ->email('email')
                 ->password('password')
                 ->username('username')
-                ->isChecked('remember');
+                ->isChecked('remember')
+                ->isCheckbox('remember');
         } elseif ($action == 'login') {
             return (new Validator($formData))
                 ->required('email', 'password')
                 ->email('email')
-                ->password('password');
+                ->password('password')
+                ->isCheckbox('remember');
         } elseif ($action == 'modify') {
             return (new Validator($formData))
                 ->required('email', 'username')
                 ->email('email')
 //                ->password('password')
                 ->username('username');
-
         }
     }
 

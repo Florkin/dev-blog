@@ -81,4 +81,12 @@ class User
         return $this->verified;
     }
 
+    /**
+     * @return string|null
+     */
+    public function getIdUser()
+    {
+        return $this->id_user;
+    }
+
 }

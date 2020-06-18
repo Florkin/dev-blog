@@ -34,7 +34,7 @@ class Comment
         $this->date_update = $content['date_update'];
     }
 
-    public function displayComment() : array
+    public function displayComment(): array
     {
         return array(
             'isActive' => $this->isActive,
@@ -56,5 +56,11 @@ class Comment
     public function getPostId()
     {
         return $this->id_post;
+    }
+
+    public function getAuthorId()
+    {
+        return $this->id_user;
+
     }
 }

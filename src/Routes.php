@@ -5,13 +5,22 @@ namespace App;
 use Admin\Controller\BackController;
 use Admin\Model\Manager\AdminPostManager;
 use \App\Controller\FrontController;
+use App\Controller\Post\Comment;
+use App\Controller\Post\Post;
+use App\Controller\User\User;
 use App\Model\Manager\CommentManager;
+use App\Model\Manager\UserManager;
 
 /**
  * Routing class
  */
 abstract class Routes
 {
+    const notLoggedInMessage = "Vous devez être connecté a votre compte pour accèder à cette fonctionnalité";
+    const notAdminMessage = "Vous devez être administrateur pour accèder à cette fonctionnalité";
+    const notAuthorMessage = "Vous devez être l'auteur ou un administrateur pour modifier ceci";
+    const notUserMessage = "Vous devez être l'utilisateur concerné ou un administrateur pour modifier ceci";
+
     /**
      * Set all routing system
      *
@@ -73,64 +82,132 @@ abstract class Routes
         }, 'nouveau-mot-de-passe');
 
         // =======================ADMIN ROUTES =======================
+
         $router->map('GET', '/admin/', function ($twig) {
-            return BackController::adminList($twig);
+            if (UserManager::checkIsLogged()) {
+                return BackController::adminList($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+            }
         }, 'Administration');
 
         $router->map('GET', '/admin/ecrire-un-article', function ($twig) {
-            return BackController::writePost($twig);
+            if (UserManager::checkIsLogged()) {
+                return BackController::writePost($twig);                ;
+            } else {
+                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+            }
         }, 'write-post');
 
         $router->map('GET', '/admin/modifier-article/[i:id]', function ($id, $twig) {
-            return BackController::writePost($twig, $id);
+            $post = new Post($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
+                return BackController::writePost($twig, $id);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+            }
         }, 'modify-post');
 
-        $router->map('GET', '/admin/supprimer-article/[i:id]', function ($id) {
-            return BackController::deletePost($id);
+        $router->map('GET', '/admin/supprimer-article/[i:id]', function ($id, $twig) {
+            $post = new Post($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
+                return BackController::deletePost($id);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+            }
         }, 'delete-post');
 
-        $router->map('GET', '/admin/supprimer-commentaire/[i:id]', function ($id) {
-            return BackController::deleteComment($id);
+        $router->map('GET', '/admin/supprimer-commentaire/[i:id]', function ($id, $twig) {
+            $comment = new Comment($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
+                return BackController::deleteComment($id);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+            }
         }, 'delete-comment');
 
         $router->map('GET', '/admin/commentaires-a-valider', function ($twig) {
-            return BackController::inactiveCommentsList($twig);
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
+                return BackController::inactiveCommentsList($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAdminMessage);
+            }
         }, 'inactive-comments-list');
 
         $router->map('GET', '/admin/articles-a-valider', function ($twig) {
-            return BackController::inactivePostList($twig);
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
+                return BackController::inactivePostList($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAdminMessage);
+            }
         }, 'inactive-posts-list');
 
-        $router->map('GET', '/admin/activation-article/[i:id]', function ($id) {
-            return AdminPostManager::postToggleActivation($id);
+        $router->map('GET', '/admin/activation-article/[i:id]', function ($id, $twig) {
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
+                return AdminPostManager::postToggleActivation($id);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAdminMessage);
+            }
         }, 'activation-article');
 
-        $router->map('GET', '/admin/activation-commentaire/[i:id]', function ($id) {
-            return CommentManager::commentToggleActivation($id);
+        $router->map('GET', '/admin/activation-commentaire/[i:id]', function ($id, $twig) {
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
+                return CommentManager::commentToggleActivation($id);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAdminMessage);
+            }
         }, 'activation-commentaire');
 
         $router->map('GET', '/admin/articles/[i:id]', function ($id, $twig) {
-            return BackController::post($id, $twig);
+            $post = new Post($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
+                return BackController::post($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+            }
         }, 'admin-article');
 
         $router->map('GET', '/admin/modifier-commentaire/[i:id]', function ($id, $twig) {
-            return BackController::modifyComment($id, $twig);
+            $comment = new Comment($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
+                return BackController::modifyComment($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+            }
         }, 'modification-commentaire');
 
         $router->map('GET', '/admin/utilisateurs', function ($twig) {
-            return BackController::usersList($twig);
+            if (UserManager::checkIsLogged()){
+                return BackController::usersList($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notLoggedInMessageMessage);
+            }
         }, 'utilisateurs');
 
         $router->map('GET', '/admin/utilisateurs/[i:id]', function ($id, $twig) {
-            return BackController::userProfile($id, $twig);
+            if (UserManager::checkIsLogged()){
+                return BackController::userProfile($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notLoggedInMessageMessage);
+            }
         }, 'utilisateur');
 
         $router->map('GET', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {
-            return BackController::userModify($id, $twig);
+            $user = new User($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
+                return BackController::userModify($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notUserMessage);
+            }
         }, 'modifier-utilisateur');
 
         $router->map('GET', '/admin/supprimer-utilisateur/[i:id]', function ($id, $twig) {
-            return BackController::userDelete($id, $twig);
+            $user = new User($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
+                return BackController::userDelete($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notUserMessage);
+            }
         }, 'supprimer-utilisateur');
 
         return $router;
@@ -157,7 +234,12 @@ abstract class Routes
         }, 'ajouter-commentaire');
 
         $router->map('POST', '/modifier-commentaire/[i:id]', function ($id) {
-            return FrontController::addComment($id, true);
+            $comment = new Comment($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
+                return FrontController::addComment($id, true);
+            } else {
+                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+            }
         }, 'modifier-commentaire');
 
         $router->map('POST', '/envoyer-message', function () {
@@ -174,11 +256,20 @@ abstract class Routes
 
         // =======================ADMIN ROUTES =======================
         $router->map('POST', '/admin/ecrire-un-article', function ($twig) {
-            return BackController::writePost($twig);
+            if (UserManager::checkIsLogged()) {
+                return BackController::writePost($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+            }
         }, 'ajouter-article');
 
         $router->map('POST', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {
-            return BackController::userModify($id, $twig);
+            $user = new User($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
+                return BackController::userModify($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notUserMessage);
+            }
         }, 'modifier-utilisateur-post');
 
         return $router;

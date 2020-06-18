@@ -70,4 +70,9 @@ class Post
     {
         return $this->active;
     }
+
+    public function getAuthorId()
+    {
+        return $this->id_user;
+    }
 }

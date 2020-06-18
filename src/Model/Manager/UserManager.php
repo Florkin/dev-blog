@@ -293,7 +293,7 @@ class UserManager
             $auth = new Auth($db, null, null, false);
         }
 
-        if ($formData['role'] == "admin") {
+        if (isset($formData['role']) &&  $formData['role'] == "admin") {
             try {
                 $auth->admin()->addRoleForUserById($this->id_user, \Delight\Auth\Role::ADMIN);
             } catch (\Delight\Auth\UnknownIdException $e) {

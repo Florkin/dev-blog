@@ -27,7 +27,7 @@ class PasswordManager
                     . "<p>Veuillez suivre <a href='" . $url . "'>ce lien</a> pour réinitialiser votre mot de passe</p>",
                     "Bonjour " . $username . ", Veuillez copier ce lien pour réinitialiser votre mot de passe: " . $url
                 );
-            }, 60);
+            }, 600);
 
             $messages["status"] = "success";
             $messages['message'] = "Un email vous a été envoyé. Suivez le lien pour créer un nouveau mot de passe";

@@ -20,6 +20,7 @@ abstract class Routes
     const notAdminMessage = "Vous devez être administrateur pour accèder à cette fonctionnalité";
     const notAuthorMessage = "Vous devez être l'auteur ou un administrateur pour modifier ceci";
     const notUserMessage = "Vous devez être l'utilisateur concerné ou un administrateur pour modifier ceci";
+    const alreadyLogged = "Vous êtes déjà loggés";
 
     /**
      * Set all routing system
@@ -54,7 +55,11 @@ abstract class Routes
         }, 'Accueil');
 
         $router->map('GET', '/inscription', function ($twig) {
-            return FrontController::registration($twig);
+            if (!UserManager::checkIsLogged()) {
+                return FrontController::registration($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+            }
         }, 'formulaire-inscription');
 
         $router->map('GET', '/articles', function ($twig) {
@@ -222,7 +227,11 @@ abstract class Routes
     public static function setPostRoutes(object $router)
     {
         $router->map('POST', '/inscription', function ($twig) {
-            return FrontController::registration($twig);
+            if (!UserManager::checkIsLogged()) {
+                return FrontController::registration($twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::alreadyLogged);
+            }
         }, 'inscription');
 
         $router->map('POST', '/login', function ($twig) {

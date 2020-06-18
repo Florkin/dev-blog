@@ -22,6 +22,7 @@ class ContactManager
     {
         return (new Validator($this->formData))
             ->required('email', 'firstname', 'lastname', 'subject', 'message')
+            ->notEmpty('email', 'firstname', 'lastname', 'subject', 'message')
             ->email('email')
             ->length('firstname', 2, 40)
             ->length('lastname', 2, 40)

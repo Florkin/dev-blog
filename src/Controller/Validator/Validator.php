@@ -16,7 +16,10 @@ class Validator
 
     public function __construct(array $params)
     {
-        $this->params = $params;
+        foreach($params as $key => $param){
+            $this->params[$key] = trim($param);
+        }
+        dump($this->params);die;
     }
 
     /**

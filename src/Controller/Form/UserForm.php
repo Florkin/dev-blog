@@ -3,6 +3,7 @@
 namespace App\Controller\Form;
 
 use App\Controller\Validator\Session;
+use App\Model\Manager\UserManager;
 use FormManager\Factory as F;
 use \App\Config;
 
@@ -84,16 +85,29 @@ class UserForm
         if ($modify) {
             $this->passwordField->required = false;
             $this->actionLink = _ADMIN_URL_ . "/modifier-utilisateur/" . $values['id_user'];
-            return array(
-                'action' => $this->actionLink,
-                'form' => array(
-                    $this->emailField,
-                    $this->usernameField,
-                    $this->passwordField,
-                    $this->role,
-                    $this->submitButton,
-                ),
-            );
+            if (UserManager::isAdmin()){
+                return array(
+                    'action' => $this->actionLink,
+                    'form' => array(
+                        $this->emailField,
+                        $this->usernameField,
+                        $this->passwordField,
+                        $this->role,
+                        $this->submitButton,
+                    ),
+                );
+            } else {
+                return array(
+                    'action' => $this->actionLink,
+                    'form' => array(
+                        $this->emailField,
+                        $this->usernameField,
+                        $this->passwordField,
+                        $this->submitButton,
+                    ),
+                );
+            }
+
         } else {
             $this->actionLink = _BASE_URL_ . "/inscription?action=register";
             return array(

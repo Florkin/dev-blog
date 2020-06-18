@@ -29,11 +29,11 @@ class BackController
     {
         $post = new AdminPost($id);
         $getComments = new CommentManager();
-        if (UserManager::isAdmin()) {
+//        if (UserManager::isAdmin()) {
             $comments = $getComments->getAllCommentsByPostId($id);
-        } else {
-            $comments = $getComments->getActiveCommentsByPostId($id);
-        }
+//        } else {
+//            $comments = $getComments->getActiveCommentsByPostId($id);
+//        }
 
         echo $twig->render('admin/pages/admin-post.twig', ['post' => $post->displayPost(), 'comments' => $comments]);
 
@@ -160,6 +160,10 @@ class BackController
     public function userModify($id, $twig)
     {
         $post = Input::post();
+
+        if (!UserManager::isAdmin()){
+            unset($post["role"]);
+        }
 
         if (isset($post) && $post !== null && $post !== []) {
             // change password

@@ -304,4 +304,8 @@ abstract class FrontController
         echo $twig->render('pages/home.twig', ['posts' => $posts, 'contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]);
     }
 
+    public function unauthorized(object $twig, string $message)
+    {
+        echo $twig->render('pages/unauthorized.twig', ['message' => $message]);
+    }
 }

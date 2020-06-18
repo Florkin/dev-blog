@@ -20,6 +20,12 @@
                     <a href="{{ admin_url.base_url }}/activation-commentaire/{{ comment.id_comment }}"
                        class="mb-2 comment-activation btn btn-success">Activer</a>
                 {% endif %}
+            {% else %}
+                {% if comment.active == 1 %}
+                    <span class="px-4 py-2 mb-3 alert-success">Activé</span>
+                {% else %}
+                    <span class="px-4 py-2 mb-3 alert-warning">En attente de validation</span>
+                {% endif %}
             {% endif %}
 
             {% if user_id == comment.id_user or is_admin %}

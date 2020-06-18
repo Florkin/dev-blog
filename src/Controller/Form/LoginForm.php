@@ -48,7 +48,7 @@ class LoginForm
         ]);
 
         $this->rememberCheck =
-        F::checkbox('Se souvenir de moi', [
+        F::checkbox('Rester connecté', [
             'class' => 'custom-control-input',
             'name' => 'remember',
         ]);

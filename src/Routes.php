@@ -182,18 +182,19 @@ abstract class Routes
         }, 'modification-commentaire');
 
         $router->map('GET', '/admin/utilisateurs', function ($twig) {
-            if (UserManager::checkIsLogged()){
+            if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 return BackController::usersList($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notLoggedInMessageMessage);
+                return FrontController::unauthorized($twig, Self::notAdminMessage);
             }
         }, 'utilisateurs');
 
         $router->map('GET', '/admin/utilisateurs/[i:id]', function ($id, $twig) {
-            if (UserManager::checkIsLogged()){
+            $user = new User($id);
+            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
                 return BackController::userProfile($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notLoggedInMessageMessage);
+                return FrontController::unauthorized($twig, Self::notUserMessage);
             }
         }, 'utilisateur');
 
@@ -314,7 +315,8 @@ abstract class Routes
             }
         } else {
             // no route was matched
-            header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+//            header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+            return FrontController::notFound($twig);
         }
     }
 }

@@ -308,4 +308,8 @@ abstract class FrontController
     {
         echo $twig->render('pages/unauthorized.twig', ['message' => $message]);
     }
+    public function notFound(object $twig)
+    {
+        echo $twig->render('pages/notfound.twig');
+    }
 }

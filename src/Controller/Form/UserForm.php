@@ -4,6 +4,7 @@ namespace App\Controller\Form;
 
 use App\Controller\Validator\Session;
 use App\Model\Manager\UserManager;
+use App\Tools;
 use FormManager\Factory as F;
 use \App\Config;
 
@@ -22,7 +23,7 @@ class UserForm
      *
      * @return array
      */
-    public function setFormFields($values = null, $modify = false): array
+    public function setFormFields($values = null, $modify = false, $id_user = null): array
     {
         $formDataGetter = new Session();
         $formData = $formDataGetter->getFormdata();
@@ -85,28 +86,27 @@ class UserForm
         if ($modify) {
             $this->passwordField->required = false;
             $this->actionLink = _ADMIN_URL_ . "/modifier-utilisateur/" . $values['id_user'];
-            if (UserManager::isAdmin()){
-                return array(
-                    'action' => $this->actionLink,
-                    'form' => array(
-                        $this->emailField,
-                        $this->usernameField,
-                        $this->passwordField,
-                        $this->role,
-                        $this->submitButton,
-                    ),
-                );
-            } else {
-                return array(
-                    'action' => $this->actionLink,
-                    'form' => array(
-                        $this->emailField,
-                        $this->usernameField,
-                        $this->passwordField,
-                        $this->submitButton,
-                    ),
-                );
+
+            $formFieldsRenderingArray['email'] =  $this->emailField;
+            $formFieldsRenderingArray['username'] =  $this->usernameField;
+
+            // can manage roles if admin, add radio buttons
+            if (UserManager::isAdmin()) {
+                $formFieldsRenderingArray['role'] =  $this->role;
             }
+
+            // can change password if same user, add field
+            if (UserManager::getUserId() == $id_user) {
+                $formFieldsRenderingArray['password'] = $this->passwordField;
+            }
+            $formFieldsRenderingArray['submit'] =  $this->submitButton;
+
+
+            return array(
+                'action' => $this->actionLink,
+                'form' => $formFieldsRenderingArray,
+            );
+
 
         } else {
             $this->actionLink = _BASE_URL_ . "/inscription?action=register";
@@ -129,9 +129,9 @@ class UserForm
      *
      * @return array
      */
-    public function renderForm($values = null, $modify = false): array
+    public function renderForm($values = null, $modify = false, $id_user = null): array
     {
-        $form = $this->setFormFields($values, $modify);
+        $form = $this->setFormFields($values, $modify, $id_user);
         return $form;
     }
 

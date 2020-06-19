@@ -21,9 +21,12 @@
                         <a class="nav-link" href="{{ admin_url.base_url }}/utilisateurs">Utilisateurs</a>
                     </li>
                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ admin_url.base_url }}/utilisateurs/{{ user_id }}">Mon profil</a>
+                </li>
             </ul>
             <span class="navbar-text">
-      Dev-blog
+                <a href="{{ url.base_url }}">Dev-blog</a>
     </span>
         </div>
     </div>

@@ -79,6 +79,7 @@ class Mail
             }
 
             $mail->send();
+
             return [
                 'status' => 'success',
                 'message' => 'Le message a bien été envoyé'

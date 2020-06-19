@@ -185,15 +185,15 @@ class BackController
         } else {
             $user = new User($id);
             $values = Tools::objectToArray($user);
-            $userForm = Self::getUserForm($values);
+            $userForm = Self::getUserForm($values, $id);
             echo $twig->render('admin/pages/userForm.twig', ['userForm' => $userForm['form'], 'actionUser' => $userForm['action']]);
         }
     }
 
-    public function getUserForm($values)
+    public function getUserForm($values, $id_user = null)
     {
         $userForm = new UserForm();
-        return $userForm->renderForm($values, true);
+        return $userForm->renderForm($values, true, $id_user);
     }
 
     public function userDelete($id)

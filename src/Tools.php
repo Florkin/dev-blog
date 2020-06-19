@@ -15,4 +15,5 @@ abstract class Tools
         }
         return $array;
     }
+
 }

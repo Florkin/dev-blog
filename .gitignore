@@ -1,5 +1,6 @@
 node_modules/
-assets/
+css/
+clean-blog.min.js
 src/Config.php
 src/ConfigOnline.php
 vendor/

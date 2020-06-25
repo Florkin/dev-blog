@@ -557,6 +557,9 @@ class UserManager
         $db = DbManager::openDB();
         $auth = new Auth($db);
         try {
+            if ($this->id_user == Self::getUserId()){
+                Self::logout();
+            }
             $auth->admin()->deleteUserById($this->id_user);
             $messages['status'] = 'success';
             $messages['message'] = 'l\'utilisateur a bien été supprimé';

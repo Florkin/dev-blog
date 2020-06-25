@@ -14,7 +14,7 @@ This will install required libraries
 
 -> Go to "front/" and execute command "npm i", then "npm start".
 
-This will build scss and js assets in front/assets. You can stop the task once completed.
+This will build scss and js. You can stop the task once completed.
 
 
 -> Go to src/ConfigLocal.php.

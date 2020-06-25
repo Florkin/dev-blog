@@ -6,72 +6,69 @@
 
 {% block content %}
 
-    <section class="site-section">
+    <header class="masthead" style="background-image: url('{{ post.img_url }}')">
+        <div class="overlay"></div>
         <div class="container">
-            <div class="row justify-content-center post-header" data-aos="fade-up">
-                <div class="col-lg-6 text-center heading-section mb-5">
-                    <div class="code-icon">
-                        <span class="icon-code"></span>
-                    </div>
-                    <h2 class="text-black mb-2">{{ post.title|raw }}</h2>
-                    <p>
-                        <span class="mr-3">Auteur: {{ post.author }}</span>
-                        <span>{{ post.date_update|date("d/m/Y") }}</span>
-                    </p>
-                    <p>{{ post.intro|raw }}</p>
-                </div>
-                <div class="col-lg-6 text-right pr-0 pl-0">
-                    <img src="{{ post.img_url }}" alt="post {{ post.id_post }}" class="img-fluid">
-                </div>
-            </div>
-
             <div class="row">
-                <div class="post-content">
-                    {{ post.content|raw }}
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="post-heading">
+                        <h1>{{ post.title|raw }}</h1>
+                        <h2 class="subheading">{{ post.intro|raw }}</h2>
+                        <span class="meta">Posté par
+                            <span>{{ post.author }}</span>
+                            le {{ post.date_update|date("d/m/Y", "Europe/Paris") }}</span>
+                    </div>
                 </div>
             </div>
+        </div>
+    </header>
 
-
-            <div id="comments" class="mt-5 col-12 col-lg-12">
-                {% if comments is not empty %}
-                    <div class="comments-container">
-                        <h2 class="text-black mb-2">Commentaires sur cet article</h2>
-                        {% for comment in comments %}
-                            <div class="row">
-                                <div class="col-lg-8 col-12">
-                                    <div class="card card-white comment">
-                                        <div class="comment-heading">
-                                            <div class="float-left meta">
-                                                <div class="title h5">
-                                                    <a href="#"><b>{{ comment.author }}</b></a>
-                                                    made a comment.
+    <!-- Post Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <article>
+                    {{ post.content|raw }}
+                </article>
+                <hr>
+                <div id="comments" class="mt-5">
+                    {% if comments is not empty %}
+                        <div class="comments-container">
+                            <h2 class="section-heading mb-3">Commentaires sur cet article</h2>
+                            {% for comment in comments %}
+                                <div class="row">
+                                    <div class="col-lg-9 col-12">
+                                        <div class="py-3 comment">
+                                            <div class="comment-heading">
+                                                <div class="meta">
+                                                    <div class="title h5">
+                                                        <b>{{ comment.author }}</b>
+                                                        a écrit un commentaire le {{ comment.date_update|date("d/m/Y") }}:
+                                                    </div>
                                                 </div>
-                                                <h6 class="text-muted time">{{ comment.date_update|date("d/m/Y") }}</h6>
                                             </div>
-                                        </div>
-                                        <div class="comment-description">
-                                            <p>{{ comment.comment }}</p>
+                                            <div class="comment-description text-muted pl-3">
+                                                <p class="my-1">{{ comment.comment }}</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                <div class="row" id="comment-add">
-                    <div class="col-12 col-lg-6">
-                        <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
-                            {% for field in commentForm %}
-                                <div class="form-group">{{ field|raw }}</div>
                             {% endfor %}
-                        </form>
+                        </div>
+                    {% endif %}
+
+                    <div class="row" id="comment-add">
+                        <div class="col-12 col-lg-9">
+                            <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
+                                {% for field in commentForm %}
+                                    <div class="form-group">{{ field|raw }}</div>
+                                {% endfor %}
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-    </section>
-
+    </div>
 
 {% endblock %}

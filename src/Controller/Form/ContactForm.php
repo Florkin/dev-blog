@@ -72,7 +72,7 @@ class ContactForm
 
 
         $this->submitButton =
-            F::submit('Soumettre!', [
+            F::submit('Soumettre', [
                 'class' => 'btn btn-dark btn-md text-white',
             ]);
 

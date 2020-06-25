@@ -1,0 +1,58 @@
+{#<nav class="navbar navbar-expand-lg navbar-light bg-primary mb-5">#}
+{#    <div class="container">#}
+{#        <a class="navbar-brand" href="{{ admin_url.base_url }}">Tableau de bord</a>#}
+{#        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText"#}
+{#                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">#}
+{#            <span class="navbar-toggler-icon"></span>#}
+{#        </button>#}
+{#        <div class="collapse navbar-collapse" id="navbarText">#}
+{#            <ul class="navbar-nav mr-auto">#}
+{#                <li class="nav-item active">#}
+{#                    <a class="nav-link" href="{{ admin_url.base_url }}">Liste des articles <span class="sr-only">(current)</span></a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{{ admin_url.base_url }}/ecrire-un-article">Ecrire un article</a>#}
+{#                </li>#}
+{#                {% if is_admin %}#}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{{ admin_url.base_url }}/commentaires-a-valider">Commentaires à valider</a>#}
+{#                    </li>#}
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link" href="{{ admin_url.base_url }}/utilisateurs">Utilisateurs</a>#}
+{#                    </li>#}
+{#                {% endif %}#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link" href="{{ admin_url.base_url }}/utilisateurs/{{ user_id }}">Mon profil</a>#}
+{#                </li>#}
+{#            </ul>#}
+{#            <span class="navbar-text">#}
+{#                <a href="{{ url.base_url }}">Dev-blog</a>#}
+{#    </span>#}
+{#        </div>#}
+{#    </div>#}
+{#</nav>#}
+
+<div class="sidebar-heading">Dashboard</div>
+<div class="list-group list-group-flush">
+    <a href="{{ admin_url.base_url }}" class="list-group-item list-group-item-action bg-light">
+        <span class="fas fa-list mr-2"></span>Liste des articles
+    </a>
+    <a href="{{ admin_url.base_url }}/ecrire-un-article" class="list-group-item list-group-item-action bg-light">
+        <span class="fas fa-edit mr-2"></span>Ecrire un article
+    </a>
+    <a href="{{ admin_url.base_url }}/utilisateurs/{{ user_id }}" class="list-group-item list-group-item-action bg-light">
+        <span class="fas fa-user mr-2"></span>Mon profil
+    </a>
+    {% if is_admin %}
+        <a href="{{ admin_url.base_url }}/commentaires-a-valider" class="list-group-item list-group-item-action bg-light">
+            <span class="fas fa-check mr-2"></span>Commentaires à valider
+        </a>
+        <a href="{{ admin_url.base_url }}/utilisateurs" class="list-group-item list-group-item-action bg-light">
+            <span class="fas fa-users mr-2"></span>Utilisateurs
+        </a>
+    {% endif %}
+        <a href="{{ url.base_url }}" class="list-group-item list-group-item-action bg-light">Retour au site</a>
+
+
+
+</div>

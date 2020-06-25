@@ -7,17 +7,22 @@
 </head>
 
 <body id="admin">
+<div class="d-flex" id="wrapper">
+    <div class="bg-light border-right" id="sidebar-wrapper">
+        {% include "admin/_partials/nav.twig" %}
+    </div>
+    <div id="page-content-wrapper">
+        <button class="btn btn-primary d-block d-md-none" id="menu-toggle">Menu</button>
 
-    <div class="site-wrap">
-        {% include "admin/_partials/header.twig" %}
         {% include "admin/_partials/messages.twig" %}
         {% block content %}{% endblock %}
-
-{#        {% include "_partials/footer.twig" %}#}
-
     </div>
+    {#        {% include "_partials/footer.twig" %}#}
 
-    {% include "admin/_partials/scripts.twig" %}
+
+</div>
+
+{% include "admin/_partials/scripts.twig" %}
 
 </body>
 

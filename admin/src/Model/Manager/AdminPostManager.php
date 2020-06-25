@@ -69,7 +69,7 @@ class AdminPostManager
 
         if ($file !== null && isset($file)) {
             $img = Image::make($file['tmp_name']);
-            $img->fit(800, 450);
+            $img->fit(1920, 1080);
 
             if ($img->save($_SERVER["DOCUMENT_ROOT"] . '/img/posts_headers/post_' . $id_post . '.jpg')) {
                 return true;

@@ -42,15 +42,21 @@
                                         </div>
                                     </div>
                                 </div>
+                                <hr>
                             {% endfor %}
                         </div>
                     {% endif %}
 
                     <div class="row" id="comment-add">
                         <div class="col-12 col-lg-9">
-                            <form method="post" action="{{ actionComment }}" class="mt-5 pt-3 border-top">
-                                {% for field in commentForm %}
-                                    <div class="form-group">{{ field|raw }}</div>
+                            <form method="post" action="{{ actionComment }}" class="mt-5 pt-3">
+                                {% for formField in commentForm %}
+                                    <div class="control-group">
+                                        <div class="form-group controls floating-label-form-group">
+                                            <div>{{ formField|raw }}</div>
+                                            <p class="help-block text-danger"></p>
+                                        </div>
+                                    </div>
                                 {% endfor %}
                             </form>
                         </div>

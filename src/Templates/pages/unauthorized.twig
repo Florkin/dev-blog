@@ -8,7 +8,7 @@
 
     <section class="site-section">
         <div class="container">
-            <div class="row justify-content-center aos-init aos-animate" data-aos="fade-up">
+            <div class="row justify-content-center" data-aos="fade-up">
                 <div class="col-lg-6 text-center heading-section mb-5">
                     <div class="code-icon">
                         <span class="icon-code"></span>
@@ -17,7 +17,7 @@
                     <p>{{ message }}</p>
                     <a class="btn btn-outline-dark" href="{{ url.base_url }}">Retour a l'accueil</a>
                     {% if not isLogged %}
-                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#login-modal">Se connecter</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#login-modal">Se connecter</button>
                     {% endif %}
                 </div>
             </div>

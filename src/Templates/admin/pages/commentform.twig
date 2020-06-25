@@ -22,9 +22,9 @@
         <p class="text-center">Commentaire de <b>{{ comment.author }}</b> (invité)</p>
     {% endif %}
     <form class="form" method="post" action="{{ actionAddComment }}" enctype="multipart/form-data">
-        {% for formfield in commentForm %}
+        {% for formField in commentForm %}
             <div class="form-group">
-                <div>{{ formfield|raw }}</div>
+                <div>{{ formField|raw }}</div>
             </div>
         {% endfor %}
     </form>

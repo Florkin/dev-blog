@@ -1,36 +1,39 @@
 {% extends 'layout.twig' %}
 
 {% block head %}
-<title>Inscription</title>
+    <title>Inscription</title>
 {% endblock %}
 
 {% block content %}
+    {% set herotitle = 'Inscription' %}
+    {% set herosubtitle = 'Inscrivez vous et proposez vos posts!' %}
+    {% set imgurl = 'img/home-bg.jpg' %}
+    {% include '_partials/hero-section.twig' %}
 
-<section class="site-section">
-    <div class="container">
-        <div class="row justify-content-center aos-init aos-animate" data-aos="fade-up">
-            <div class="col-lg-6 text-center heading-section mb-5">
-                <div class="code-icon">
-                    <span class="icon-code"></span>
+        <div class="container">
+            <div class="row no-gutters">
+                <div class="col-lg-6 mx-auto">
+                    {% set typesForFloatingLabel = ["text", "password", "email", "textarea"] %}
+                    <form class="p-5 form" method="post" action="{{ actionRegister }}">
+                        {% for formField in registerForm %}
+                            {% if formField.type in typesForFloatingLabel %}
+                                <div class="control-group">
+                                    <div class="form-group controls floating-label-form-group">
+                                        <div>{{ formField|raw }}</div>
+                                        <p class="help-block text-danger"></p>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="row form-group mt-4">
+                                    <div class="col-md-12">
+                                        <div>{{ formField|raw }}</div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </form>
                 </div>
-                <h2 class="text-black mb-2">Inscription</h2>
-                <p>Inscrivez vous et proposez vos posts!</p>
             </div>
         </div>
-        <div class="row no-gutters">
-            <div class="col-lg-6 bg-primary">
-                <form class="p-5 form" method="post" action="{{ actionRegister }}">
-                    {% for formfield in registerForm %}
-                    <div class="row form-group">
-                        <div class="col-md-12">
-                            <div>{{ formfield|raw }}</div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
 
 {% endblock %}

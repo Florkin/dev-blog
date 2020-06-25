@@ -35,6 +35,7 @@ class UserForm
                 'name' => 'username',
                 'required' => 'required',
                 'autocomplete' => 'username',
+                'placeholder' => 'Pseudonyme',
                 'value' => $values["username"] ?? null
             ]);
 
@@ -43,6 +44,7 @@ class UserForm
                 'class' => 'email form-control',
                 'name' => 'email',
                 'required' => 'required',
+                'placeholder' => 'Email',
                 'autocomplete' => 'email',
                 'value' => $values["email"] ?? null
             ]);
@@ -52,6 +54,7 @@ class UserForm
                 'class' => 'password form-control',
                 'name' => 'password',
                 'required' => 'required',
+                'placeholder' => 'Mot de passe',
                 'autocomplete' => 'current-password',
             ]);
 
@@ -76,7 +79,7 @@ class UserForm
 
         $this->submitButton =
             F::submit('Valider', [
-                'class' => 'btn btn-dark btn-md text-white',
+                'class' => 'btn btn-primary',
                 'id' => 'submitButton',
             ]);
 

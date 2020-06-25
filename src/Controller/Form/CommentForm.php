@@ -39,6 +39,7 @@ class CommentForm
                 'class' => 'comment-name form-control',
                 'name' => 'guest_author',
                 'required' => 'required',
+                'placeholder' => 'Votre nom',
                 'value' => $comment["comment_name"] ?? null
             ]);
 
@@ -47,6 +48,7 @@ class CommentForm
             F::textarea('Commentaire', [
                 'class' => 'comment form-control',
                 'name' => 'comment',
+                'placeholder' => 'Votre commentaire',
                 'required' => 'required',
             ]);
 
@@ -56,7 +58,7 @@ class CommentForm
 
         $this->submitButton =
             F::submit('Soumettre', [
-                'class' => 'btn btn-dark btn-md text-white',
+                'class' => 'btn btn-primary btn-md text-white',
             ]);
 
         $formDataGetter->deleteFormdata();

@@ -11,7 +11,7 @@ abstract class Config {
     const DB_USER = "root"; // Database user
     const DB_PASSWORD = ""; // Database password
     const DB_HOST = "localhost"; // Database Host
-    const DEBUG = true; // Enable Debug mode and disable Twig cache
+    const DEBUG = true; // boolean: true enable Debug mode and disable Twig cache
     const EMAIL_HOST = ""; // ex: "smtp.gmail.com"
     const EMAIL_FROM = ""; // // Address from which the emails will be sent
     const EMAIL_PASSWORD = ""; // To connect to gmail account, for example

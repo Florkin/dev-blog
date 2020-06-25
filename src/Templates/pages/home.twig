@@ -5,7 +5,10 @@
 {% endblock %}
 
 {% block content %}
-    {% include "_partials/hero-section.twig" %}
+    {% set herotitle = 'Dev-Blog' %}
+    {% set herosubtitle = 'A simple blog system' %}
+    {% set imgurl = 'img/home-bg.jpg' %}
+    {% include '_partials/hero-section.twig' %}
 
     <div class="container-fluid">
         <div class="row">

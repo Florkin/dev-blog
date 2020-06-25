@@ -5,23 +5,12 @@
 {% endblock %}
 
 {% block content %}
-
-    <header class="masthead" style="background-image: url('{{ post.img_url }}')">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-md-10 mx-auto">
-                    <div class="post-heading">
-                        <h1>{{ post.title|raw }}</h1>
-                        <h2 class="subheading">{{ post.intro|raw }}</h2>
-                        <span class="meta">Posté par
-                            <span>{{ post.author }}</span>
-                            le {{ post.date_update|date("d/m/Y", "Europe/Paris") }}</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+    {% set herotitle = post.title|raw %}
+    {% set herosubtitle = post.subtitle|raw %}
+    {% set imgurl = post.img_url %}
+    {% set author = post.author %}
+    {% set date = post.date_update|date("d/m/Y", "Europe/Paris") %}
+    {% include '_partials/hero-section.twig' %}
 
     <!-- Post Content -->
     <div class="container">

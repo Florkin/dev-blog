@@ -1,12 +1,19 @@
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('img/home-bg.jpg')">
+<header class="masthead" style="background-image: url('{{ imgurl }}')">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>Dev-Blog</h1>
-                    <span class="subheading">A simple blog system</span>
+                    <h1>{{ herotitle }}</h1>
+                    <span class="subheading">{{ herosubtitle }}</span>
+
+                    {% if post is defined %}
+                    <span class="meta">Posté par
+                            <span>{{ post.author }}</span>
+                            le {{ post.date_update|date("d/m/Y", "Europe/Paris") }}
+                    </span>
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -53,6 +53,18 @@
     color: $primary;
   }
 }
-form .form-group:first-child .floating-label-form-group {
-  border-top: 1px solid $gray-300;
+
+form{
+  .form-group:first-child .floating-label-form-group {
+    border-top: 1px solid $gray-300;
+  }
+
+  .control-group:last-child .floating-label-form-group{
+    border: 0;
+  }
+
+  .control-group:nth-last-child(2) .floating-label-form-group{
+    border: 0;
+  }
 }
+

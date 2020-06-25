@@ -75,3 +75,8 @@ img::-moz-selection {
   color: $white;
   background: transparent;
 }
+
+.messages{
+  z-index:2000;
+  position:relative ;
+}

@@ -86,6 +86,10 @@ abstract class Routes
             return FrontController::newPassword($selector, $token, false, $twig);
         }, 'nouveau-mot-de-passe');
 
+        $router->map('GET', '/contact', function ($twig) {
+            return FrontController::contact($twig);
+        }, 'contact');
+
         // =======================ADMIN ROUTES =======================
 
         $router->map('GET', '/admin/', function ($twig) {

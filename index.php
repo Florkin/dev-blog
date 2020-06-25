@@ -72,6 +72,7 @@ $url = array(
     "posts_list" => _BASE_URL_ . "/articles",
     "register_form" => _BASE_URL_ . "/inscription",
     "lost_password" => _BASE_URL_ . "/mot-de-passe-oublie",
+    "contact" => _BASE_URL_ . "/contact",
     "logout" => _BASE_URL_ . "/logout",
 );
 $admin_url = array(

@@ -34,6 +34,7 @@ class ContactForm
                 'class' => 'form-control',
                 'name' => 'lastname',
                 'required' => 'required',
+                'placeholder' => "Nom",
                 'value' => $persist["lastname"] ?? null
             ]);
 
@@ -42,6 +43,7 @@ class ContactForm
                 'class' => 'form-control',
                 'name' => 'firstname',
                 'required' => 'required',
+                'placeholder' => "Prénom",
                 'value' => $persist["firstname"] ?? null
             ]);
 
@@ -50,6 +52,7 @@ class ContactForm
                 'class' => 'form-control',
                 'name' => 'email',
                 'required' => 'required',
+                'placeholder' => "Email",
                 'value' => $persist["email"] ?? null
             ]);
 
@@ -58,6 +61,7 @@ class ContactForm
                 'class' => 'form-control',
                 'name' => 'subject',
                 'required' => 'required',
+                'placeholder' => "Sujet",
                 'value' => $persist["subject"] ?? null
             ]);
 
@@ -65,6 +69,7 @@ class ContactForm
             F::textarea('message', [
                 'class' => 'form-control',
                 'name' => 'message',
+                'placeholder' => "Message",
                 'required' => 'required',
             ]);
 
@@ -73,7 +78,8 @@ class ContactForm
 
         $this->submitButton =
             F::submit('Soumettre', [
-                'class' => 'btn btn-dark btn-md text-white',
+                'class' => 'btn btn-primary mt-4',
+                'id' => 'sendMessageButton',
             ]);
 
         $formDataGetter->deleteFormdata();

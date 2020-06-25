@@ -12,12 +12,10 @@ No CMS, No framework.
 This will install required libraries
 
 
--> Go to "front/\_dev" and execute command "npm install", then "npm run build".
+-> Go to "front/" and execute command "npm i", then "npm start".
 
-This will build scss and js assets in front/assets
+This will build scss and js assets in front/assets. You can stop the task once completed.
 
-
--> Do the same thing in admin/front/\_dev
 
 -> Go to src/ConfigLocal.php.
 

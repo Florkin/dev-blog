@@ -30,7 +30,8 @@ class LoginForm
             'class' => 'email form-control',
             'name' => 'email',
             'required' => 'required',
-            'autocomplete' => 'username',
+            'autocomplete' => 'email',
+            'placeholder' => 'Email',
             'value' => $post["email"] ?? null
         ]);
 
@@ -39,12 +40,13 @@ class LoginForm
             'class' => 'password form-control',
             'name' => 'password',
             'required' => 'required',
+            'placeholder' => 'Mot de passe',
             'autocomplete' => 'current-password',
         ]);
 
         $this->submitButton =
         F::submit('Connectez vous!', [
-            'class' => 'btn btn-dark btn-md text-white',
+            'class' => 'btn btn-primary btn-md text-white',
         ]);
 
         $this->rememberCheck =

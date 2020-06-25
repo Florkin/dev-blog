@@ -16,9 +16,9 @@
         <div class="row">
             <div class="col-12">
                 <form class="form" method="post" action="{{ actionAddpost }}" enctype="multipart/form-data">
-                    {% for formfield in postForm %}
+                    {% for formField in postForm %}
                         <div class="form-group">
-                            <div>{{ formfield|raw }}</div>
+                            <div>{{ formField|raw }}</div>
                         </div>
                     {% endfor %}
                 </form>

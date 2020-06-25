@@ -24,7 +24,6 @@ if (isset ($_SERVER['HTTP_REFERER'])) {
     define("_CURRENT_URL_", _BASE_URL_);
 }
 
-//dump($_SESSION);die;
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
 
@@ -41,6 +40,8 @@ if (Config::DEBUG) {
         'debug' => true,
     ]);
 }
+
+$twig->getExtension(\Twig\Extension\CoreExtension::class)->setTimezone('Europe/Paris');
 
 // ========================= GLOBAL VARIABLES =======================
 $twig->addGlobal('isLogged', UserManager::checkIsLogged());
@@ -71,6 +72,7 @@ $url = array(
     "posts_list" => _BASE_URL_ . "/articles",
     "register_form" => _BASE_URL_ . "/inscription",
     "lost_password" => _BASE_URL_ . "/mot-de-passe-oublie",
+    "contact" => _BASE_URL_ . "/contact",
     "logout" => _BASE_URL_ . "/logout",
 );
 $admin_url = array(

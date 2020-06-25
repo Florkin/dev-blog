@@ -1,0 +1,36 @@
+{% extends 'layout.twig' %}
+
+{% block head %}
+    <title>Contact</title>
+{% endblock %}
+
+{% block content %}
+    {% set herotitle = 'Contactez moi' %}
+    {% set herosubtitle = 'Vous avez des questions ?' %}
+    {% set imgurl = url.base_url ~ '/img/contact-bg.jpg' %}
+    {% include '_partials/hero-section.twig' %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                <p>Vous souhaitez me contacter? Remplissez le formulaire pour m'envoyer un message et je reviendrai vers vous dès que possible!</p>
+
+                <form method="post" action="{{ actionContact }}" name="sentMessage" id="contactForm" novalidate>
+
+                {% for formField in contactForm %}
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls">
+                            <div>{{ formField|raw }}</div>
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                {% endfor %}
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+{% endblock %}

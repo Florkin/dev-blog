@@ -1,27 +1,23 @@
 {% extends 'layout.twig' %}
 
 {% block head %}
-    <title>{{page_name|capitalize}}</title>
+    <title>{{ page_name|capitalize }}</title>
 {% endblock %}
 
 {% block content %}
+    {% set herotitle = 'Les articles' %}
+    {% set herosubtitle = 'Retrouvez la liste de tous les articles du blog' %}
+    {% set imgurl = url.base_url ~ '/img/home-bg.jpg' %}
+    {% include '_partials/hero-section.twig' %}
 
-<section class="site-section">
-  <div class="container">
-    <div class="row justify-content-center" data-aos="fade-up">
-      <div class="col-lg-6 text-center heading-section mb-5">
-        <div class="code-icon">
-          <span class="icon-code"></span>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {% include "_partials/listing.twig" %}
+            </div>
         </div>
-        <h2 class="text-black mb-2">Tous les posts</h2>
-        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind
-          texts.</p>
-      </div>
     </div>
 
-    {% include "_partials/listing.twig" %}
-    
-  </div>
-</section>
+
 
 {% endblock %}

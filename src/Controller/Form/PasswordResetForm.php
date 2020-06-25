@@ -23,24 +23,27 @@ class PasswordResetForm
                 'class' => 'email form-control',
                 'name' => 'email',
                 'required' => 'required',
+                'placeholder' => 'Email',
                 'autocomplete' => 'username',
             ]);
 
         $this->passwordField =
             F::password('Nouveau mot de passe', [
-            'class' => 'password form-control',
-            'name' => 'password',
-            'required' => 'required',
-            'autocomplete' => 'username',
-        ]);
+                'class' => 'password form-control',
+                'name' => 'password',
+                'required' => 'required',
+                'placeholder' => 'Nouveau mot de passe',
+                'autocomplete' => 'username',
+            ]);
 
         $this->passwordConfirmField =
             F::password('Confirmez votre mot de passe', [
-            'class' => 'password form-control',
-            'name' => 'password-confirm',
-            'required' => 'required',
-            'autocomplete' => 'username',
-        ]);
+                'class' => 'password form-control',
+                'name' => 'password-confirm',
+                'required' => 'required',
+                'placeholder' => 'Confirmez votre mot de passe',
+                'autocomplete' => 'username',
+            ]);
 
         $this->selectorField =
             F::hidden('selector', [
@@ -60,15 +63,14 @@ class PasswordResetForm
         $this->tokenField->setValue($token);
 
 
-
         $this->submitButton =
             F::submit('Réinitiliser le mot de passe', [
-                'class' => 'btn btn-dark btn-md text-white',
+                'class' => 'btn btn-primary btn-md text-white',
             ]);
 
         $this->actionLink = $password == true ? _BASE_URL_ . "/reset-password-send-password" : _BASE_URL_ . "/reset-password-send-email";
 
-        if ($password == true){
+        if ($password == true) {
             return array(
                 'action' => $this->actionLink,
                 'form' => array(
@@ -95,7 +97,7 @@ class PasswordResetForm
      *
      * @return array
      */
-    public function renderForm(bool $password,  string $selector = null, string $token = null): array
+    public function renderForm(bool $password, string $selector = null, string $token = null): array
     {
         $form = $this->setFormFields($password, $selector, $token);
         return $form;

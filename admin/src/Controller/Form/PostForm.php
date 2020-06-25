@@ -32,6 +32,7 @@ class PostForm
                 'id' => 'tinymce',
                 'name' => 'content',
                 'required' => 'required',
+                'placeholder' => 'Contenu',
                 'value' => $post["content"] ?? null
             ]);
         if (isset($post["content"])){
@@ -43,6 +44,7 @@ class PostForm
                 'class' => 'post-title form-control',
                 'name' => 'title',
                 'required' => 'required',
+                'placeholder' => 'Titre',
                 'value' => $post["title"] ?? null
             ]);
         $this->postIntro =
@@ -50,6 +52,7 @@ class PostForm
                 'class' => 'post-intro form-control',
                 'name' => 'intro',
                 'required' => 'required',
+                'placeholder' => 'Introduction',
             ]);
         if (isset($post["intro"])){
             $this->postIntro->setValue(html_entity_decode($post["intro"], ENT_QUOTES | ENT_HTML5));
@@ -70,7 +73,7 @@ class PostForm
 
         $this->submitButton =
             F::submit('Soumettre', [
-                'class' => 'btn btn-dark btn-md text-white',
+                'class' => 'btn btn-primary btn-md text-white',
             ]);
 
         $this->actionLink = _ADMIN_URL_ . "/ecrire-un-article?action=add";

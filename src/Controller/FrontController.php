@@ -301,7 +301,15 @@ abstract class FrontController
         $contactForm = new \App\Controller\Form\ContactForm;
         $contactForm = $contactForm->renderForm();
 
-        echo $twig->render('pages/home.twig', ['posts' => $posts, 'contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]);
+        echo $twig->render('pages/home.twig', ['posts' => $posts]);
+    }
+
+    public static function contact(object $twig)
+    {
+        $contactForm = new \App\Controller\Form\ContactForm;
+        $contactForm = $contactForm->renderForm();
+
+        echo $twig->render('pages/contact.twig', ['contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]);
     }
 
     public function unauthorized(object $twig, string $message)

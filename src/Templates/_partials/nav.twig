@@ -2,7 +2,9 @@
 <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
     <div class="container">
         <a class="navbar-brand" href="{{ url.base_url }}">Dev Blog</a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
             Menu
             <i class="fas fa-bars"></i>
         </button>
@@ -18,19 +20,20 @@
                     <a class="nav-link" href="{{ url.contact }}">Contact</a>
                 </li>
                 {% if isLogged %}
-                    <li class="nav-item">
-                        <a href="{{ admin_url.base_url }}/utilisateurs/{{ user_id }}">{{ username }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href={{ url.logout }}>Logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <a href={{ admin_url.base_url }}>Admin</a>
-                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"><span class="fas fa-user"></span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ admin_url.base_url }}/utilisateurs/{{ user_id }}"><span class="fas fa-user-edit"></span> {{ username }}</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ admin_url.base_url }}"><span class="fas fa-edit"></span> Admin</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{{ url.logout }}"><span class="fas fa-user-alt-slash"></span> Logout</a>
+                        </div>
                 {% else %}
                     <li class="nav-item">
                         <a href="#" class="nav-link" data-toggle="modal"
-                                data-target="#login-modal">Login
+                           data-target="#login-modal"><span class="fas fa-user"></span>
                         </a>
                     </li>
                 {% endif %}

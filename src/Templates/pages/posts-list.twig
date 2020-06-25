@@ -7,7 +7,7 @@
 {% block content %}
     {% set herotitle = 'Les articles' %}
     {% set herosubtitle = 'Retrouvez la liste de tous les articles du blog' %}
-    {% set imgurl = 'img/home-bg.jpg' %}
+    {% set imgurl = url.base_url ~ '/img/home-bg.jpg' %}
     {% include '_partials/hero-section.twig' %}
 
     <div class="container-fluid">

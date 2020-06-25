@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block content %}
-    {% set herotitle = 'Dev-Blog' %}
+    {% set herotitle = 'Space-Blog' %}
     {% set herosubtitle = 'A simple blog system' %}
-    {% set imgurl = 'img/home-bg.jpg' %}
+    {% set imgurl = url.base_url ~ '/img/home-bg.jpg' %}
     {% include '_partials/hero-section.twig' %}
 
     <div class="container-fluid">

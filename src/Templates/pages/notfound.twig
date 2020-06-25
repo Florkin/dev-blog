@@ -6,20 +6,18 @@
 
 {% block content %}
 
-    <section class="site-section">
+    {% set herotitle = "Vous êtes perdus?" %}
+    {% set herosubtitle = "Cette page n'existe pas" %}
+    {% set imgurl = url.base_url ~ '/img/notfound-bg.jpg' %}
+    {% include '_partials/hero-section.twig' %}
+
         <div class="container">
             <div class="row justify-content-center" data-aos="fade-up">
                 <div class="col-lg-6 text-center heading-section mb-5">
-                    <div class="code-icon">
-                        <span class="icon-code"></span>
-                    </div>
-                    <h2 class="text-black mb-2">Vous êtes perdus?</h2>
-                    <p>Cette page n'existe pas</p>
                     <a class="btn btn-outline-dark" href="{{ url.base_url }}">Retour a l'accueil</a>
                 </div>
             </div>
         </div>
 
-    </section>
 
 {% endblock %}

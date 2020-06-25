@@ -7,7 +7,7 @@
 {% block content %}
     {% set herotitle = 'Contactez moi' %}
     {% set herosubtitle = 'Vous avez des questions ?' %}
-    {% set imgurl = 'img/contact-bg.jpg' %}
+    {% set imgurl = url.base_url ~ '/img/contact-bg.jpg' %}
     {% include '_partials/hero-section.twig' %}
 
     <div class="container">

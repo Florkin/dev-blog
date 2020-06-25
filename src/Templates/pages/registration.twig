@@ -7,7 +7,7 @@
 {% block content %}
     {% set herotitle = 'Inscription' %}
     {% set herosubtitle = 'Inscrivez vous et proposez vos posts!' %}
-    {% set imgurl = 'img/home-bg.jpg' %}
+    {% set imgurl = url.base_url ~ '/img/home-bg.jpg' %}
     {% include '_partials/hero-section.twig' %}
 
         <div class="container">

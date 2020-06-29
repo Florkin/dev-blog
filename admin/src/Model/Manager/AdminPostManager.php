@@ -10,6 +10,7 @@ use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
 use App\Model\Manager\UserManager;
 use App\Routes;
+use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
@@ -53,6 +54,41 @@ class AdminPostManager
         };
     }
 
+    public function fileIsImg($path)
+    {
+        if (isset($path) && $path != "" && $path != null) {
+            // get mime type of file
+            $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
+            switch (strtolower($mime)) {
+                case 'image/png':
+                case 'image/x-png':
+                    return true;
+                    break;
+
+                case 'image/jpg':
+                case 'image/jpeg':
+                case 'image/pjpeg':
+                    return true;
+                    break;
+
+                case 'image/gif':
+                    return true;
+                    break;
+
+                case 'image/webp':
+                case 'image/x-webp':
+                    return true;
+                    break;
+
+                default:
+                    return false;
+            }
+        } else {
+            return false;
+        }
+
+    }
+
     /**
      * Upload post header image
      *
@@ -61,25 +97,18 @@ class AdminPostManager
      */
     public function uploadImg(int $id_post): bool
     {
-        if ($_FILES['image']['name'] !== "") {
-            $file = $_FILES['image'];
-        } else {
-            $file = null;
-        }
+        $file = $_FILES['image'];
 
-        if ($file !== null && isset($file)) {
-            $img = Image::make($file['tmp_name']);
-            $img->fit(1920, 800);
+        $img = Image::make($file['tmp_name']);
+        $img->fit(1920, 800);
 
-            if ($img->save($_SERVER["DOCUMENT_ROOT"] . '/img/posts_headers/post_' . $id_post . '.jpg')) {
-                return true;
-            } else {
-                return false;
-            };
-        } else {
+        if ($img->save($_SERVER["DOCUMENT_ROOT"] . '/img/posts_headers/post_' . $id_post . '.jpg')) {
             return true;
-        }
+        } else {
+            return false;
+        };
     }
+
 
     /**
      * Add post to database
@@ -121,26 +150,30 @@ class AdminPostManager
 
         }
 
-        if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
 
-            if ($id_post_to_modify == "modify") {
-                $id_post = $db->lastInsertId();
-            } else {
-                $id_post = $id_post_to_modify;
+        if ($_FILES['image']['error'] == 4 || Self::fileIsImg($_FILES['image']['tmp_name'])) {
+            // Upload img if exists
+            if ($_FILES['image']['error'] == 0) {
+                if ($id_post_to_modify == "modify") {
+                    $id_post = $db->lastInsertId();
+                } else {
+                    $id_post = $id_post_to_modify;
+                }
+                Self::uploadImg($id_post);
             }
 
-            if ($this->uploadImg($id_post)) {
-                $messages["status"] = "success";
-                $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
-            } else {
-                $messages["status"] = "error";
-                $messages['message'] = "Il y a eu un problème d'upload avec l'image";
-            }
+           if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
+               $messages["status"] = "success";
+               $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
+           } else {
+               $messages["status"] = "error";
+               $messages['message'] = $db->errorInfo();
+           }
 
         } else {
             $messages["status"] = "error";
-            $messages['message'] = $db->errorInfo();
-        }
+            $messages['message'] = "Il y a eu un problème d'upload avec l'image";
+        };
 
         return $messages;
     }
@@ -148,7 +181,8 @@ class AdminPostManager
     /**
      * @return bool
      */
-    public function deletePost(): bool
+    public
+    function deletePost(): bool
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -169,7 +203,8 @@ class AdminPostManager
      * @param integer $id_post
      * @return array for twig template
      */
-    public function getContent(int $id_post): array
+    public
+    function getContent(int $id_post): array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -201,7 +236,8 @@ class AdminPostManager
      * @param integer $quantity
      * @return array list of articles with content
      */
-    public function getPostsList(int $quantity): ?array
+    public
+    function getPostsList(int $quantity): ?array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -237,7 +273,8 @@ class AdminPostManager
         }
     }
 
-    public function getInactivePostsList(): ?array
+    public
+    function getInactivePostsList(): ?array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -275,7 +312,8 @@ class AdminPostManager
     /**
      * @param int $id_post
      */
-    public static function postToggleActivation(int $id_post): void
+    public
+    static function postToggleActivation(int $id_post): void
     {
         $post = new Post($id_post);
         if ($post->isActive()) {
@@ -300,7 +338,8 @@ class AdminPostManager
      * @param $id_post
      * @param $active
      */
-    public static function setActive(int $id, int $active): void
+    public
+    static function setActive(int $id, int $active): void
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -315,7 +354,8 @@ class AdminPostManager
      * @param $formData
      * @return Validator
      */
-    public function getValidator(array $formData)
+    public
+    function getValidator(array $formData)
     {
         return (new Validator($formData))
             ->required('title', 'intro', 'content')

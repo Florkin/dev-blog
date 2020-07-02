@@ -31,7 +31,7 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value)) {
+            if ($value === null) {
                 $this->errors[$key] = "Le champs $key est vide";
             }
         }
@@ -42,7 +42,7 @@ class Validator
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
-            if (is_null($value) || empty($value)) {
+            if ($value === null || empty($value)) {
                 $this->errors[$key] = "Le champs $key ne peut être vide";
             }
         }
@@ -70,14 +70,14 @@ class Validator
     {
         $value = $this->getValue($key);
         $length = mb_strlen($value);
-        if (!is_null($min) &&
-            !is_null($max) &&
+        if ($min !== null &&
+            $max !== null &&
             ($length < $min || $length > $max)
         ) {
             $this->errors[$key] = "Le champs $key doit contenir au moins $min caractères et $max caractères maximum";
             return $this;
         }
-        if (!is_null($min) &&
+        if ($min !== null &&
             ($length < $min)
         ) {
             $this->errors[$key] = "Le champs $key doit contenir au moins $min caractères";

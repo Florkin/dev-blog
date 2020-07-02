@@ -70,7 +70,7 @@ class BackController
                 $formDataGetter = new Session($formData);
                 $formDataGetter->setFormdata();
             }
-            header('Location: ' . _CURRENT_URL_);
+            Tools::redirect(_CURRENT_URL_,301);
 
         } else {
             // display post form
@@ -86,7 +86,7 @@ class BackController
     {
         $post = new AdminPostManager($id_post);
         if ($post->deletePost()) {
-            header('Location: ' . _CURRENT_URL_);
+            Tools::redirect(_CURRENT_URL_,301);
         }
     }
 
@@ -181,7 +181,7 @@ class BackController
             $flash = new Session($messages);
             $flash->setMessages();
 
-            header('Location: ' . _CURRENT_URL_);
+            Tools::redirect(_CURRENT_URL_,301);
 
         } else {
             $user = new User($id);
@@ -205,7 +205,8 @@ class BackController
         $flash = new Session($messages);
         $flash->setMessages();
 
-        header('Location: ' . _ADMIN_URL_ . '/utilisateurs');
+        Tools::redirect(_ADMIN_URL_ . '/utilisateurs',301);
+
     }
 
 }

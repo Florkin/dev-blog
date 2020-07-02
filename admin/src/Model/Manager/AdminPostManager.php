@@ -308,6 +308,7 @@ class AdminPostManager
         $flash->setMessages();
 
         header('Location: ' . _CURRENT_URL_);
+        http_response_code(301);
 
     }
 

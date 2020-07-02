@@ -27,7 +27,7 @@ class CommentManager
         $db->exec($sql);
     }
 
-    public function addComment(array $formData, int $id,  bool $modify = false)
+    public function addComment(array $formData, int $id, bool $modify = false)
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -38,7 +38,7 @@ class CommentManager
         }
 
         $comment = addslashes(htmlspecialchars($formData['comment']));
-        if (!$modify){
+        if (!$modify) {
             if (isset($formData['guest_author']) && $formData['guest_author'] != null) {
                 $author = addslashes(htmlspecialchars($formData['guest_author']));
                 $id_user = 0;
@@ -48,13 +48,13 @@ class CommentManager
             }
         }
 
-        if (UserManager::isAdmin()){
+        if (UserManager::isAdmin()) {
             $active = 1;
         } else {
             $active = 0;
-    }
+        }
 
-        if (!$modify){
+        if (!$modify) {
             $sql = "INSERT INTO comments(comment, id_user, author, post_id, active, date_add, date_update)
         VALUES('" . $comment . "', " . $id_user . ", '" . $author . "', '" . $id . "' ,'" . $active . "', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)";
         } else {
@@ -83,7 +83,7 @@ class CommentManager
         $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " AND active = 1 ORDER BY date_add DESC";
 
         $response = $db->query($sql);
-        if ($response){
+        if ($response) {
             $comments = [];
             while ($data = $response->fetch()) {
                 array_push($comments, $data);
@@ -101,7 +101,7 @@ class CommentManager
         $sql = "SELECT * FROM comments WHERE post_id = " . $post_id . " ORDER BY date_add DESC";
 
         $response = $db->query($sql);
-        if ($response){
+        if ($response) {
             $comments = [];
             while ($data = $response->fetch()) {
                 array_push($comments, $data);
@@ -131,6 +131,7 @@ class CommentManager
         $flash->setMessages();
 
         header('Location: ' . _CURRENT_URL_ . "#comment-" . $id_comment);
+        http_response_code(301);
     }
 
     public static function deleteComment(int $id_comment): void
@@ -142,7 +143,9 @@ class CommentManager
 //        $id_post = $comment->getPostId();
 //        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
 //        if ($db->exec($sql)) {
-            header('Location: ' . _CURRENT_URL_ . "#comments");
+        header('Location: ' . _CURRENT_URL_ . "#comments");
+        http_response_code(301);
+
 //        };
     }
 
@@ -163,7 +166,7 @@ class CommentManager
         $sql = "SELECT * FROM comments WHERE active = 0 ORDER BY date_add DESC";
 
         $response = $db->query($sql);
-        if ($response){
+        if ($response) {
             $comments = [];
             while ($data = $response->fetch()) {
                 array_push($comments, $data);

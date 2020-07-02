@@ -87,8 +87,8 @@ abstract class FrontController
                 $formDataGetter = new Session($formData);
                 $formDataGetter->setFormdata();
             }
-            header('Location: ' . _CURRENT_URL_);
-            http_response_code(301);
+            Tools::redirect(_CURRENT_URL_,301);
+
 
         } else {
             // case: Display user registration form
@@ -126,7 +126,8 @@ abstract class FrontController
         } else {
             $formDataGetter->deleteFormdata();
         }
-        header('Location: ' . _CURRENT_URL_ . "#comments");
+        Tools::redirect(_CURRENT_URL_ . "#comments",301);
+
 
     }
 
@@ -166,7 +167,7 @@ abstract class FrontController
             $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
         }
-        header('Location: ' . _ADMIN_URL_);
+        Tools::redirect(_ADMIN_URL_,301);
     }
 
     /**
@@ -181,7 +182,7 @@ abstract class FrontController
         $flash = new Session($messages);
         $flash->setMessages();
 
-        Tools::redirect(_BASE_URL_);
+        Tools::redirect(_BASE_URL_,301);
     }
 
     public static function sendMessage()
@@ -205,7 +206,7 @@ abstract class FrontController
             $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
         }
-        header('Location: ' . _CURRENT_URL_);
+        Tools::redirect(_CURRENT_URL_,301);
     }
 
     public function verifyEmail($selector, $token)
@@ -213,7 +214,7 @@ abstract class FrontController
         $messages = UserManager::verifyEmail($selector, $token);
         $flash = new Session($messages);
         $flash->setMessages();
-        header('Location: ' . _CURRENT_URL_);
+        Tools::redirect(_CURRENT_URL_,301);
     }
 
     public function resetPasswordSendEmail($post = false, $twig = null)
@@ -232,7 +233,7 @@ abstract class FrontController
 
             $flash = new Session($messages);
             $flash->setMessages();
-            header('Location: ' . _BASE_URL_);
+            Tools::redirect(_BASE_URL_,301);
 
         } else {
             $passwordResetForm = Self::getPasswordResetForm(false);
@@ -264,9 +265,9 @@ abstract class FrontController
             $flash->setMessages();
 
             if ($messages["status"] == "error"){
-                header('Location: ' . _CURRENT_URL_);
+                Tools::redirect(_CURRENT_URL_,301);
             } else {
-                header('Location: ' . _BASE_URL_);
+                Tools::redirect(_BASE_URL_,301);
 
             }
 
@@ -278,7 +279,7 @@ abstract class FrontController
                 $messages = $password->canResetPassword($selector, $token);
                 $flash = new Session($messages);
                 $flash->setMessages();
-                header('Location: ' . _CURRENT_URL_);
+                Tools::redirect(_CURRENT_URL_,301);
             }
         }
     }

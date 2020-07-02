@@ -325,7 +325,7 @@ abstract class Routes
             }
         } else {
             // no route was matched
-//            header($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+//            header(Input::server("SERVER_PROTOCOL") . ' 404 Not Found');
             return FrontController::notFound($twig);
         }
     }

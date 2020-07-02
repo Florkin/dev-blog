@@ -35,7 +35,7 @@ class BackController
 //            $comments = $getComments->getActiveCommentsByPostId($id);
 //        }
 
-        echo $twig->render('admin/pages/admin-post.twig', ['post' => $post->displayPost(), 'comments' => $comments]);
+        print_r($twig->render('admin/pages/admin-post.twig', ['post' => $post->displayPost(), 'comments' => $comments]));
 
     }
 
@@ -43,7 +43,7 @@ class BackController
     {
         $postslist = new AdminPostsList(0);
         $posts = $postslist->getPosts();
-        echo $twig->render('admin/pages/admin-list.twig', ['posts' => $posts]);
+        print_r($twig->render('admin/pages/admin-list.twig', ['posts' => $posts]));
     }
 
     public static function writePost(object $twig = null, int $id_post = null, array $messages = null)
@@ -75,7 +75,7 @@ class BackController
         } else {
             // display post form
             $postForm = Self::getPostForm($id_post);
-            echo $twig->render('admin/pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]);
+            print_r($twig->render('admin/pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]));
         }
     }
 
@@ -101,14 +101,14 @@ class BackController
         $comment = new CommentManager();
         $comments = $comment->getAllInactiveComments();
 
-        echo $twig->render('admin/pages/admin-comments-list.twig', ['comments' => $comments]);
+        print_r($twig->render('admin/pages/admin-comments-list.twig', ['comments' => $comments]));
     }
 
     public function inactivePostList($twig)
     {
         $postslist = new AdminPostsList();
         $posts = $postslist->getInactivePosts();
-        echo $twig->render('admin/pages/admin-inactive-list.twig', ['posts' => $posts]);
+        print_r($twig->render('admin/pages/admin-inactive-list.twig', ['posts' => $posts]));
     }
 
     public static function getPostForm($id_post)
@@ -126,10 +126,10 @@ class BackController
     {
         $commentForm = Self::getCommentForm($id);
         $comment = new CommentManager();
-        echo $twig->render('admin/pages/commentForm.twig', [
+        print_r($twig->render('admin/pages/commentForm.twig', [
             'commentForm' => $commentForm['form'],
             'actionAddComment' => $commentForm['action'],
-            'comment' => $comment->getContent($id)]);
+            'comment' => $comment->getContent($id)]));
 
     }
 
@@ -147,14 +147,14 @@ class BackController
     public function usersList($twig)
     {
         $users = UserManager::getUsersList();
-        echo $twig->render('admin/pages/usersList.twig', ['users' => $users]);
+        print_r($twig->render('admin/pages/usersList.twig', ['users' => $users]));
     }
 
     public function userProfile($id, $twig)
     {
         $user = new User($id);
         $userData = Tools::objectToArray($user);
-        echo $twig->render('admin/pages/user.twig', ['user' => $userData]);
+        print_r($twig->render('admin/pages/user.twig', ['user' => $userData]));
     }
 
     public function userModify($id, $twig)
@@ -187,7 +187,7 @@ class BackController
             $user = new User($id);
             $values = Tools::objectToArray($user);
             $userForm = Self::getUserForm($values, $id);
-            echo $twig->render('admin/pages/userForm.twig', ['userForm' => $userForm['form'], 'actionUser' => $userForm['action']]);
+            print_r($twig->render('admin/pages/userForm.twig', ['userForm' => $userForm['form'], 'actionUser' => $userForm['action']]));
         }
     }
 

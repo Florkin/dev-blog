@@ -6,6 +6,7 @@ if ('session_status' == PHP_SESSION_NONE) {
 
 require './vendor/autoload.php';
 
+use Balambasik\Input;
 use Symfony\Component\ErrorHandler\Debug;
 use \App\Config;
 use \App\Model\Manager\UserManager;
@@ -15,14 +16,16 @@ if (Config::DEBUG) {
     Debug::enable();
 }
 
-define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
+define("_BASE_URL_", Input::server('REQUEST_SCHEME') . '://' . Input::server('HTTP_HOST'));
 define("_ADMIN_URL_", _BASE_URL_ . "/admin");
-
-if (isset ($_SERVER['HTTP_REFERER'])) {
-    define("_CURRENT_URL_", $_SERVER['HTTP_REFERER']);
+define("_ROOT_", Input::server('DOCUMENT_ROOT'));
+$referer = Input::server('HTTP_REFERER');
+if (isset ($referer) && $referer != null && $referer != "") {
+    define("_CURRENT_URL_", Input::server('HTTP_REFERER'));
 } else {
     define("_CURRENT_URL_", _BASE_URL_);
 }
+
 
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
@@ -79,6 +82,7 @@ $admin_url = array(
     "base_url" => _ADMIN_URL_,
 );
 
+$twig->addGlobal('root', _ROOT_);
 $twig->addGlobal('url', $url);
 $twig->addGlobal('admin_url', $admin_url);
 

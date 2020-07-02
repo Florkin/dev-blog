@@ -12,6 +12,7 @@ class UserForm
 {
     private $emailField;
     private $passwordField;
+    private $oldPasswordField;
     private $usernameField;
     private $submitButton;
     private $actionLink;
@@ -53,8 +54,17 @@ class UserForm
             F::password('Mot de passe', [
                 'class' => 'password form-control',
                 'name' => 'password',
-                'required' => 'required',
+//                'required' => 'required',
                 'placeholder' => 'Mot de passe',
+                'autocomplete' => 'current-password',
+            ]);
+
+        $this->oldPasswordField =
+            F::password('Ancien mot de passe', [
+                'class' => 'password form-control',
+                'name' => 'oldpassword',
+//                'required' => 'required',
+                'placeholder' => 'Ancien mot de passe',
                 'autocomplete' => 'current-password',
             ]);
 
@@ -93,15 +103,17 @@ class UserForm
             $formFieldsRenderingArray['email'] =  $this->emailField;
             $formFieldsRenderingArray['username'] =  $this->usernameField;
 
+            // can change password if same user, add field
+            if (UserManager::getUserId() == $id_user) {
+                $formFieldsRenderingArray['oldpassword'] = $this->oldPasswordField;
+                $formFieldsRenderingArray['password'] = $this->passwordField;
+            }
+
             // can manage roles if admin, add radio buttons
             if (UserManager::isAdmin()) {
                 $formFieldsRenderingArray['role'] =  $this->role;
             }
 
-            // can change password if same user, add field
-            if (UserManager::getUserId() == $id_user) {
-                $formFieldsRenderingArray['password'] = $this->passwordField;
-            }
             $formFieldsRenderingArray['submit'] =  $this->submitButton;
 
 

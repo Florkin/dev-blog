@@ -166,6 +166,7 @@ class BackController
         }
 
         if (isset($post) && $post !== null && $post !== []) {
+
             // change password
             $user = new UserManager($id);
 

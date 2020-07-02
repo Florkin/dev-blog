@@ -163,7 +163,7 @@ abstract class FrontController
             $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
         }
-        header('Location: ' . _CURRENT_URL_);
+        header('Location: ' . _ADMIN_URL_);
     }
 
     /**

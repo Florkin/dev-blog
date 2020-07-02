@@ -16,11 +16,11 @@ use App\Model\Manager\UserManager;
  */
 abstract class Routes
 {
-    const notLoggedInMessage = "Vous devez être connecté a votre compte pour accèder à cette fonctionnalité";
-    const notAdminMessage = "Vous devez être administrateur pour accèder à cette fonctionnalité";
-    const notAuthorMessage = "Vous devez être l'auteur ou un administrateur pour modifier ceci";
-    const notUserMessage = "Vous devez être l'utilisateur concerné ou un administrateur pour modifier ceci";
-    const alreadyLogged = "Vous êtes déjà loggés";
+    const NOT_LOGGED_MESSAGE = "Vous devez être connecté a votre compte pour accèder à cette fonctionnalité";
+    const NOT_ADMIN_MESSAGE = "Vous devez être administrateur pour accèder à cette fonctionnalité";
+    const NOT_AUTHOR_MESSAGE = "Vous devez être l'auteur ou un administrateur pour modifier ceci";
+    const NOT_USER_MESSAGE = "Vous devez être l'utilisateur concerné ou un administrateur pour modifier ceci";
+    const ALREADY_LOGGED = "Vous êtes déjà loggés";
 
     /**
      * Set all routing system
@@ -58,7 +58,7 @@ abstract class Routes
             if (!UserManager::checkIsLogged()) {
                 return FrontController::registration($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+                return FrontController::unauthorized($twig, Self::NOT_LOGGED_MESSAGE);
             }
         }, 'formulaire-inscription');
 
@@ -96,7 +96,7 @@ abstract class Routes
             if (UserManager::checkIsLogged()) {
                 return BackController::adminList($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+                return FrontController::unauthorized($twig, Self::NOT_LOGGED_MESSAGE);
             }
         }, 'Administration');
 
@@ -104,7 +104,7 @@ abstract class Routes
             if (UserManager::checkIsLogged()) {
                 return BackController::writePost($twig);                ;
             } else {
-                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+                return FrontController::unauthorized($twig, Self::NOT_LOGGED_MESSAGE);
             }
         }, 'write-post');
 
@@ -113,7 +113,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
                 return BackController::writePost($twig, $id);
             } else {
-                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
             }
         }, 'modify-post');
 
@@ -122,7 +122,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
                 return BackController::deletePost($id);
             } else {
-                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
             }
         }, 'delete-post');
 
@@ -131,7 +131,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
                 return BackController::deleteComment($id);
             } else {
-                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
             }
         }, 'delete-comment');
 
@@ -139,7 +139,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 return BackController::inactiveCommentsList($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notAdminMessage);
+                return FrontController::unauthorized($twig, Self::NOT_ADMIN_MESSAGE);
             }
         }, 'inactive-comments-list');
 
@@ -147,7 +147,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 return BackController::inactivePostList($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notAdminMessage);
+                return FrontController::unauthorized($twig, Self::NOT_ADMIN_MESSAGE);
             }
         }, 'inactive-posts-list');
 
@@ -155,7 +155,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 return AdminPostManager::postToggleActivation($id);
             } else {
-                return FrontController::unauthorized($twig, Self::notAdminMessage);
+                return FrontController::unauthorized($twig, Self::NOT_ADMIN_MESSAGE);
             }
         }, 'activation-article');
 
@@ -163,7 +163,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 return CommentManager::commentToggleActivation($id);
             } else {
-                return FrontController::unauthorized($twig, Self::notAdminMessage);
+                return FrontController::unauthorized($twig, Self::NOT_ADMIN_MESSAGE);
             }
         }, 'activation-commentaire');
 
@@ -172,7 +172,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
                 return BackController::post($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
             }
         }, 'admin-article');
 
@@ -181,7 +181,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
                 return BackController::modifyComment($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
             }
         }, 'modification-commentaire');
 
@@ -189,7 +189,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && UserManager::isAdmin()){
                 return BackController::usersList($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notAdminMessage);
+                return FrontController::unauthorized($twig, Self::NOT_ADMIN_MESSAGE);
             }
         }, 'utilisateurs');
 
@@ -198,7 +198,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
                 return BackController::userProfile($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notUserMessage);
+                return FrontController::unauthorized($twig, Self::NOT_USER_MESSAGE);
             }
         }, 'utilisateur');
 
@@ -207,7 +207,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
                 return BackController::userModify($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notUserMessage);
+                return FrontController::unauthorized($twig, Self::NOT_USER_MESSAGE);
             }
         }, 'modifier-utilisateur');
 
@@ -216,7 +216,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
                 return BackController::userDelete($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notUserMessage);
+                return FrontController::unauthorized($twig, Self::NOT_USER_MESSAGE);
             }
         }, 'supprimer-utilisateur');
 
@@ -235,7 +235,7 @@ abstract class Routes
             if (!UserManager::checkIsLogged()) {
                 return FrontController::registration($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::alreadyLogged);
+                return FrontController::unauthorized($twig, Self::ALREADY_LOGGED);
             }
         }, 'inscription');
 
@@ -252,7 +252,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
                 return FrontController::addComment($id, true);
             } else {
-                return FrontController::unauthorized($twig, Self::notAuthorMessage);
+                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
             }
         }, 'modifier-commentaire');
 
@@ -273,7 +273,7 @@ abstract class Routes
             if (UserManager::checkIsLogged()) {
                 return BackController::writePost($twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notLoggedInMessage);
+                return FrontController::unauthorized($twig, Self::NOT_LOGGED_MESSAGE);
             }
         }, 'ajouter-article');
 
@@ -282,7 +282,7 @@ abstract class Routes
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
                 return BackController::userModify($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notUserMessage);
+                return FrontController::unauthorized($twig, Self::NOT_USER_MESSAGE);
             }
         }, 'modifier-utilisateur-post');
 

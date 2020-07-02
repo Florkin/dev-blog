@@ -163,7 +163,7 @@ abstract class FrontController
             $formDataGetter = new Session($formData);
             $formDataGetter->setFormdata();
         }
-        header('Location: ' . _CURRENT_URL_);
+        header('Location: ' . _ADMIN_URL_);
     }
 
     /**
@@ -178,7 +178,7 @@ abstract class FrontController
         $flash = new Session($messages);
         $flash->setMessages();
 
-        header('Location: ' . _CURRENT_URL_);
+        header('Location: ' . _BASE_URL_);
     }
 
     public static function sendMessage()

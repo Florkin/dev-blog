@@ -10,7 +10,6 @@ use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
 use App\Model\Manager\UserManager;
 use App\Routes;
-use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as Image;
 
 /**
@@ -98,11 +97,11 @@ class AdminPostManager
     public function uploadImg(int $id_post): bool
     {
         $file = $_FILES['image'];
-
-        $img = Image::make($file['tmp_name']);
+        $format = "webp";
+        $img = Image::make($file['tmp_name'])->encode($format);
         $img->fit(1920, 800);
 
-        if ($img->save($_SERVER["DOCUMENT_ROOT"] . '/img/posts_headers/post_' . $id_post . '.jpg')) {
+        if ($img->save($_SERVER["DOCUMENT_ROOT"] . '/img/posts_headers/post_' . $id_post . '.' . $format)) {
             return true;
         } else {
             return false;
@@ -132,6 +131,7 @@ class AdminPostManager
         $content = htmlentities($formData['content'], ENT_QUOTES | ENT_HTML5);
         $id_post_to_modify = $formData['modify'];
         $id_user = UserManager::getUserId();
+        $isActive = UserManager::isAdmin() ? 1 : 0;
 
         if ($id_post_to_modify !== "modify") {
 
@@ -140,7 +140,7 @@ class AdminPostManager
                     intro = '" . $intro . "' , 
                     content = '" . $content . "' , 
                     date_update = CURRENT_TIMESTAMP ,
-                    active = 0 
+                    active = '" . $isActive . "', 
                     WHERE id_post = " . (int)$id_post_to_modify;
 
         } else {
@@ -153,6 +153,15 @@ class AdminPostManager
 
         if ($_FILES['image']['error'] == 4 || Self::fileIsImg($_FILES['image']['tmp_name'])) {
             // Upload img if exists
+
+            if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
+                $messages["status"] = "success";
+                $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
+            } else {
+                $messages["status"] = "error";
+                $messages['message'] = $db->errorInfo();
+            }
+
             if ($_FILES['image']['error'] == 0) {
                 if ($id_post_to_modify == "modify") {
                     $id_post = $db->lastInsertId();
@@ -161,14 +170,6 @@ class AdminPostManager
                 }
                 Self::uploadImg($id_post);
             }
-
-           if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
-               $messages["status"] = "success";
-               $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
-           } else {
-               $messages["status"] = "error";
-               $messages['message'] = $db->errorInfo();
-           }
 
         } else {
             $messages["status"] = "error";
@@ -223,7 +224,7 @@ class AdminPostManager
                 'date_add' => $data['date_add'],
                 'date_update' => $data['date_update'],
                 'active' => $data['active'],
-                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.jpg',
+                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.webp',
             );
         } else {
             return false;

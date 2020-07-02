@@ -401,8 +401,7 @@ class UserManager
      * @return void
      * @throws \Delight\Auth\AuthError
      */
-    public
-    function logout()
+    public function logout()
     {
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);

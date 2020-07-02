@@ -14,6 +14,8 @@ use App\Model\Manager\CommentManager;
 use App\Model\Manager\ContactManager;
 use App\Model\Manager\PasswordManager;
 use App\Model\Manager\UserManager;
+use App\Tools;
+use GuzzleHttp\Client;
 use \Balambasik\Input;
 
 /**
@@ -178,7 +180,7 @@ abstract class FrontController
         $flash = new Session($messages);
         $flash->setMessages();
 
-        header('Location: ' . _CURRENT_URL_);
+        Tools::redirect(_BASE_URL_);
     }
 
     public static function sendMessage()

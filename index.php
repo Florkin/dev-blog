@@ -6,11 +6,11 @@ if ('session_status' == PHP_SESSION_NONE) {
 
 require './vendor/autoload.php';
 
+use App\Tools;
 use Balambasik\Input;
 use Symfony\Component\ErrorHandler\Debug;
 use \App\Config;
 use \App\Model\Manager\UserManager;
-use \App\Routes;
 
 if (Config::DEBUG) {
     Debug::enable();

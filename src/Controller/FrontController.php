@@ -88,6 +88,7 @@ abstract class FrontController
                 $formDataGetter->setFormdata();
             }
             header('Location: ' . _CURRENT_URL_);
+            http_response_code(301);
 
         } else {
             // case: Display user registration form

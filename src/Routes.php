@@ -16,6 +16,7 @@ use App\Model\Manager\UserManager;
  */
 abstract class Routes
 {
+
     const NOT_LOGGED_MESSAGE = "Vous devez être connecté a votre compte pour accèder à cette fonctionnalité";
     const NOT_ADMIN_MESSAGE = "Vous devez être administrateur pour accèder à cette fonctionnalité";
     const NOT_AUTHOR_MESSAGE = "Vous devez être l'auteur ou un administrateur pour modifier ceci";
@@ -67,7 +68,12 @@ abstract class Routes
         }, 'articles');
 
         $router->map('GET', '/articles/[i:id]', function ($id, $twig) {
-            return FrontController::post($id, $twig);
+            $post = new Post($id);
+            if ($post->isActive() == 1){
+                return FrontController::post($id, $twig);
+            } else {
+                return FrontController::unauthorized($twig, Self::notActiveMessage);
+            }
         }, 'article');
 
         $router->map('GET', '/logout', function () {
@@ -247,7 +253,7 @@ abstract class Routes
             return FrontController::addComment($id);
         }, 'ajouter-commentaire');
 
-        $router->map('POST', '/modifier-commentaire/[i:id]', function ($id) {
+        $router->map('POST', '/modifier-commentaire/[i:id]', function ($id, $twig) {
             $comment = new Comment($id);
             if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $comment->getAuthorId())) {
                 return FrontController::addComment($id, true);

@@ -3,10 +3,10 @@
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
-                <div class="site-heading">
+            <div class="col-12 mx-auto">
+                <div class="{% if post is defined %}post-heading{% else %} site-heading{% endif %}">
                     <h1>{{ herotitle }}</h1>
-                    <span class="subheading">{{ herosubtitle }}</span>
+                    <h2 class="subheading">{{ herosubtitle }}</h2>
 
                     {% if post is defined %}
                     <span class="meta">Posté par

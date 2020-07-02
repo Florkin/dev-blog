@@ -6,7 +6,7 @@
 
 {% block content %}
     {% set herotitle = post.title|raw %}
-    {% set herosubtitle = post.subtitle|raw %}
+    {% set herosubtitle = post.intro|raw %}
     {% set imgurl = post.img_url %}
     {% set author = post.author %}
     {% set date = post.date_update|date("d/m/Y", "Europe/Paris") %}
@@ -15,7 +15,7 @@
     <!-- Post Content -->
     <div class="container">
         <div class="row">
-            <div class="col-lg-8 col-md-10 mx-auto">
+            <div class="col-12 mx-auto">
                 <article>
                     {{ post.content|raw }}
                 </article>

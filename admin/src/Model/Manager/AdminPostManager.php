@@ -10,7 +10,6 @@ use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
 use App\Model\Manager\UserManager;
 use App\Routes;
-use Delight\FileUpload\Throwable\Error;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -110,6 +109,7 @@ class AdminPostManager
         $content = htmlentities($formData['content'], ENT_QUOTES | ENT_HTML5);
         $id_post_to_modify = $formData['modify'];
         $id_user = UserManager::getUserId();
+        $isActive = UserManager::isAdmin() ? 1 : 0;
 
         if ($id_post_to_modify !== "modify") {
 
@@ -118,7 +118,7 @@ class AdminPostManager
                     intro = '" . $intro . "' , 
                     content = '" . $content . "' , 
                     date_update = CURRENT_TIMESTAMP ,
-                    active = 0 
+                    active = '" . $isActive . "', 
                     WHERE id_post = " . (int)$id_post_to_modify;
 
         } else {

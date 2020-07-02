@@ -4,15 +4,10 @@
     <title>Modifier l'utilisateur</title>
 {% endblock %}
 
+{% block pagetitle %} Modifier utilisateur {% endblock %}
+
 {% block content %}
 <div class="container">
-    <div class="jumbotron jumbotron-fluid mt-5">
-        <div class="container">
-            <h1 class="display-4">Modifier l'utilisateur</h1>
-{#            <p class="lead">{{ user.username }}</p>#}
-        </div>
-    </div>
-
     <form class="form" method="post" action="{{ actionUser }}" enctype="multipart/form-data">
         {% for formField in userForm %}
             <div class="form-group">

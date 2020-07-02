@@ -3,68 +3,12 @@
 {% block head %}
     <title>Administration</title>
 {% endblock %}
-
+{% block pagetitle %} Articles à valider {% endblock %}
 {% block content %}
     <div class="container">
-        <div class="jumbotron jumbotron-fluid mt-5">
-            <div class="container">
-                <h1 class="display-4">Articles à valider</h1>
-            </div>
-        </div>
         {% if posts != null %}
             {% for post in posts %}
-                {#            {% if is_admin or user_id == post.id_user %}#}
-                <div id="post-{{ post.id_post }}" class="border-bottom row hover-1-wrap mb-5 mb-lg-5">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="mb-4 mb-lg-0 col-lg-3">
-                                <a href="#" class="hover-1">
-                                    <img src="./../img/posts_headers/post_{{ post.id_post }}.jpg" alt="Image"
-                                         class="img-fluid">
-                                </a>
-                            </div>
-                            <div class="col-lg-9 align-self-center order-lg-1">
-                                <h2 class="text-black">{{ post.title }}</h2>
-                                <p class="mb-2">
-                                    <span class="mr-3">{{ post.author }}</span><span>{{ post.date_update|date("d/m/Y") }}</span>
-                                </p>
-                                <p class="mb-2">{{ post.intro|raw }}</p>
-                            </div>
-                        </div>
-                        <div class="row mt-3 mb-3 post-toolbar">
-                            <div class="col-12 text-right">
-                                <div class="post-toolbar-btns">
-                                    {% if is_admin %}
-                                        {% if post.active == 1 %}
-                                            <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
-                                               class="post-activation btn btn-warning">Desactiver</a>
-                                        {% else %}
-                                            <a href="{{ admin_url.base_url }}/activation-article/{{ post.id_post }}"
-                                               class="post-activation btn btn-success">Activer</a>
-                                        {% endif %}
-                                    {% else %}
-                                        {% if post.active == 1 %}
-                                            <span class="px-4 py-2 alert-success">Activé</span>
-                                        {% else %}
-                                            <span class="px-4 py-2 alert-warning">En attente de validation</span>
-                                        {% endif %}
-                                    {% endif %}
-                                    <button type="button" class="js-confirm-delete btn btn-danger"
-                                            data-href="{{ admin_url.base_url }}/supprimer-article/{{ post.id_post }}"
-                                            data-toggle="modal" data-target="#confirm-delete" class="btn btn-danger">
-                                        Supprimer
-                                        l'article
-                                    </button>
-                                    <a href="articles/{{ post.id_post }}" class="btn btn-primary">Voir l'article</a>
-                                    <a href="{{ admin_url.base_url }}/modifier-article/{{ post.id_post }}"
-                                       class="btn btn-secondary">Modifier l'article</a>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include "admin/_partials/listing.twig" %}
             {% endfor %}
         {% else %}
             <p class="text-center alert alert-warning">Il n'y a a pas encore d'articles</p>

@@ -5,17 +5,12 @@
     <title>Modifier un commentaire</title>
 {% endblock %}
 
+{% block pagetitle %} Modifier un commentaire {% endblock %}
+
 {% block content %}
 
 <div class="container">
-    <div class="jumbotron jumbotron-fluid mt-5">
-        <div class="container">
-            <h1 class="display-4">Modifier un commentaire</h1>
-            <p class="lead">Veuillez remplir le formulaire</p>
-        </div>
-    </div>
 
-{#    {{ dump(comment) }}#}
     {% if comment.id_user is defined%}
         <p class="text-center">Commentaire de <a href="#"><b>{{ comment.author }}</b></a></p>
     {% else %}

@@ -4,6 +4,8 @@
     <title>{{ post.title|capitalize }}</title>
 {% endblock %}
 
+{% block pagetitle %} Article: {{ post.title|raw }} {% endblock %}
+
 {% block content %}
 
     <section class="post-toolbar mb-5">

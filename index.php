@@ -1,11 +1,8 @@
 <?php
 
-if ('session_status' == PHP_SESSION_NONE) {
-    session_start();
-}
-
 require './vendor/autoload.php';
 
+use App\Routes;
 use App\Tools;
 use Balambasik\Input;
 use Symfony\Component\ErrorHandler\Debug;

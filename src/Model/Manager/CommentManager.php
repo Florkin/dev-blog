@@ -7,6 +7,7 @@ namespace App\Model\Manager;
 use App\Controller\Post\Comment;
 use App\Controller\Validator\Session;
 use App\Controller\Validator\Validator;
+use App\Tools;
 
 class CommentManager
 {
@@ -130,8 +131,7 @@ class CommentManager
         $flash = new Session($messages);
         $flash->setMessages();
 
-        header('Location: ' . _CURRENT_URL_ . "#comment-" . $id_comment);
-        http_response_code(301);
+        Tools::redirect(_CURRENT_URL_ . "#comment-" . $id_comment, 301);
     }
 
     public static function deleteComment(int $id_comment): void
@@ -143,8 +143,7 @@ class CommentManager
 //        $id_post = $comment->getPostId();
 //        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
 //        if ($db->exec($sql)) {
-        header('Location: ' . _CURRENT_URL_ . "#comments");
-        http_response_code(301);
+        Tools::redirect(_CURRENT_URL_ . "#comments", 301);
 
 //        };
     }

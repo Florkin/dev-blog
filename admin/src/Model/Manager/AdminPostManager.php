@@ -10,6 +10,7 @@ use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
 use App\Model\Manager\UserManager;
 use App\Routes;
+use App\Tools;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -307,9 +308,7 @@ class AdminPostManager
         $flash = new Session($messages);
         $flash->setMessages();
 
-        header('Location: ' . _CURRENT_URL_);
-        http_response_code(301);
-
+        Tools::redirect(_CURRENT_URL_, 301);
     }
 
 

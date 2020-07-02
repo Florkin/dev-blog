@@ -35,7 +35,7 @@ abstract class FrontController
         $commentForm = Self::getCommentForm($id);
         $getComments = new CommentManager();
         $comments = $getComments->getActiveCommentsByPostId($id);
-        echo $twig->render('pages/post.twig', ['post' => $post->displaypost(), 'comments' => $comments, 'commentForm' => $commentForm['form'], 'actionComment' => $commentForm['action']]);
+        print_r($twig->render('pages/post.twig', ['post' => $post->displaypost(), 'comments' => $comments, 'commentForm' => $commentForm['form'], 'actionComment' => $commentForm['action']]));
 
     }
 
@@ -49,7 +49,7 @@ abstract class FrontController
     {
         $postslist = new PostsList(0);
         $posts = $postslist->getPosts();
-        echo $twig->render('pages/posts-list.twig', ['posts' => $posts]);
+        print_r($twig->render('pages/posts-list.twig', ['posts' => $posts]));
 
     }
 
@@ -90,7 +90,7 @@ abstract class FrontController
         } else {
             // case: Display user registration form
             $registerForm = Self::getRegisterForm();
-            echo $twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]);
+            print_r($twig->render('pages/registration.twig', ['registerForm' => $registerForm['form'], 'actionRegister' => $registerForm['action']]));
         };
     }
 
@@ -233,7 +233,7 @@ abstract class FrontController
 
         } else {
             $passwordResetForm = Self::getPasswordResetForm(false);
-            echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+            print_r($twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]));
         }
     }
 
@@ -270,7 +270,7 @@ abstract class FrontController
         } else {
             if ($password->canResetPassword($selector, $token) == true) {
                 $passwordResetForm = Self::getPasswordResetForm(true, $selector, $token);
-                echo $twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]);
+                print_r($twig->render('pages/password-reset.twig', ['passwordResetForm' => $passwordResetForm['form'], 'actionResetPassword' => $passwordResetForm['action']]));
             } else {
                 $messages = $password->canResetPassword($selector, $token);
                 $flash = new Session($messages);
@@ -301,7 +301,7 @@ abstract class FrontController
         $contactForm = new \App\Controller\Form\ContactForm;
         $contactForm = $contactForm->renderForm();
 
-        echo $twig->render('pages/home.twig', ['posts' => $posts]);
+        print_r($twig->render('pages/home.twig', ['posts' => $posts]));
     }
 
     public static function contact(object $twig)
@@ -309,15 +309,15 @@ abstract class FrontController
         $contactForm = new \App\Controller\Form\ContactForm;
         $contactForm = $contactForm->renderForm();
 
-        echo $twig->render('pages/contact.twig', ['contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]);
+        print_r($twig->render('pages/contact.twig', ['contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]));
     }
 
     public function unauthorized(object $twig, string $message)
     {
-        echo $twig->render('pages/unauthorized.twig', ['message' => $message]);
+        print_r($twig->render('pages/unauthorized.twig', ['message' => $message]));
     }
     public function notFound(object $twig)
     {
-        echo $twig->render('pages/notfound.twig');
+        print_r($twig->render('pages/notfound.twig'));
     }
 }

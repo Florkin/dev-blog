@@ -17,12 +17,14 @@ if (Config::DEBUG) {
 
 define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
 define("_ADMIN_URL_", _BASE_URL_ . "/admin");
+define("_ROOT_", $_SERVER['DOCUMENT_ROOT']);
 
 if (isset ($_SERVER['HTTP_REFERER'])) {
     define("_CURRENT_URL_", $_SERVER['HTTP_REFERER']);
 } else {
     define("_CURRENT_URL_", _BASE_URL_);
 }
+
 
 // ========================= TWIG =======================
 $loader = new \Twig\Loader\FilesystemLoader('./src/Templates');
@@ -79,6 +81,7 @@ $admin_url = array(
     "base_url" => _ADMIN_URL_,
 );
 
+$twig->addGlobal('root', _ROOT_);
 $twig->addGlobal('url', $url);
 $twig->addGlobal('admin_url', $admin_url);
 

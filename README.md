@@ -1,4 +1,7 @@
 # dev-blog
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/d3db90f51b0d482dad794d4eb3d324d3)](https://app.codacy.com/manual/Florkin/dev-blog?utm_source=github.com&utm_medium=referral&utm_content=Florkin/dev-blog&utm_campaign=Badge_Grade_Dashboard)
+
 Openclassrooms project
 
 Blog system creation,

@@ -252,8 +252,7 @@ class AdminPostManager
         }
     }
 
-    public
-    function getInactivePostsList(): ?array
+    public function getInactivePostsList(): ?array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -262,7 +261,7 @@ class AdminPostManager
             if (UserManager::checkIsLogged() && UserManager::isAdmin()) {
                 $sql = "SELECT id_post, title, intro, id_user, date_add, date_update, active FROM posts WHERE active = 0";
             } else {
-                die ('Vous n\'êtes pas administrateur, Vous n\'avez rien a faire ici');
+                return null;
             }
 
             $response = $db->query($sql);

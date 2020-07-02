@@ -6,6 +6,7 @@ if ('session_status' == PHP_SESSION_NONE) {
 
 require './vendor/autoload.php';
 
+use Balambasik\Input;
 use Symfony\Component\ErrorHandler\Debug;
 use \App\Config;
 use \App\Model\Manager\UserManager;
@@ -15,12 +16,12 @@ if (Config::DEBUG) {
     Debug::enable();
 }
 
-define("_BASE_URL_", $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST']);
+define("_BASE_URL_", Input::server('REQUEST_SCHEME') . '://' . Input::server('HTTP_HOST'));
 define("_ADMIN_URL_", _BASE_URL_ . "/admin");
-define("_ROOT_", $_SERVER['DOCUMENT_ROOT']);
-
-if (isset ($_SERVER['HTTP_REFERER'])) {
-    define("_CURRENT_URL_", $_SERVER['HTTP_REFERER']);
+define("_ROOT_", Input::server('DOCUMENT_ROOT'));
+$referer = Input::server('HTTP_REFERER');
+if (isset ($referer) && $referer != null && $referer != "") {
+    define("_CURRENT_URL_", Input::server('HTTP_REFERER'));
 } else {
     define("_CURRENT_URL_", _BASE_URL_);
 }

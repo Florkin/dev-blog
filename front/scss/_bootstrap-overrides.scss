@@ -21,8 +21,17 @@
   }
 }
 
+.btn-outline-primary{
+  border-color: $primary;
+  color: $primary;
+}
+
 .btn-lg {
   font-size: 16px;
   padding: 25px 35px;
+}
+
+.text-bold{
+  font-weight: 600;
 }
 

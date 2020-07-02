@@ -12,9 +12,19 @@
         {% include "admin/_partials/nav.twig" %}
     </div>
     <div id="page-content-wrapper">
-        <button class="btn btn-primary d-block d-md-none" id="menu-toggle">Menu</button>
+        <button class="btn btn-primary d-block d-md-none menu-toggle" id="menu-toggle"><span class="fa fa-bars"></span></button>
 
         {% include "admin/_partials/messages.twig" %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12 py-5">
+                    <h1 class="display-4 text-uppercase border-bottom py-2 text-bold">
+                        <span class="fa fa-angle-double-right"></span>
+                         {% block pagetitle %}{% endblock %}
+                    </h1>
+                </div>
+            </div>
+        </div>
         {% block content %}{% endblock %}
     </div>
     {#        {% include "_partials/footer.twig" %}#}

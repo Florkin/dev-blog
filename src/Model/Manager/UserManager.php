@@ -286,6 +286,7 @@ class UserManager
         }
 
         $password = $formData['password'];
+        $oldPassword = $formData['oldpassword'];
         $email = $formData['email'];
         $username = $formData['username'];
 
@@ -307,13 +308,23 @@ class UserManager
             }
         }
 
-        if (isset($password) && $password !== null && $password !== "") {
+        if (isset($password) && $password !== null && $password != "") {
             try {
-                $auth->admin()->changePasswordForUserById($this->id_user, $password);
-            } catch (\Delight\Auth\UnknownIdException $e) {
-                die('Unknown ID');
-            } catch (\Delight\Auth\InvalidPasswordException $e) {
-                die('Invalid password');
+                $auth->changePassword($oldPassword, $password);
+            } catch (\Delight\Auth\NotLoggedInException $e) {
+                $messages['status'] = 'error';
+                $messages['message'] = 'Vous nêtes pas connectés';
+                return $messages;
+            }
+            catch (\Delight\Auth\InvalidPasswordException $e) {
+                $messages['status'] = 'error';
+                $messages['message'] = 'Mot de passe invalide';
+                return $messages;
+            }
+            catch (\Delight\Auth\TooManyRequestsException $e) {
+                $messages['status'] = 'error';
+                $messages['message'] = 'Trop de requètes';
+                return $messages;
             }
         }
 

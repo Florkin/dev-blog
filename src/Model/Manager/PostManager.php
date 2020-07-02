@@ -34,7 +34,7 @@ class PostManager
                 'date_add' => $data['date_add'],
                 'date_update' => $data['date_update'],
                 'active' => $data['active'],
-                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.jpg',
+                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.webp',
             );
         } else {
             return false;

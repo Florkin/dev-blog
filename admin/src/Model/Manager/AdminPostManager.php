@@ -10,6 +10,7 @@ use App\Model\Manager\DbManager;
 use App\Controller\Validator\Validator;
 use App\Model\Manager\UserManager;
 use App\Routes;
+use Delight\FileUpload\Throwable\Error;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as Image;
 
@@ -36,7 +37,7 @@ class AdminPostManager
     {
         $sql = "CREATE TABLE IF NOT EXISTS `posts` (
             `id_post` int(11) NOT NULL AUTO_INCREMENT,
-            `title` varchar(70) NOT NULL,
+            `title` varchar(255) NOT NULL,
             `intro` text NOT NULL,
             `content` text NOT NULL,
             `id_user` int(11) NOT NULL,
@@ -49,64 +50,41 @@ class AdminPostManager
         try {
             $db->exec($sql);
         } catch (Error $e) {
-            echo "\nPDO::errorInfo():\n";
             print_r($db->errorInfo());
         };
     }
 
-    public function fileIsImg($path)
+    public function fileIsImg(string $type)
     {
-        if (isset($path) && $path != "" && $path != null) {
-            // get mime type of file
-            $mime = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $path);
-            switch (strtolower($mime)) {
-                case 'image/png':
-                case 'image/x-png':
-                    return true;
-                    break;
-
-                case 'image/jpg':
-                case 'image/jpeg':
-                case 'image/pjpeg':
-                    return true;
-                    break;
-
-                case 'image/gif':
-                    return true;
-                    break;
-
-                case 'image/webp':
-                case 'image/x-webp':
-                    return true;
-                    break;
-
-                default:
-                    return false;
-            }
-        } else {
-            return false;
+        $validMimeTypes = array('image/png', 'image/jpg', 'image/jpeg', 'image/webp');
+        if (in_array($type, $validMimeTypes)) {
+            return true;
         }
-
+        return false;
     }
 
     /**
      * Upload post header image
      *
      * @param integer $id_post
-     * @return boolean
+     * @return array
      */
-    public function uploadImg(int $id_post): bool
+    public function uploadImg()
     {
-        $file = $_FILES['image'];
-
-        $img = Image::make($file['tmp_name']);
-        $img->fit(1920, 800);
-
-        if ($img->save($_SERVER["DOCUMENT_ROOT"] . '/img/posts_headers/post_' . $id_post . '.jpg')) {
+        $storage = new \Upload\Storage\FileSystem(_ROOT_ . "");
+        $file = new \Upload\File('image', $storage);
+        if (!$file->isFile()) {
             return true;
-        } else {
-            return false;
         };
+        $isImg = $this->fileIsImg($file->getMimetype(), $file);
+
+        if (!$isImg) {
+            return false;
+        }
+
+        return Image::make($file->getRealPath())
+            ->fit(1920, 800)
+            ->encode('webp');
     }
 
 
@@ -150,39 +128,40 @@ class AdminPostManager
 
         }
 
-
-        if ($_FILES['image']['error'] == 4 || Self::fileIsImg($_FILES['image']['tmp_name'])) {
-            // Upload img if exists
-            if ($_FILES['image']['error'] == 0) {
-                if ($id_post_to_modify == "modify") {
-                    $id_post = $db->lastInsertId();
-                } else {
-                    $id_post = $id_post_to_modify;
-                }
-                Self::uploadImg($id_post);
-            }
-
-           if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
-               $messages["status"] = "success";
-               $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
-           } else {
-               $messages["status"] = "error";
-               $messages['message'] = $db->errorInfo();
-           }
-
-        } else {
+        if (!$this->uploadImg()) {
             $messages["status"] = "error";
-            $messages['message'] = "Il y a eu un problème d'upload avec l'image";
+            $messages['message'] = "Il y a eu un problème lors de l'upload de l'image";
+
+            return $messages;
         };
+
+        if ($db->exec($sql) || $db->errorInfo()[0] == 0) {
+            if ($id_post_to_modify == "modify") {
+                $id_post = $db->lastInsertId();
+            } else {
+                $id_post = $id_post_to_modify;
+            }
+            $path = _ROOT_ . "img/posts_headers/post_" . $id_post . ".webp";
+
+            if (gettype($this->uploadImg()) == "object") {
+                $this->uploadImg()->save($path);
+            };
+
+            $messages["status"] = "success";
+            $messages['message'] = "Votre article a bien été envoyé et soumis a validation";
+            return $messages;
+        }
+        $messages["status"] = "error";
+        $messages['message'] = "Il y a eu un problème lors de l'ajout a la base de donnée";
 
         return $messages;
     }
 
+
     /**
      * @return bool
      */
-    public
-    function deletePost(): bool
+    public function deletePost(): bool
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -223,11 +202,11 @@ class AdminPostManager
                 'date_add' => $data['date_add'],
                 'date_update' => $data['date_update'],
                 'active' => $data['active'],
-                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.jpg',
+                'img_url' => _BASE_URL_ . '/img/posts_headers/post_' . $data['id_post'] . '.webp',
             );
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**

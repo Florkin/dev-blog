@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/altorouter/altorouter" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/balambasik/input" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/codeguy/upload" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/delight-im/auth" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/delight-im/base64" />

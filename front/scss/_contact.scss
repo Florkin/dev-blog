@@ -9,7 +9,8 @@
   padding-bottom: 0.5em;
   border-bottom: 1px solid $gray-300;
 
-  input, textarea {
+  input,
+  textarea {
     font-size: 1.5em;
     position: relative;
     z-index: 1;
@@ -28,6 +29,7 @@
       @include serif-font;
     }
   }
+  
   label {
     font-size: 0.85em;
     line-height: 1.764705882em;

@@ -1,6 +1,6 @@
 // Styling for the post page
 .post-preview {
-   a {
+  a {
     color: $gray-900;
 
     &:focus,
@@ -14,7 +14,7 @@
       margin-bottom: 10px;
     }
 
-     >.post-subtitle {
+    > .post-subtitle {
       font-weight: 300;
       margin: 0 0 10px;
     }
@@ -37,6 +37,7 @@
       }
     }
   }
+
   @media only screen and (min-width: 768px) {
     > a {
       > .post-title {

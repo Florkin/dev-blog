@@ -42,7 +42,7 @@
 
   &.disabled,
   &[disabled],
-  fieldset[disabled] & {
+  fieldset[disabled] {
     &.focus,
     &:focus,
     &:hover {

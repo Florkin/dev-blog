@@ -67,8 +67,11 @@ class PostForm
             F::hidden('modify', [
                 'name' => 'modify',
             ]);
+
+        $modifyPost = false;
         if (isset($post['id_post'])){
             $this->modify->setValue($post['id_post']);
+            $modifyPost = true;
         }
 
         $this->submitButton =
@@ -81,6 +84,7 @@ class PostForm
         $formDataGetter->deleteFormdata();
 
         return array(
+            'modifyPost' => $modifyPost,
             'action' => $this->actionLink,
             'form' => array(
                 $this->postImg,

@@ -142,7 +142,7 @@ class AdminPostManager
             } else {
                 $id_post = $id_post_to_modify;
             }
-            $path = _ROOT_ . "img/posts_headers/post_" . $id_post . ".webp";
+            $path = _ROOT_ . "/img/posts_headers/post_" . $id_post . ".webp";
 
             if (gettype($this->uploadImg()) == "object") {
                 $this->uploadImg()->save($path);

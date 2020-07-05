@@ -75,6 +75,7 @@ $url = array(
     "contact" => _BASE_URL_ . "/contact",
     "logout" => _BASE_URL_ . "/logout",
 );
+
 $admin_url = array(
     "base_url" => _ADMIN_URL_,
 );

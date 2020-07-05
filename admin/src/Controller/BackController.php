@@ -75,7 +75,7 @@ class BackController
         } else {
             // display post form
             $postForm = Self::getPostForm($id_post);
-            print_r($twig->render('admin/pages/postform.twig', ['postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]));
+            print_r($twig->render('admin/pages/postform.twig', ['modifyPost' => $postForm['modifyPost'], 'postForm' => $postForm['form'], 'actionAddpost' => $postForm['action']]));
         }
     }
 

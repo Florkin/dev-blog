@@ -6,12 +6,14 @@
   letter-spacing: 1px;
   text-transform: uppercase;
   border-radius: 0;
+  
   @include sans-serif-font;
 }
 
 .btn-primary {
   background-color: $primary;
   border-color: $primary;
+
   &:hover,
   &:focus,
   &:active {

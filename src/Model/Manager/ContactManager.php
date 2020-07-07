@@ -6,6 +6,12 @@ use App\Config;
 use App\Controller\Mails\Mail;
 use App\Controller\Validator\Validator;
 
+/**
+ * Class ContactManager
+ * @package App\Model\Manager
+ *
+ * Handle contact form
+ */
 class ContactManager
 {
 

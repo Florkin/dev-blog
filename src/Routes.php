@@ -10,6 +10,7 @@ use App\Controller\Post\Post;
 use App\Controller\User\User;
 use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
+use Twig\Environment;
 
 /**
  * Routing class
@@ -30,7 +31,7 @@ abstract class Routes
      * @return object
      * @throws \Exception
      */
-    public static function setRoutes(object $twig = null): object
+    public static function setRoutes(Environment $twig = null): object
     {
         $router = new \AltoRouter;
 
@@ -42,13 +43,14 @@ abstract class Routes
     }
 
     /**
-     * Set GET routes
+     * @param Environment|null $twig
+     * @param \AltoRouter $router
+     * @return \AltoRouter
+     * @throws \Exception
      *
-     * @param object $twig
-     * @param object $router
-     * @return object|object
+     * Set GET routes
      */
-    public static function setGetRoutes(object $twig = null, object $router)
+    public static function setGetRoutes(Environment $twig = null, \AltoRouter $router)
     {
 
         $router->map('GET', '/', function ($twig) {
@@ -230,12 +232,13 @@ abstract class Routes
     }
 
     /**
-     * Set POST routes
+     * @param \AltoRouter $router
+     * @return \AltoRouter
+     * @throws \Exception
      *
-     * @param object $router
-     * @return object|object
+     * Set POST routes
      */
-    public static function setPostRoutes(object $router)
+    public static function setPostRoutes(\AltoRouter $router)
     {
         $router->map('POST', '/inscription', function ($twig) {
             if (!UserManager::checkIsLogged()) {
@@ -296,13 +299,12 @@ abstract class Routes
     }
 
     /**
-     * Verify matches and get parameters
+     * @param Environment|null $twig
+     * @param \AltoRouter $router
      *
-     * @param object $twig
-     * @param object $router
-     * @return void
+     * Verify matches and get parameters
      */
-    public static function MatchesRoutes(object $twig = null, object $router)
+    public static function MatchesRoutes(Environment $twig = null, \AltoRouter $router)
     {
         $match = $router->match();
 

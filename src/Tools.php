@@ -4,7 +4,14 @@ namespace App;
 
 abstract class Tools
 {
-    public function objectToArray($object)
+    /**
+     * @param object $object
+     * @return array
+     * @throws \ReflectionException
+     *
+     * Transform an object into an array
+     */
+    public function objectToArray(object $object)
     {
         $reflectionClass = new \ReflectionClass(get_class($object));
         $array = array();
@@ -16,7 +23,14 @@ abstract class Tools
         return $array;
     }
 
-    function Redirect($url, $code = 302)
+
+    /**
+     * @param string $url
+     * @param int $code
+     *
+     * Handle redirections
+     */
+    function Redirect(string $url, int $code = 302)
     {
         if (strncmp('cli', PHP_SAPI, 3) !== 0)
         {

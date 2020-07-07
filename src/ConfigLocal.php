@@ -4,6 +4,11 @@ namespace App;
 
 /**
  * Set global constants
+ *
+ * Fill values and rename file ad Config.php
+ *
+ * !!!!!! BEWARE: Config.php is git ignored, BUT NOT ConfigLocal.php!
+ * Don't send personal data on github !!!!!!!
  */
 abstract class Config {
 

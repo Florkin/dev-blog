@@ -17,36 +17,55 @@ use App\Model\Manager\CommentManager;
 use App\Model\Manager\UserManager;
 use App\Tools;
 use Balambasik\Input;
+use Twig\Environment;
 
 /**
  * Class BackController
  * @package Admin\Controller
+ *
+ * Front Controller to get values and call templates (Admin only)
+ *
  */
 class BackController
 {
 
-    public static function post(int $id, object $twig)
+    /**
+     * @param int $id
+     * @param object $twig
+     *
+     * Display Post and asociated comments (Admin only)
+     */
+    public static function post(int $id, Environment $twig)
     {
         $post = new AdminPost($id);
         $getComments = new CommentManager();
-//        if (UserManager::isAdmin()) {
-            $comments = $getComments->getAllCommentsByPostId($id);
-//        } else {
-//            $comments = $getComments->getActiveCommentsByPostId($id);
-//        }
+        $comments = $getComments->getAllCommentsByPostId($id);
 
         print_r($twig->render('admin/pages/admin-post.twig', ['post' => $post->displayPost(), 'comments' => $comments]));
 
     }
 
-    public static function adminList($twig)
+    /**
+     * @param object $twig
+     *
+     * Display Post list (Admin only)
+     */
+    public static function adminList(Environment $twig)
     {
         $postslist = new AdminPostsList(0);
         $posts = $postslist->getPosts();
         print_r($twig->render('admin/pages/admin-list.twig', ['posts' => $posts]));
     }
 
-    public static function writePost(object $twig = null, int $id_post = null, array $messages = null)
+    /**
+     * @param object|null $twig
+     * @param int|null $id_post
+     * @param array|null $messages
+     *
+     * Display Post form (add post or modify)
+     * POST request: Add or modify post process
+     */
+    public static function writePost(Environment $twig = null, int $id_post = null, array $messages = null)
     {
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "add") {
             // add post according to form data
@@ -70,7 +89,7 @@ class BackController
                 $formDataGetter = new Session($formData);
                 $formDataGetter->setFormdata();
             }
-            Tools::redirect(_CURRENT_URL_,301);
+            Tools::redirect(_CURRENT_URL_, 301);
 
         } else {
             // display post form
@@ -81,37 +100,11 @@ class BackController
 
     /**
      * @param int $id_post
+     * @return array
+     *
+     * Return post form elements
      */
-    public function deletePost(int $id_post)
-    {
-        $post = new AdminPostManager($id_post);
-        if ($post->deletePost()) {
-            Tools::redirect(_CURRENT_URL_,301);
-        }
-    }
-
-    public function deleteComment(int $id_comment)
-    {
-        $comment = new CommentManager();
-        $comment->deleteComment($id_comment);
-    }
-
-    public function inactiveCommentsList($twig)
-    {
-        $comment = new CommentManager();
-        $comments = $comment->getAllInactiveComments();
-
-        print_r($twig->render('admin/pages/admin-comments-list.twig', ['comments' => $comments]));
-    }
-
-    public function inactivePostList($twig)
-    {
-        $postslist = new AdminPostsList();
-        $posts = $postslist->getInactivePosts();
-        print_r($twig->render('admin/pages/admin-inactive-list.twig', ['posts' => $posts]));
-    }
-
-    public static function getPostForm($id_post)
+    public static function getPostForm(int $id_post = null): array
     {
         $postForm = new PostForm;
 
@@ -122,7 +115,13 @@ class BackController
         return $postForm->renderForm();
     }
 
-    public function modifyComment(int $id, object $twig)
+    /**
+     * @param int $id
+     * @param object $twig
+     *
+     * Display comment form
+     */
+    public function modifyComment(int $id, Environment $twig)
     {
         $commentForm = Self::getCommentForm($id);
         $comment = new CommentManager();
@@ -133,7 +132,13 @@ class BackController
 
     }
 
-    public static function getCommentForm($id_comment)
+    /**
+     * @param int $id_comment
+     * @return array
+     *
+     * Return comment form elements
+     */
+    public static function getCommentForm(int $id_comment): array
     {
         $commentForm = new CommentForm;
 
@@ -144,24 +149,91 @@ class BackController
         return $commentForm->renderForm();
     }
 
-    public function usersList($twig)
+    /**
+     * @param int $id_post
+     *
+     * Delete post handle request
+     */
+    public function deletePost(int $id_post)
+    {
+        $post = new AdminPostManager($id_post);
+        if ($post->deletePost()) {
+            Tools::redirect(_CURRENT_URL_, 301);
+        }
+    }
+
+    /**
+     * @param int $id_comment
+     *
+     * Delete comment handle request
+     */
+    public function deleteComment(int $id_comment)
+    {
+        $comment = new CommentManager();
+        $comment->deleteComment($id_comment);
+    }
+
+    /**
+     * @param object $twig
+     *
+     * List inactive comments handle request
+     */
+    public function inactiveCommentsList(Environment $twig)
+    {
+        $comment = new CommentManager();
+        $comments = $comment->getAllInactiveComments();
+
+        print_r($twig->render('admin/pages/admin-comments-list.twig', ['comments' => $comments]));
+    }
+
+    /**
+     * @param object $twig
+     *
+     * List inactive posts handle request
+     */
+    public function inactivePostList(Environment $twig)
+    {
+        $postslist = new AdminPostsList();
+        $posts = $postslist->getInactivePosts();
+        print_r($twig->render('admin/pages/admin-inactive-list.twig', ['posts' => $posts]));
+    }
+
+    /**
+     * @param object $twig
+     *
+     * Display user list
+     */
+    public function usersList(Environment $twig)
     {
         $users = UserManager::getUsersList();
         print_r($twig->render('admin/pages/usersList.twig', ['users' => $users]));
     }
 
-    public function userProfile($id, $twig)
+    /**
+     * @param int $id
+     * @param object $twig
+     *
+     * Display User profile informations
+     */
+    public function userProfile(int $id, Environment $twig)
     {
         $user = new User($id);
         $userData = Tools::objectToArray($user);
         print_r($twig->render('admin/pages/user.twig', ['user' => $userData]));
     }
 
-    public function userModify($id, $twig)
+    /**
+     * @param int $id
+     * @param object $twig
+     *
+     * Display User modify form
+     * POST request: Process user modify, get errors or sucess messages
+     */
+    public function userModify(int $id, Environment $twig)
     {
         $post = Input::post();
 
-        if (!UserManager::isAdmin()){
+        if (!UserManager::isAdmin()) {
             unset($post["role"]);
         }
 
@@ -181,7 +253,7 @@ class BackController
             $flash = new Session($messages);
             $flash->setMessages();
 
-            Tools::redirect(_CURRENT_URL_,301);
+            Tools::redirect(_CURRENT_URL_, 301);
 
         } else {
             $user = new User($id);
@@ -191,13 +263,25 @@ class BackController
         }
     }
 
-    public function getUserForm($values, $id_user = null)
+    /**
+     * @param array $values
+     * @param null $id_user
+     * @return array
+     *
+     * return user form elements
+     */
+    public function getUserForm(array $values, $id_user = null): array
     {
         $userForm = new UserForm();
         return $userForm->renderForm($values, true, $id_user);
     }
 
-    public function userDelete($id)
+    /**
+     * @param int $id
+     *
+     * Handle user delete request
+     */
+    public function userDelete(int $id)
     {
         $user = new UserManager($id);
         $messages = $user->deleteUserById();
@@ -205,8 +289,7 @@ class BackController
         $flash = new Session($messages);
         $flash->setMessages();
 
-        Tools::redirect(_ADMIN_URL_ . '/utilisateurs',301);
-
+        Tools::redirect(_ADMIN_URL_ . '/utilisateurs', 301);
     }
 
 }

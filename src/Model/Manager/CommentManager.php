@@ -9,9 +9,19 @@ use App\Controller\Validator\Session;
 use App\Controller\Validator\Validator;
 use App\Tools;
 
+/**
+ * Class CommentManager
+ * @package App\Model\Manager
+ * Class to manage Comments datas
+ */
 class CommentManager
 {
-    public function createTable(object $db)
+    /**
+     * @param \PDO $db
+     *
+     * Create tables if it don't exist
+     */
+    public function createTable(\PDO $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `comments` (
             `id_comment` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,7 +38,15 @@ class CommentManager
         $db->exec($sql);
     }
 
-    public function addComment(array $formData, int $id, bool $modify = false)
+    /**
+     * @param array $formData
+     * @param int $id
+     * @param bool $modify
+     * @return array
+     *
+     * Add a comment to database
+     */
+    public function addComment(array $formData, int $id, bool $modify = false): array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -78,6 +96,12 @@ class CommentManager
 
     }
 
+    /**
+     * @param int $post_id
+     * @return array|null
+     *
+     * Get list of active comments for a post
+     */
     public function getActiveCommentsByPostId(int $post_id)
     {
         $db = DbManager::openDB();
@@ -96,6 +120,13 @@ class CommentManager
         }
     }
 
+
+    /**
+     * @param int $post_id
+     * @return array|null
+     *
+     * Get active AND inactive comments for a post
+     */
     public function getAllCommentsByPostId(int $post_id)
     {
         $db = DbManager::openDB();
@@ -114,7 +145,12 @@ class CommentManager
         }
     }
 
-    public static function commentToggleActivation(int $id_comment): void
+    /**
+     * @param int $id_comment
+     *
+     * Toggle comment front display activation
+     */
+    public static function commentToggleActivation(int $id_comment)
     {
         $comment = new Comment($id_comment);
         $post_id = $comment->getPostId();
@@ -134,20 +170,31 @@ class CommentManager
         Tools::redirect(_CURRENT_URL_ . "#comment-" . $id_comment, 301);
     }
 
+
+    /**
+     * @param int $id_comment
+     *
+     * Delete comment
+     */
     public static function deleteComment(int $id_comment): void
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
         }
-//        $comment = new Comment($id_comment);
-//        $id_post = $comment->getPostId();
-//        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
-//        if ($db->exec($sql)) {
-        Tools::redirect(_CURRENT_URL_ . "#comments", 301);
 
-//        };
+        $sql = "DELETE FROM `comments` WHERE id_comment = " . $id_comment;
+        if ($db->exec($sql)) {
+            Tools::redirect(_CURRENT_URL_ . "#comments", 301);
+        };
     }
 
+
+    /**
+     * @param int $id
+     * @param int $active
+     *
+     * Set comment activation
+     */
     public static function setActive(int $id, int $active): void
     {
         if (!isset($db) || $db == null) {
@@ -159,6 +206,11 @@ class CommentManager
         $response = $db->query($sql);
     }
 
+    /**
+     * @return array|null
+     *
+     * Return a list of all inactive comments
+     */
     public function getAllInactiveComments()
     {
         $db = DbManager::openDB();
@@ -177,7 +229,13 @@ class CommentManager
         }
     }
 
-    public function getContent($id_comment)
+    /**
+     * @param $id_comment
+     * @return array|bool
+     *
+     * Get comment data with id_comment
+     */
+    public function getContent(int $id_comment)
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -199,12 +257,17 @@ class CommentManager
                 'date_update' => $data['date_update'],
                 'active' => $data['active'],
             );
-        } else {
-            return false;
         }
+        return false;
     }
 
-    public function getValidator($formData)
+    /**
+     * @param array $formData
+     * @return Validator
+     *
+     * Get comment data validator
+     */
+    public function getValidator(array $formData)
     {
         return (new Validator($formData))
             ->required('comment')

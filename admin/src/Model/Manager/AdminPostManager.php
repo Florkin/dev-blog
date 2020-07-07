@@ -13,6 +13,7 @@ use App\Routes;
 use App\Tools;
 use Intervention\Image\Exception\NotReadableException;
 use Intervention\Image\ImageManagerStatic as Image;
+use Twig\Environment;
 
 /**
  * Class AdminPostManager
@@ -28,12 +29,11 @@ class AdminPostManager
     }
 
     /**
-     * Create posts table if not exist
+     * @param \PDO $db
      *
-     * @param object $db
-     * @return void
+     * Create posts table if not exist
      */
-    public function createTable(object $db)
+    public function createTable(\PDO $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `posts` (
             `id_post` int(11) NOT NULL AUTO_INCREMENT,
@@ -54,6 +54,12 @@ class AdminPostManager
         };
     }
 
+    /**
+     * @param string $type
+     * @return bool
+     *
+     * Verify with MIME type if file is really img
+     */
     public function fileIsImg(string $type)
     {
         $validMimeTypes = array('image/png', 'image/jpg', 'image/jpeg', 'image/webp');
@@ -64,10 +70,9 @@ class AdminPostManager
     }
 
     /**
-     * Upload post header image
+     * @return bool|\Intervention\Image\Image
      *
-     * @param integer $id_post
-     * @return array
+     * Resize and upload image
      */
     public function uploadImg()
     {
@@ -89,13 +94,13 @@ class AdminPostManager
 
 
     /**
-     * Add post to database
-     *
      * @param array $formData
-     * @param $twig
-     * @return void
+     * @param Environment $twig
+     * @return array
+     *
+     * Add Post to database
      */
-    public function addPost(array $formData, $twig)
+    public function addPost(array $formData, Environment $twig) : array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -115,11 +120,11 @@ class AdminPostManager
         if ($id_post_to_modify !== "modify") {
 
             $sql = "UPDATE posts 
-                    SET title = '" . $title . "' , 
-                    intro = '" . $intro . "' , 
-                    content = '" . $content . "' , 
-                    date_update = CURRENT_TIMESTAMP ,
-                    active = '" . $isActive . "', 
+                    SET title = '" . $title . "',
+                    intro = '" . $intro . "', 
+                    content = '" . $content . "', 
+                    date_update = CURRENT_TIMESTAMP,
+                    active = " . $isActive . " 
                     WHERE id_post = " . (int)$id_post_to_modify;
 
         } else {
@@ -161,6 +166,8 @@ class AdminPostManager
 
     /**
      * @return bool
+     *
+     * Delete post
      */
     public function deletePost(): bool
     {
@@ -183,8 +190,7 @@ class AdminPostManager
      * @param integer $id_post
      * @return array for twig template
      */
-    public
-    function getContent(int $id_post): array
+    public function getContent(int $id_post): array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -216,8 +222,7 @@ class AdminPostManager
      * @param integer $quantity
      * @return array list of articles with content
      */
-    public
-    function getPostsList(int $quantity): ?array
+    public function getPostsList(int $quantity): ?array
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -253,6 +258,11 @@ class AdminPostManager
         }
     }
 
+    /**
+     * @return array|null
+     *
+     * Return list of all inactive posts
+     */
     public function getInactivePostsList(): ?array
     {
         if (!isset($db) || $db == null) {
@@ -290,9 +300,10 @@ class AdminPostManager
 
     /**
      * @param int $id_post
+     *
+     * Toggle post activation
      */
-    public
-    static function postToggleActivation(int $id_post): void
+    public static function postToggleActivation(int $id_post): void
     {
         $post = new Post($id_post);
         if ($post->isActive()) {
@@ -315,9 +326,10 @@ class AdminPostManager
     /**
      * @param $id_post
      * @param $active
+     *
+     * Set post activation
      */
-    public
-    static function setActive(int $id, int $active): void
+    public static function setActive(int $id, int $active): void
     {
         if (!isset($db) || $db == null) {
             $db = DbManager::openDB();
@@ -331,9 +343,10 @@ class AdminPostManager
     /**
      * @param $formData
      * @return Validator
+     *
+     * get post data validator
      */
-    public
-    function getValidator(array $formData)
+    public function getValidator(array $formData)
     {
         return (new Validator($formData))
             ->required('title', 'intro', 'content')

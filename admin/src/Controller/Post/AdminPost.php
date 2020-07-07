@@ -7,6 +7,11 @@ use App\Model\Manager\PostManager;
 use App\Model\Manager\UserManager;
 use App\Controller\Post\Comment;
 
+/**
+ * Class AdminPost
+ * @package Admin\Controller\Post
+ * Post instance for back office
+ */
 class AdminPost
 {
     private $id_post;
@@ -66,7 +71,10 @@ class AdminPost
         );
     }
 
-    public function isActive()
+    /**
+     * @return boolean
+     */
+    public function isActive() : bool
     {
         return $this->active;
     }

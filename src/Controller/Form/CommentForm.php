@@ -15,17 +15,22 @@ class CommentForm
     private $submitButton;
     private $actionLink;
 
-    public function __construct($post_id = null)
+    /**
+     * CommentForm constructor.
+     * @param int|null $post_id
+     */
+    public function __construct(int $post_id = null)
     {
         $this->post_id = $post_id;
     }
 
     /**
-     * Create fields for login form
-     *
+     * @param array|null $comment
      * @return array
+     *
+     * Create fields for comment form
      */
-    public function setFormFields($comment = null): array
+    public function setFormFields(array $comment = null): array
     {
         $modify = isset($comment['id_comment']) ? true : false;
         $id_comment = isset($comment['id_comment']) ? $comment['id_comment'] : null;
@@ -93,11 +98,12 @@ class CommentForm
     }
 
     /**
-     * Render login form
-     *
+     * @param array|null $comment
      * @return array
+     *
+     * Render login form
      */
-    public function renderForm($comment = null): array
+    public function renderForm(array $comment = null): array
     {
         $form = $this->setFormFields($comment);
         return $form;

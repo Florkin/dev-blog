@@ -20,11 +20,14 @@ class UserForm
     private $role;
 
     /**
-     * Create form fields for user registration /modification
-     *
+     * @param array|null $values
+     * @param bool $modify
+     * @param int|null $id_user
      * @return array
+     *
+     * Create form fields for user registration /modification
      */
-    public function setFormFields($values = null, $modify = false, $id_user = null): array
+    public function setFormFields(array $values = null, bool $modify = false, int $id_user = null): array
     {
         $formDataGetter = new Session();
         $formData = $formDataGetter->getFormdata();
@@ -140,11 +143,14 @@ class UserForm
     }
 
     /**
-     * Render form fields for user registration /modification
-     *
+     * @param array|null $values
+     * @param bool $modify
+     * @param int|null $id_user
      * @return array
+     *
+     * Render form fields for user registration / modification
      */
-    public function renderForm($values = null, $modify = false, $id_user = null): array
+    public function renderForm(array $values = null, bool $modify = false, int $id_user = null): array
     {
         $form = $this->setFormFields($values, $modify, $id_user);
         return $form;

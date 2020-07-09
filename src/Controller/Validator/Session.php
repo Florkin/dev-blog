@@ -2,10 +2,20 @@
 
 namespace App\Controller\Validator;
 
+/**
+ * Class Session
+ * @package App\Controller\Validator
+ *
+ * Use sessions for flash messages and formdata persister
+ */
 class Session
 {
     private $data;
 
+    /**
+     * Session constructor.
+     * @param $data
+     */
     public function __construct($data = null)
     {
         if (!session_status() == PHP_SESSION_ACTIVE) {
@@ -14,12 +24,20 @@ class Session
         $this->data = $data;
     }
 
+    /**
+     * Set a flash message
+     */
     public function setMessages()
     {
         $_SESSION['flash'] = $this->data;
     }
 
-    public function getMessages()
+    /**
+     * @return array|null
+     *
+     * Get all flash messages
+     */
+    public function getMessages() : ?array
     {
         if (isset($_SESSION['flash'])) {
             return $_SESSION['flash'];
@@ -28,6 +46,9 @@ class Session
         }
     }
 
+    /**
+     * Delete all flash messages
+     */
     public function deleteMessages()
     {
         if (isset($_SESSION['flash'])) {
@@ -35,11 +56,20 @@ class Session
         }
     }
 
+    /**
+     * Set formdata for persistance
+     */
     public function setFormdata(){
         $_SESSION['formdata'] = $this->data;
     }
 
-    public function getFormdata(){
+    /**
+     * @return array|null
+     *
+     * Get form data
+     */
+    public function getFormdata() : ?array
+    {
         if (isset($_SESSION['formdata'])) {
             return $_SESSION['formdata'];
         } else {
@@ -47,6 +77,9 @@ class Session
         }
     }
 
+    /**
+     * Delete form data
+     */
     public function deleteFormdata(){
         if (isset($_SESSION['formdata'])) {
             unset($_SESSION['formdata']);

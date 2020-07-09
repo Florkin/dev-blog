@@ -17,6 +17,7 @@ use App\Model\Manager\UserManager;
 use App\Tools;
 use GuzzleHttp\Client;
 use \Balambasik\Input;
+use Twig\Environment;
 
 /**
  * FrontController for navigation
@@ -28,10 +29,10 @@ abstract class FrontController
      * Display Post page depending of post id
      *
      * @param integer $id
-     * @param object $twig
+     * @param Environment $twig
      * @return void
      */
-    public static function post(int $id, object $twig)
+    public static function post(int $id, Environment $twig)
     {
         $post = new Post($id);
         $commentForm = Self::getCommentForm($id);
@@ -44,10 +45,10 @@ abstract class FrontController
     /**
      * Display listing posts page
      *
-     * @param object $twig
+     * @param Environment $twig
      * @return void
      */
-    public static function postslist(object $twig)
+    public static function postslist(Environment $twig)
     {
         $postslist = new PostsList(0);
         $posts = $postslist->getPosts();
@@ -59,11 +60,11 @@ abstract class FrontController
      * If getting POST from form, call register() function.
      * Else, display register form
      *
-     * @param object $twig
+     * @param Environment $twig
      * @return void
      * @throws \Delight\Auth\AuthError
      */
-    public static function registration(object $twig)
+    public static function registration(Environment $twig)
     {
 
         if (null !== Input::get('action') && null !== Input::post() && Input::get('action') == "register") {
@@ -97,12 +98,21 @@ abstract class FrontController
         };
     }
 
+    /**
+     * @return array
+     *
+     * Get register form elements
+     */
     public static function getRegisterForm(): array
     {
         $registerForm = new UserForm;
         return $registerForm->renderForm();
     }
 
+    /**
+     * @param int $id
+     * @param bool $modify Is modification or add?
+     */
     public function addComment(int $id, bool $modify = false)
     {
         $formData = Input::post();
@@ -131,7 +141,13 @@ abstract class FrontController
 
     }
 
-    public static function getCommentForm($id): array
+    /**
+     * @param int $id
+     * @return array
+     *
+     * Get comment form elements
+     */ 
+    public static function getCommentForm(int $id): array
     {
         $commentForm = new CommentForm($id);
         return $commentForm->renderForm();
@@ -185,6 +201,9 @@ abstract class FrontController
         Tools::redirect(_BASE_URL_,301);
     }
 
+    /**
+     * Send message from contact form
+     */
     public static function sendMessage()
     {
         $formData = Input::post();
@@ -209,7 +228,14 @@ abstract class FrontController
         Tools::redirect(_CURRENT_URL_,301);
     }
 
-    public function verifyEmail($selector, $token)
+    /**
+     * @param string $selector
+     * @param string $token
+     * @throws \Delight\Auth\AuthError
+     *
+     * Email verifying
+     */
+    public function verifyEmail(string $selector, string $token)
     {
         $messages = UserManager::verifyEmail($selector, $token);
         $flash = new Session($messages);
@@ -217,7 +243,14 @@ abstract class FrontController
         Tools::redirect(_CURRENT_URL_,301);
     }
 
-    public function resetPasswordSendEmail($post = false, $twig = null)
+    /**
+     * @param bool $post
+     * @param Environment|null $twig
+     * @throws \Delight\Auth\AuthError
+     *
+     * Send email for reset password
+     */
+    public function resetPasswordSendEmail(bool $post = false, Environment $twig = null)
     {
         if ($post) {
             $formData = Input::post();
@@ -241,8 +274,16 @@ abstract class FrontController
         }
     }
 
-
-    public function newPassword(string $selector = null, string $token = null, $post = false, object $twig = null)
+    /**
+     * @param string|null $selector
+     * @param string|null $token
+     * @param bool $post
+     * @param Environment|null $twig
+     * @throws \Delight\Auth\AuthError
+     *
+     * Set new password
+     */
+    public function newPassword(string $selector = null, string $token = null, $post = false, Environment $twig = null)
     {
         $password = new PasswordManager;
 
@@ -284,7 +325,15 @@ abstract class FrontController
         }
     }
 
-    public function getPasswordResetForm(bool $password = false, string $selector = null, string $token = null)
+    /**
+     * @param bool $password
+     * @param string|null $selector
+     * @param string|null $token
+     * @return array
+     *
+     * Get password reset form elements
+     */
+    public function getPasswordResetForm(bool $password = false, string $selector = null, string $token = null) : array
     {
         $passwordResetForm = new PasswordResetForm();
         return $passwordResetForm->renderForm($password, $selector, $token);
@@ -293,10 +342,10 @@ abstract class FrontController
     /**
      * Display Home page with $quantity of last articles (PostList($quantity))
      *
-     * @param object $twig
+     * @param Environment $twig
      * @return void
      */
-    public static function home(object $twig)
+    public static function home(Environment $twig)
     {
         $postslist = new PostsList(3);
         $posts = $postslist->getPosts();
@@ -308,7 +357,12 @@ abstract class FrontController
         print_r($twig->render('pages/home.twig', ['posts' => $posts]));
     }
 
-    public static function contact(object $twig)
+    /**
+     * @param Environment $twig
+     *
+     * Display contact page
+     */
+    public static function contact(Environment $twig)
     {
         $contactForm = new \App\Controller\Form\ContactForm;
         $contactForm = $contactForm->renderForm();
@@ -316,11 +370,23 @@ abstract class FrontController
         print_r($twig->render('pages/contact.twig', ['contactForm' => $contactForm['form'], 'actionContact' => $contactForm['action']]));
     }
 
-    public function unauthorized(object $twig, string $message)
+    /**
+     * @param Environment $twig
+     * @param string $message
+     *
+     * Display page for unauthorized action
+     */
+    public function unauthorized(Environment $twig, string $message)
     {
         print_r($twig->render('pages/unauthorized.twig', ['message' => $message]));
     }
-    public function notFound(object $twig)
+
+    /**
+     * @param Environment $twig
+     *
+     * 404 page
+     */
+    public function notFound(Environment $twig)
     {
         print_r($twig->render('pages/notfound.twig'));
     }

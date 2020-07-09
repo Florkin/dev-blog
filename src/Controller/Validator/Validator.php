@@ -14,6 +14,10 @@ class Validator
      */
     private $errors = [];
 
+    /**
+     * Validator constructor.
+     * @param array $params
+     */
     public function __construct(array $params)
     {
         foreach($params as $key => $param){
@@ -38,7 +42,13 @@ class Validator
         return $this;
     }
 
-    public function notEmpty(string...$keys)
+    /**
+     * @param string ...$keys
+     * @return $this
+     *
+     * Check if not empty
+     */
+    public function notEmpty(string...$keys): self
     {
         foreach ($keys as $key) {
             $value = $this->getValue($key);
@@ -49,6 +59,12 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return $this
+     *
+     * Check emails
+     */
     public function email(string $key): self
     {
         if (!filter_var($this->params[$key], FILTER_VALIDATE_EMAIL)) {
@@ -57,6 +73,12 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return $this
+     *
+     * Check passwords
+     */
     public function password(string $key): self
     {
         $pattern = '/^[a-zA-Z0-9]{8,30}$/'; //8 characters minimum
@@ -66,6 +88,14 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @param int|null $min
+     * @param int|null $max
+     * @return $this
+     *
+     * Check length
+     */
     public function length(string $key, ?int $min, ?int $max = null): self
     {
         $value = $this->getValue($key);
@@ -87,6 +117,12 @@ class Validator
 
     }
 
+    /**
+     * @param string $key
+     * @return $this
+     *
+     * Check if is username
+     */
     public function username(string $key): self
     {
         $pattern = '/^[a-zA-Z0-9]{4,16}$/';
@@ -96,6 +132,12 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return $this
+     *
+     * Check if is author name
+     */
     public function author(string $key): self
     {
         if (isset($this->params[$key])){
@@ -108,6 +150,12 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return $this
+     *
+     * Check if checkbox is checked
+     */
     public function isChecked(string $key): self
     {
         if (!(isset($this->params[$key]) && $this->params[$key] == "on")){
@@ -117,6 +165,12 @@ class Validator
         return $this;
     }
 
+    /**
+     * @param string $key
+     * @return $this
+     *
+     * Check if field is checkbox
+     */
     public function isCheckbox(string $key): self
     {
         if (isset($this->params[$key]) && $this->params[$key] != "on"){
@@ -126,7 +180,13 @@ class Validator
         return $this;
     }
 
-    public function isCleanHtml($key)
+    /**
+     * @param $key
+     * @return $this
+     *
+     * Check if Html is clean
+     */
+    public function isCleanHtml($key): self
     {
         $events = 'onmousedown|onmousemove|onmmouseup|onmouseover|onmouseout|onload|onunload|onfocus|onblur|onchange';
         $events .= '|onsubmit|ondblclick|onclick|onkeydown|onkeyup|onkeypress|onmouseenter|onmouseleave|onerror|onselect|onreset|onabort|ondragdrop|onresize|onactivate|onafterprint|onmoveend';
@@ -154,6 +214,12 @@ class Validator
         return $this->errors;
     }
 
+    /**
+     * @param string $key
+     * @return mixed|null
+     *
+     * get one value with key
+     */
     private function getValue(string $key)
     {
         if (array_key_exists($key, $this->params)) {
@@ -163,6 +229,11 @@ class Validator
         return null;
     }
 
+    /**
+     * @return bool
+     *
+     * Check if form is valid
+     */
     public function isValid(): bool
     {
         return empty($this->errors);

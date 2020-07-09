@@ -14,7 +14,13 @@ class User
     private $registered;
     private $verified;
 
-    function __construct($id_user = null, $user_email = null)
+    /**
+     * User constructor.
+     * @param int|null $id_user
+     * @param string|null $user_email
+     * @throws \Delight\Auth\UnknownIdException
+     */
+    function __construct(int $id_user = null, string $user_email = null)
     {
 
         if (isset($id_user) && $id_user != null){
@@ -50,33 +56,33 @@ class User
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getRole()
+    public function getRole() : string
     {
         return $this->role;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getLastLogin()
+    public function getLastLogin() : string
     {
         return $this->last_login;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getRegistered()
+    public function getRegistered() : string
     {
         return $this->registered;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function isVerified()
+    public function isVerified() : bool
     {
         return $this->verified;
     }
@@ -84,7 +90,7 @@ class User
     /**
      * @return string|null
      */
-    public function getIdUser()
+    public function getIdUser() : ?string
     {
         return $this->id_user;
     }

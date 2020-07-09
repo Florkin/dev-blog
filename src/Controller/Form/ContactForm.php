@@ -23,7 +23,7 @@ class ContactForm
      *
      * @return array
      */
-    public function setFormFields($comment = null): array
+    public function setFormFields(): array
     {
         $formDataGetter = new Session();
         $formData = $formDataGetter->getFormdata();
@@ -101,7 +101,7 @@ class ContactForm
 
 
     /**
-     * Render login form
+     * Render Contact form
      *
      * @return array
      */

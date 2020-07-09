@@ -66,12 +66,18 @@ class Post
         );
     }
 
-    public function isActive()
+    /**
+     * @return bool
+     */
+    public function isActive() : bool
     {
         return $this->active;
     }
 
-    public function getAuthorId()
+    /**
+     * @return int
+     */
+    public function getAuthorId() : int
     {
         return $this->id_user;
     }

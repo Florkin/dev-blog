@@ -16,6 +16,14 @@ class PasswordResetForm
     private $submitButton;
     private $actionLink;
 
+    /**
+     * @param bool $password
+     * @param string|null $selector
+     * @param string|null $token
+     * @return array
+     *
+     * Set fields for password reset form
+     */
     public function setFormFields(bool $password, string $selector = null, string $token = null): array
     {
         $this->emailField =
@@ -93,9 +101,12 @@ class PasswordResetForm
     }
 
     /**
-     * Render login form
-     *
+     * @param bool $password
+     * @param string|null $selector
+     * @param string|null $token
      * @return array
+     *
+     * Render Password reset form
      */
     public function renderForm(bool $password, string $selector = null, string $token = null): array
     {

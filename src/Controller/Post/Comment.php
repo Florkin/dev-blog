@@ -18,6 +18,10 @@ class Comment
     private $date_add;
     private $date_update;
 
+    /**
+     * Comment constructor.
+     * @param int $id_comment
+     */
     public function __construct(int $id_comment)
     {
         $this->id_comment = $id_comment;
@@ -34,6 +38,11 @@ class Comment
         $this->date_update = $content['date_update'];
     }
 
+    /**
+     * @return array
+     *
+     * return comment data
+     */
     public function displayComment(): array
     {
         return array(
@@ -48,17 +57,26 @@ class Comment
         );
     }
 
-    public function isActive()
+    /**
+     * @return bool
+     */
+    public function isActive() : boolean
     {
         return $this->isActive;
     }
 
-    public function getPostId()
+    /**
+     * @return int
+     */
+    public function getPostId() : int
     {
         return $this->id_post;
     }
 
-    public function getAuthorId()
+    /**
+     * @return int
+     */
+    public function getAuthorId() : int
     {
         return $this->id_user;
 

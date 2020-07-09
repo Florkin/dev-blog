@@ -496,6 +496,9 @@ class UserManager
             $response = $db->query($sql);
             $data = $response->fetch();
 
+            if (gettype($data) == "boolean"){
+                return null;
+            }
             return $data;
         }
     }
@@ -567,6 +570,7 @@ class UserManager
         if ($data['last_login']) {
             return date('d/m/Y', $data['last_login']);
         }
+        return null;
     }
 
     /**
@@ -578,6 +582,7 @@ class UserManager
         if ($data['registered']) {
             return date('d/m/Y', $data['registered']);
         }
+        return null;
     }
 
     /**
@@ -678,5 +683,18 @@ class UserManager
         }
 
         return $messages;
+    }
+
+    public static function checkIfUserExist(string $email)
+    {
+        $db = DbManager::openDB();
+        $sql = $db->prepare("SELECT id FROM users WHERE email=?");
+        $sql->execute([$email]);
+        $return = $sql->fetch();
+        if ($return) {
+            return true;
+        }
+
+        return false;
     }
 }

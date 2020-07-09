@@ -7,9 +7,22 @@ use App\Controller\User\User;
 use App\Controller\Validator\Validator;
 use Delight\Auth\Auth;
 
+/**
+ * Class PasswordManager
+ * @package App\Model\Manager
+ *
+ * Class to manage passwords
+ */
 class PasswordManager
 {
-    public function sendResetPasswordEmail($email)
+    /**
+     * @param string $email
+     * @return array
+     * @throws \Delight\Auth\AuthError
+     *
+     * Send email with url to reset password
+     */
+    public function sendResetPasswordEmail(string $email) : array
     {
         $auth = new Auth(DbManager::openDB(), null, null, false);
         $user = new User(null, $email);
@@ -48,6 +61,14 @@ class PasswordManager
         return $messages;
     }
 
+    /**
+     * @param string $selector
+     * @param string $token
+     * @return mixed
+     * @throws \Delight\Auth\AuthError
+     *
+     * Check if password can be reset
+     */
     public function canResetPassword(string $selector, string $token)
     {
         try {
@@ -57,9 +78,6 @@ class PasswordManager
 
             return true;
 
-//            echo 'Put the selector into a "hidden" field (or keep it in the URL)';
-//            echo 'Put the token into a "hidden" field (or keep it in the URL)';
-//            echo 'Ask the user for their new password';
         }
         catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
             $messages["status"] = "error";
@@ -81,6 +99,13 @@ class PasswordManager
         return $messages;
     }
 
+    /**
+     * @param $formData
+     * @return array
+     * @throws \Delight\Auth\AuthError
+     *
+     * Process password change
+     */
     public function changePassword($formData)
     {
         try {
@@ -114,7 +139,14 @@ class PasswordManager
         return $messages;
     }
 
-    function getValidator($action, $formData)
+    /**
+     * @param string $action
+     * @param array $formData
+     * @return Validator
+     *
+     * Password form validator
+     */
+    function getValidator(string $action, array $formData)
     {
         if ($action == 'email') {
             return (new Validator($formData))

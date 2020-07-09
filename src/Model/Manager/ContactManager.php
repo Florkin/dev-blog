@@ -17,6 +17,10 @@ class ContactManager
 
     private $formData;
 
+    /**
+     * ContactManager constructor.
+     * @param $formData
+     */
     public function __construct($formData)
     {
         foreach($formData as $key => $data){
@@ -24,6 +28,11 @@ class ContactManager
         }
     }
 
+    /**
+     * @return Validator
+     *
+     * Contact form validator
+     */
     public function getValidator()
     {
         return (new Validator($this->formData))
@@ -37,9 +46,11 @@ class ContactManager
     }
 
     /**
-     * @return mixed
+     * @return array
+     *
+     * Send message
      */
-    public function sendMessage()
+    public function sendMessage() : array
     {
         $result = Mail::sendMail(
             ['Contact dev-blog' => Config::EMAIL_CONTACT],

@@ -9,6 +9,7 @@ use App\Controller\Validator\Validator;
 use Delight\Auth\Administration;
 use Delight\Auth\Auth as Auth;
 use App\Tools;
+use Twig\Environment;
 
 class UserManager
 {
@@ -17,6 +18,11 @@ class UserManager
     private $user_email = null;
     private $user_data = null;
 
+    /**
+     * UserManager constructor.
+     * @param null $id_user
+     * @param null $user_email
+     */
     public function __construct($id_user = null, $user_email = null)
     {
         if (isset($id_user) and $id_user != null) {
@@ -32,10 +38,8 @@ class UserManager
      * Create users related table if don't exist
      *
      * @param object $db
-     * @return void
      */
-    public
-    static function createTables(object $db)
+    public static function createTables(\PDO $db)
     {
         $sql = "CREATE TABLE IF NOT EXISTS `users` (
             `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
@@ -105,8 +109,7 @@ class UserManager
      *
      * @return bool
      */
-    public
-    static function checkIsLogged(): bool
+    public static function checkIsLogged(): bool
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')) {
@@ -125,8 +128,12 @@ class UserManager
         return $isLogged;
     }
 
-    public
-    static function isAdmin(): ?bool
+    /**
+     * @return bool|null
+     *
+     * Check if logged user is admin
+     */
+    public static function isAdmin(): ?bool
     {
         if (Self::checkIsLogged()) {
             $roles = Self::getUserRole();
@@ -139,8 +146,12 @@ class UserManager
         }
     }
 
-    public
-    static function getUserRole(): ?array
+    /**
+     * @return array|null
+     *
+     * Check logged user role
+     */
+    public static function getUserRole(): ?array
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -159,8 +170,7 @@ class UserManager
      *
      * @return integer
      */
-    public
-    static function getUserId(): ?string
+    public static function getUserId(): ?string
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -178,8 +188,7 @@ class UserManager
      *
      * @return string
      */
-    public
-    static function getUsername(): ?string
+    public static function getUsername(): ?string
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -196,8 +205,7 @@ class UserManager
      *
      * @return string
      */
-    public
-    static function getEmail(): ?string
+    public static function getEmail(): ?string
     {
         if (Self::checkIsLogged()) {
             if (!isset($auth)) {
@@ -214,11 +222,11 @@ class UserManager
      * User register function
      *
      * @param array $formData
-     * @param $twig
-     * @return void
+     * @param Environment $twig
+     * @return array
      * @throws \Delight\Auth\AuthError
      */
-    public function register(array $formData, $twig)
+    public function register(array $formData, Environment $twig): array
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')) {
@@ -278,7 +286,16 @@ class UserManager
         return $messages;
     }
 
-    public function modify(array $formData, $twig = null)
+
+    /**
+     * @param array $formData
+     * @param Environment|null $twig
+     * @return array
+     * @throws \Delight\Auth\AuthError
+     *
+     * Modify user informations
+     */
+    public function modify(array $formData, Environment $twig = null): array
     {
         $db = DbManager::openDB();
         if (!DbManager::tableExists($db, 'Users')) {
@@ -294,7 +311,7 @@ class UserManager
             $auth = new Auth($db, null, null, false);
         }
 
-        if (isset($formData['role']) &&  $formData['role'] == "admin") {
+        if (isset($formData['role']) && $formData['role'] == "admin") {
             try {
                 $auth->admin()->addRoleForUserById($this->id_user, \Delight\Auth\Role::ADMIN);
             } catch (\Delight\Auth\UnknownIdException $e) {
@@ -315,13 +332,11 @@ class UserManager
                 $messages['status'] = 'error';
                 $messages['message'] = 'Vous nêtes pas connectés';
                 return $messages;
-            }
-            catch (\Delight\Auth\InvalidPasswordException $e) {
+            } catch (\Delight\Auth\InvalidPasswordException $e) {
                 $messages['status'] = 'error';
                 $messages['message'] = 'Mot de passe invalide';
                 return $messages;
-            }
-            catch (\Delight\Auth\TooManyRequestsException $e) {
+            } catch (\Delight\Auth\TooManyRequestsException $e) {
                 $messages['status'] = 'error';
                 $messages['message'] = 'Trop de requètes';
                 return $messages;
@@ -345,13 +360,12 @@ class UserManager
      * User Login function
      *
      * @param array $formData
-     * @param $twig
-     * @return void
+     * @param Environment $twig
+     * @return array
      * @throws \Delight\Auth\AttemptCancelledException
      * @throws \Delight\Auth\AuthError
      */
-    public
-    function login(array $formData, $twig)
+    public function login(array $formData, Environment $twig) : array
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -398,10 +412,10 @@ class UserManager
     /**
      * Logout function
      *
-     * @return void
+     * @return array
      * @throws \Delight\Auth\AuthError
      */
-    public function logout()
+    public function logout() : array
     {
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);
@@ -411,16 +425,23 @@ class UserManager
             $auth->logOutEverywhere();
             $messages['status'] = 'success';
             $messages['message'] = 'Vous êtes déconnecté de votre compte. A bientôt';
-            return $messages;
+
         } catch (\Delight\Auth\NotLoggedInException $e) {
             $messages['status'] = 'error';
             $messages['message'] = 'Vous n\'êtes pas connecté a un compte utilisateur';
-            return $messages;
         }
 
+        return $messages;
     }
 
-    public function getValidator($action, $formData)
+    /**
+     * @param string $action
+     * @param array $formData
+     * @return Validator
+     *
+     * Get user form validator
+     */
+    public function getValidator(string $action, array $formData)
     {
         if ($action == 'register') {
             return (new Validator($formData))
@@ -445,8 +466,12 @@ class UserManager
         }
     }
 
-    public
-    function getUserDataById()
+    /**
+     * @return array|null
+     *
+     * Get user data by id
+     */
+    public function getUserDataById() : ?array
     {
         if (isset($this->id_user)) {
             $sql = "SELECT * FROM users WHERE id = " . $this->id_user;
@@ -458,7 +483,12 @@ class UserManager
         }
     }
 
-    public function getUserDataByEmail()
+    /**
+     * @return array|null
+     *
+     * Get user data by email
+     */
+    public function getUserDataByEmail() : ?array
     {
         if (isset($this->user_email) && $this->user_email != null) {
             $sql = "SELECT * FROM users WHERE email = '" . $this->user_email . "'";
@@ -470,29 +500,46 @@ class UserManager
         }
     }
 
-    public
-    function getEmailById(): ?string
+    /**
+     * @return string|null
+     *
+     * Get user email by Id
+     */
+    public function getEmailById(): ?string
     {
         $data = $this->user_data;
         return $data['email'];
     }
 
-    public
-    function getIdByEmail(): ?string
+    /**
+     * @return string|null
+     *
+     * Get user ID by email
+     */
+    public function getIdByEmail(): ?string
     {
         $data = $this->user_data;
         return $data['id'];
     }
 
-    public
-    function getUsernameById(): ?string
+    /**
+     * @return string|null
+     *
+     * Get username by ID
+     */
+    public function getUsernameById(): ?string
     {
         $data = $this->user_data;
         return $data['username'];
     }
 
-    public
-    function getRoleById(): ?string
+    /**
+     * @return string|null
+     * @throws \Delight\Auth\UnknownIdException
+     *
+     * Get role by user ID
+     */
+    public function getRoleById(): ?string
     {
         $db = DbManager::openDB();
         $user = new Administration($db);
@@ -511,8 +558,10 @@ class UserManager
         }
     }
 
-    public
-    function getLastLoginById()
+    /**
+     * @return string|null
+     */
+    public function getLastLoginById() : ?string
     {
         $data = $this->user_data;
         if ($data['last_login']) {
@@ -520,8 +569,10 @@ class UserManager
         }
     }
 
-    public
-    function getRegisteredDateById()
+    /**
+     * @return string|null
+     */
+    public function getRegisteredDateById() : ?string
     {
         $data = $this->user_data;
         if ($data['registered']) {
@@ -529,8 +580,12 @@ class UserManager
         }
     }
 
-    public
-    function getVerifiedById()
+    /**
+     * @return bool
+     *
+     * Check if user account with ID is verified
+     */
+    public function getVerifiedById() : bool
     {
         $data = $this->user_data;
         if ($data['verified'] == 1) {
@@ -541,8 +596,13 @@ class UserManager
     }
 
 
-    public
-    static function getUsersList(): ?array
+    /**
+     * @return array|null
+     * @throws \ReflectionException
+     *
+     * Return array with users id list
+     */
+    public static function getUsersList(): ?array
     {
         $db = DbManager::openDB();
         $auth = new Auth($db);
@@ -561,13 +621,16 @@ class UserManager
         }
     }
 
-    public
-    function deleteUserById()
+    /**
+     * @return array
+     * @throws \Delight\Auth\AuthError
+     */
+    public function deleteUserById() : array
     {
         $db = DbManager::openDB();
         $auth = new Auth($db);
         try {
-            if ($this->id_user == Self::getUserId()){
+            if ($this->id_user == Self::getUserId()) {
                 Self::logout();
             }
             $auth->admin()->deleteUserById($this->id_user);
@@ -581,8 +644,15 @@ class UserManager
         return $messages;
     }
 
-    public
-    static function verifyEmail($selector, $token)
+    /**
+     * @param string $selector
+     * @param string $token
+     * @return array
+     * @throws \Delight\Auth\AuthError
+     *
+     * Process user email verification
+     */
+    public static function verifyEmail(string $selector, string $token) : array
     {
         $rememberDuration = (int)(60 * 60 * 24 * 365.25);
         $db = DbManager::openDB();

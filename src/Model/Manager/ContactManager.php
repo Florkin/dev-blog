@@ -53,7 +53,7 @@ class ContactManager
     public function sendMessage() : array
     {
         $result = Mail::sendMail(
-            ['Contact dev-blog' => Config::EMAIL_CONTACT],
+            [$this->formData['firstname'] => Config::EMAIL_CONTACT],
             null,
             null,
             $this->formData['subject'],

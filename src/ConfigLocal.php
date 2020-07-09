@@ -22,5 +22,7 @@ abstract class Config {
     const EMAIL_PASSWORD = ""; // To connect to gmail account, for example
     const EMAIL_USERNAME = ""; // To connect to gmail account, for example
     const EMAIL_CONTACT = ""; // Contact form will send mails at this address
+    const EMAIL_PORT = 587; // SMTP Port
+
 
 }

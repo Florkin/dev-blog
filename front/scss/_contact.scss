@@ -25,7 +25,7 @@
 
     &::-webkit-input-placeholder {
       color: $gray-600;
-      
+
       @include serif-font;
     }
   }
@@ -44,6 +44,7 @@
     transition: top 0.3s ease, opacity 0.3s ease;
     opacity: 0;
   }
+  
   .help-block {
     margin: 15px 0;
   }

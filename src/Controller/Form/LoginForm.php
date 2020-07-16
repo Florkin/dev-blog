@@ -61,8 +61,6 @@ class LoginForm
 
         $this->actionLink = _BASE_URL_ . "/login";
 
-//        $formDataGetter->deleteFormdata();
-
         return array(
             'action' => $this->actionLink,
             'form' => array(

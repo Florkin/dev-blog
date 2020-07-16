@@ -82,9 +82,10 @@ class PostManager
     public static function checkIfPostExist(int $id)
     {
         $db = DbManager::openDB();
-        $sql = $db->prepare("SELECT id FROM users WHERE id=?");
+        $sql = $db->prepare("SELECT id_post FROM posts WHERE id_post=?");
         $sql->execute([$id]);
         $return = $sql->fetch();
+
         if ($return) {
             return true;
         }

@@ -5,12 +5,6 @@
 header.masthead {
 
   // TIP: Background images are set within the HTML using inline CSS!
-  @media screen and (min-width: 1400px) {
-    min-height: 800px;
-    display: flex;
-    align-items: center;
-  }
-
   margin-bottom: 50px;
   background: no-repeat center center;
   background-color: $gray-600;

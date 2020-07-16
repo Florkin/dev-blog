@@ -22,21 +22,19 @@ class User
      */
     function __construct(int $id_user = null, string $user_email = null)
     {
-
-        if (isset($id_user) && $id_user != null){
+        if (isset($id_user) && $id_user != null) {
             $user = new UserManager($id_user);
-        } else if (isset($user_email) && $user_email != null){
+        } else if (isset($user_email) && $user_email != null) {
             $user = new UserManager(null, $user_email);
         }
 
         $this->id_user = isset($id_user) && $id_user != null ? $id_user : $user->getIdByEmail();
         $this->username = $user->getUsernameById();
-        $this->email =  isset($user_email) && $user_email != null ? $user_email : $user->getEmailById();
+        $this->email = isset($user_email) && $user_email != null ? $user_email : $user->getEmailById();
         $this->role = $user->getRoleById();
         $this->last_login = $user->getLastLoginById();
         $this->registered = $user->getRegisteredDateById();
         $this->verified = $user->getVerifiedById();
-
     }
 
     /**
@@ -58,7 +56,7 @@ class User
     /**
      * @return string
      */
-    public function getRole() : string
+    public function getRole(): string
     {
         return $this->role;
     }
@@ -66,7 +64,7 @@ class User
     /**
      * @return string
      */
-    public function getLastLogin() : string
+    public function getLastLogin(): string
     {
         return $this->last_login;
     }
@@ -74,7 +72,7 @@ class User
     /**
      * @return string
      */
-    public function getRegistered() : string
+    public function getRegistered(): string
     {
         return $this->registered;
     }
@@ -82,7 +80,7 @@ class User
     /**
      * @return bool
      */
-    public function isVerified() : bool
+    public function isVerified(): bool
     {
         return $this->verified;
     }
@@ -90,7 +88,7 @@ class User
     /**
      * @return string|null
      */
-    public function getIdUser() : ?string
+    public function getIdUser(): ?string
     {
         return $this->id_user;
     }

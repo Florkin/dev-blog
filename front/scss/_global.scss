@@ -9,15 +9,6 @@ body {
   @include serif-font;
 }
 
-p {
-  line-height: 1.5;
-  margin: 30px 0;
-  
-  a {
-    text-decoration: underline;
-  }
-}
-
 h1,
 h2,
 h3,
@@ -37,6 +28,15 @@ a {
   &:focus,
   &:hover {
     color: $primary;
+  }
+}
+
+p {
+  line-height: 1.5;
+  margin: 30px 0;
+
+  a {
+    text-decoration: underline;
   }
 }
 
@@ -86,7 +86,7 @@ img::-moz-selection {
 
 .messages {
   z-index: 2000;
-  position: fixed ;
+  position: fixed;
 
   @include sans-serif-font;
 }

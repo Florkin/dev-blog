@@ -25,12 +25,14 @@ class UserManager
      */
     public function __construct($id_user = null, $user_email = null)
     {
-        if (isset($id_user) and $id_user != null) {
-            $this->id_user = $id_user;
-            $this->user_data = $this->getUserDataById();
-        } else if (isset($user_email) and $user_email != null) {
-            $this->user_email = $user_email;
-            $this->user_data = $this->getUserDataByEmail();
+        if (Self::checkIfUserExist(null, $id_user)) {
+            if (isset($id_user) and $id_user != null) {
+                $this->id_user = $id_user;
+                $this->user_data = $this->getUserDataById();
+            } else if (isset($user_email) and $user_email != null) {
+                $this->user_email = $user_email;
+                $this->user_data = $this->getUserDataByEmail();
+            }
         }
     }
 
@@ -365,7 +367,7 @@ class UserManager
      * @throws \Delight\Auth\AttemptCancelledException
      * @throws \Delight\Auth\AuthError
      */
-    public function login(array $formData, Environment $twig) : array
+    public function login(array $formData, Environment $twig): array
     {
         $email = $formData['email'];
         $password = $formData['password'];
@@ -415,7 +417,7 @@ class UserManager
      * @return array
      * @throws \Delight\Auth\AuthError
      */
-    public function logout() : array
+    public function logout(): array
     {
         if (!isset($auth)) {
             $auth = new Auth(DbManager::openDB(), null, null, false);
@@ -471,7 +473,7 @@ class UserManager
      *
      * Get user data by id
      */
-    public function getUserDataById() : ?array
+    public function getUserDataById(): ?array
     {
         if (isset($this->id_user)) {
             $sql = "SELECT * FROM users WHERE id = " . $this->id_user;
@@ -488,7 +490,7 @@ class UserManager
      *
      * Get user data by email
      */
-    public function getUserDataByEmail() : ?array
+    public function getUserDataByEmail(): ?array
     {
         if (isset($this->user_email) && $this->user_email != null) {
             $sql = "SELECT * FROM users WHERE email = '" . $this->user_email . "'";
@@ -496,7 +498,7 @@ class UserManager
             $response = $db->query($sql);
             $data = $response->fetch();
 
-            if (gettype($data) == "boolean"){
+            if (gettype($data) == "boolean") {
                 return null;
             }
             return $data;
@@ -564,7 +566,7 @@ class UserManager
     /**
      * @return string|null
      */
-    public function getLastLoginById() : ?string
+    public function getLastLoginById(): ?string
     {
         $data = $this->user_data;
         if ($data['last_login']) {
@@ -576,7 +578,7 @@ class UserManager
     /**
      * @return string|null
      */
-    public function getRegisteredDateById() : ?string
+    public function getRegisteredDateById(): ?string
     {
         $data = $this->user_data;
         if ($data['registered']) {
@@ -590,7 +592,7 @@ class UserManager
      *
      * Check if user account with ID is verified
      */
-    public function getVerifiedById() : bool
+    public function getVerifiedById(): bool
     {
         $data = $this->user_data;
         if ($data['verified'] == 1) {
@@ -622,7 +624,6 @@ class UserManager
             }
 
             return $users;
-
         }
     }
 
@@ -630,7 +631,7 @@ class UserManager
      * @return array
      * @throws \Delight\Auth\AuthError
      */
-    public function deleteUserById() : array
+    public function deleteUserById(): array
     {
         $db = DbManager::openDB();
         $auth = new Auth($db);
@@ -657,7 +658,7 @@ class UserManager
      *
      * Process user email verification
      */
-    public static function verifyEmail(string $selector, string $token) : array
+    public static function verifyEmail(string $selector, string $token): array
     {
         $rememberDuration = (int)(60 * 60 * 24 * 365.25);
         $db = DbManager::openDB();
@@ -685,11 +686,17 @@ class UserManager
         return $messages;
     }
 
-    public static function checkIfUserExist(string $email)
+    public static function checkIfUserExist(string $email = null, int $id = null)
     {
         $db = DbManager::openDB();
-        $sql = $db->prepare("SELECT id FROM users WHERE email=?");
-        $sql->execute([$email]);
+
+        if (isset($email) && $email != null){
+            $sql = $db->prepare("SELECT id FROM users WHERE email=?");
+            $sql->execute([$email]);
+        } else {
+            $sql = $db->prepare("SELECT id FROM users WHERE id=?");
+            $sql->execute([$id]);
+        }
         $return = $sql->fetch();
         if ($return) {
             return true;

@@ -71,6 +71,9 @@ class Post
      */
     public function isActive() : bool
     {
+        if (!isset($this->active)){
+            return false;
+        }
         return $this->active;
     }
 

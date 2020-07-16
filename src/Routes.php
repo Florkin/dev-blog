@@ -9,6 +9,7 @@ use App\Controller\Post\Comment;
 use App\Controller\Post\Post;
 use App\Controller\User\User;
 use App\Model\Manager\CommentManager;
+use App\Model\Manager\PostManager;
 use App\Model\Manager\UserManager;
 use Twig\Environment;
 
@@ -23,6 +24,10 @@ abstract class Routes
     const NOT_AUTHOR_MESSAGE = "Vous devez être l'auteur ou un administrateur pour modifier ceci";
     const NOT_USER_MESSAGE = "Vous devez être l'utilisateur concerné ou un administrateur pour modifier ceci";
     const ALREADY_LOGGED = "Vous êtes déjà loggés";
+    const NOT_ACTIVE_MESSAGE = "Cet article n'existe pas ou n'est pas activé";
+    const USER_NOT_EXIST_MESSAGE = "Cet utilisateur n'existe pas";
+    const POST_NOT_EXIST_MESSAGE = "Cet article n'existe pas";
+
 
     /**
      * Set all routing system
@@ -74,7 +79,7 @@ abstract class Routes
             if ($post->isActive() == 1){
                 return FrontController::post($id, $twig);
             } else {
-                return FrontController::unauthorized($twig, Self::notActiveMessage);
+                return FrontController::unauthorized($twig, Self::NOT_ACTIVE_MESSAGE);
             }
         }, 'article');
 
@@ -117,12 +122,16 @@ abstract class Routes
         }, 'write-post');
 
         $router->map('GET', '/admin/modifier-article/[i:id]', function ($id, $twig) {
-            $post = new Post($id);
-            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
-                return BackController::writePost($twig, $id);
+            if(PostManager::checkIfPostExist($id)){
+                $post = new Post($id);
+                if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
+                    return BackController::writePost($twig, $id);
+                } else {
+                    return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
+                }
             } else {
-                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
-            }
+                return FrontController::unauthorized($twig, Self::POST_NOT_EXIST_MESSAGE);
+            }          
         }, 'modify-post');
 
         $router->map('GET', '/admin/supprimer-article/[i:id]', function ($id, $twig) {
@@ -176,12 +185,17 @@ abstract class Routes
         }, 'activation-commentaire');
 
         $router->map('GET', '/admin/articles/[i:id]', function ($id, $twig) {
-            $post = new Post($id);
-            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
-                return BackController::post($id, $twig);
+            if (PostManager::checkIfPostExist($id)){
+                $post = new Post($id);
+                if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $post->getAuthorId())) {
+                    return BackController::post($id, $twig);
+                } else {
+                    return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
+                }
             } else {
-                return FrontController::unauthorized($twig, Self::NOT_AUTHOR_MESSAGE);
+                return FrontController::unauthorized($twig, Self::POST_NOT_EXIST_MESSAGE);
             }
+
         }, 'admin-article');
 
         $router->map('GET', '/admin/modifier-commentaire/[i:id]', function ($id, $twig) {
@@ -202,12 +216,16 @@ abstract class Routes
         }, 'utilisateurs');
 
         $router->map('GET', '/admin/utilisateurs/[i:id]', function ($id, $twig) {
-            $user = new User($id);
-            if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
-                return BackController::userProfile($id, $twig);
-            } else {
-                return FrontController::unauthorized($twig, Self::NOT_USER_MESSAGE);
+            if (UserManager::checkIfUserExist(null, $id)){
+                $user = new User($id);
+                if (UserManager::checkIsLogged() && (UserManager::isAdmin() || UserManager::getUserId() == $user->getIdUser())){
+                    return BackController::userProfile($id, $twig);
+                } else {
+                    return FrontController::unauthorized($twig, Self::NOT_USER_MESSAGE);
+                }
             }
+            return FrontController::unauthorized($twig, Self::USER_NOT_EXIST_MESSAGE);
+
         }, 'utilisateur');
 
         $router->map('GET', '/admin/modifier-utilisateur/[i:id]', function ($id, $twig) {

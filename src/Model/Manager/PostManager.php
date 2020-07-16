@@ -61,7 +61,7 @@ class PostManager
             }
 
             $response = $db->query($sql);
-            if ($response){
+            if ($response) {
                 $list = array();
                 while ($data = $response->fetch()) {
                     $user = new UserManager($data['id_user']);
@@ -79,6 +79,17 @@ class PostManager
         }
     }
 
+    public static function checkIfPostExist(int $id)
+    {
+        $db = DbManager::openDB();
+        $sql = $db->prepare("SELECT id FROM users WHERE id=?");
+        $sql->execute([$id]);
+        $return = $sql->fetch();
+        if ($return) {
+            return true;
+        }
 
+        return false;
+    }
 
 }

@@ -11,6 +11,8 @@ namespace App\Controller\Validator;
 class Session
 {
     private $data;
+    private $session;
+    private $session_factory;
 
     /**
      * Session constructor.
@@ -18,9 +20,8 @@ class Session
      */
     public function __construct($data = null)
     {
-        if (!session_status() == PHP_SESSION_ACTIVE) {
-            session_start();
-        }
+        $this->session_factory = new \Aura\Session\SessionFactory;
+        $this->session = $this->session_factory->newInstance($_COOKIE);
         $this->data = $data;
     }
 
@@ -29,7 +30,8 @@ class Session
      */
     public function setMessages()
     {
-        $_SESSION['flash'] = $this->data;
+        $flash = $this->session->getSegment('flash\messages');
+        $flash->set("flash", $this->data);
     }
 
     /**
@@ -37,13 +39,10 @@ class Session
      *
      * Get all flash messages
      */
-    public function getMessages() : ?array
+    public function getMessages(): ?array
     {
-        if (isset($_SESSION['flash'])) {
-            return $_SESSION['flash'];
-        } else {
-            return null;
-        }
+        $flash = $this->session->getSegment('flash\messages');
+        return $flash->get("flash");
     }
 
     /**
@@ -51,16 +50,17 @@ class Session
      */
     public function deleteMessages()
     {
-        if (isset($_SESSION['flash'])) {
-            unset($_SESSION['flash']);
-        }
+        $flash = $this->session->getSegment('flash\messages');
+        $flash->clear("flash");
     }
 
     /**
      * Set formdata for persistance
      */
-    public function setFormdata(){
-        $_SESSION['formdata'] = $this->data;
+    public function setFormdata()
+    {
+        $flash = $this->session->getSegment('flash\formdata');
+        $flash->set("formdata", $this->data);
     }
 
     /**
@@ -68,21 +68,18 @@ class Session
      *
      * Get form data
      */
-    public function getFormdata() : ?array
+    public function getFormdata(): ?array
     {
-        if (isset($_SESSION['formdata'])) {
-            return $_SESSION['formdata'];
-        } else {
-            return null;
-        }
+        $flash = $this->session->getSegment('flash\formdata');
+        return $flash->get("formdata");
     }
 
     /**
      * Delete form data
      */
-    public function deleteFormdata(){
-        if (isset($_SESSION['formdata'])) {
-            unset($_SESSION['formdata']);
-        }
+    public function deleteFormdata()
+    {
+        $flash = $this->session->getSegment('flash\formdata');
+        $flash->clear("formdata");
     }
 }

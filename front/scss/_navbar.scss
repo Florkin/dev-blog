@@ -40,6 +40,7 @@
     .navbar-brand {
       padding: 10px 20px;
       color: $white;
+
       &:focus,
       &:hover {
         color: fade-out($white, .2);
@@ -54,7 +55,7 @@
 
           &:focus,
           &:hover {
-            color: fade-out($white, .2);
+            color: fade-out($white, 0.2);
           }
         }
       }
@@ -106,6 +107,7 @@
         }
       }
     }
+
     &.is-visible {
       /* if the user changes the scrolling direction, we show the header */
       -webkit-transform: translate3d(0, 100%, 0);
@@ -116,4 +118,3 @@
     }
   }
 }
-

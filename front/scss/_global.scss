@@ -86,7 +86,7 @@ img::-moz-selection {
 
 .messages {
   z-index: 2000;
-  position: absolute ;
+  position: fixed ;
 
   @include sans-serif-font;
 }

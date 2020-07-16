@@ -60,8 +60,11 @@ class Comment
     /**
      * @return bool
      */
-    public function isActive() : boolean
+    public function isActive() : bool
     {
+        if (!isset($this->isActive)){
+            return false;
+        }
         return $this->isActive;
     }
 

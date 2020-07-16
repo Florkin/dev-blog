@@ -7,9 +7,7 @@
 {% block content %}
     <div class="container">
         {% if posts != null %}
-            {% for post in posts %}
-                {% include "admin/_partials/listing.twig" %}
-            {% endfor %}
+            {% include "admin/_partials/listing.twig" %}
         {% else %}
             <p class="text-center alert alert-warning">Il n'y a a pas encore d'articles</p>
         {% endif %}

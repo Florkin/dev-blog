@@ -250,7 +250,7 @@ class UserManager
                     [$username => $email],
                     null,
                     null,
-                    "[Dev-Blog] Confirmez votre email",
+                    "[Space-Blog] Confirmez votre email",
                     "<h1>Bonjour " . $username . " </h1>"
                     . "<p>Veuillez confirmer votre email en cliquant sur <a href='" . $url . "'>ce lien</a></p>",
                     "Bonjour " . $username . ", Veuillez copier ce lien pour activer votre compte: " . $url

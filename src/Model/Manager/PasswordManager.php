@@ -36,7 +36,7 @@ class PasswordManager
                         [$username => $email],
                         null,
                         null,
-                        utf8_decode("[Dev-Blog] Réinitialisez votre mot de passe"),
+                        utf8_decode("[Space-Blog] Réinitialisez votre mot de passe"),
                         "<h1>Bonjour " . $username . " </h1>"
                         . "<p>Veuillez suivre <a href='" . $url . "'>ce lien</a> pour réinitialiser votre mot de passe</p>",
                         "Bonjour " . $username . ", Veuillez copier ce lien pour réinitialiser votre mot de passe: " . $url
